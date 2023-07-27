@@ -1,13 +1,14 @@
-
-import Button from '@mui/material/Button';
+import React from 'react';
+import Header from './components/Header';
 
 export function App() {
+  function toggleDrawer(anchor: string, arg1: boolean): React.MouseEventHandler<HTMLButtonElement> | undefined {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <div>
-      <h1>привет</h1>
-      <Button variant="text">Text</Button>
-<Button variant="contained">Contained</Button>
-<Button variant="outlined">Outlined</Button>
+      <Header></Header>
     </div>
   );
 }
