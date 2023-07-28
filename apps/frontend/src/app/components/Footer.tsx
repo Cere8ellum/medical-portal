@@ -1,61 +1,31 @@
 import { Button, Container, TextField, Typography } from "@mui/material"
+import styles from './styles/footer.module.css'
 
 function Footer() {
     return (
-     <div>
-      <Container sx={{display: "flex",
-      alignItems: "center",
-       background: "#3D537C",
-       justifyContent:"space-between",
-       height:"155px"}}>
+      <footer className={styles["footer"]}>
+        <div className={styles["footer-wrap"]}>
+            <div className={styles["footer-left"]}>
 
+                <div className={styles["footer-name-wrap"]}>
+                    <h2 className={styles["footer-name-medical"]}>Medical</h2>
+                    <h2 className={styles["footer-name-online"]}>ONLINE</h2>
+                </div>
 
-<Container>
-<Container sx={{display:"flex"}}>
-<Typography sx={{
-                    color: "#8095BD",
-                    fontFamily: "Inter",
-                    fontSize: "40px",
-                    fontStyle: "normal",
-                    fontWeight: "700",
-                    lineHeight: "normal" 
-                }}>
-Medical
-                </Typography>
-                <Typography sx={{
-                    background:"#8095BD",
-                    color: "#fff",
-                    fontFamily: "Inter",
-                    fontSize: "40px",
-                    fontStyle: "normal",
-                    fontWeight: "700",
-                    lineHeight: "normal" 
-                }}>
- online
-                </Typography>
-</Container>
+                <div className={styles["footer-copy-wrap"]}>
+                    <p className={styles["footer-copy-icon"]}>&#169;</p>
+                    <p className={styles["footer-copy-year"]}>2023</p>
+                    <p className={styles["footer-copy-name"]}>ЭЛЕКТРОННАЯ РЕГИСТРАТУРА</p>
+                </div>
+            </div>
 
-<Typography sx={{color: "#fff"}}> &copy;2023 ЭЛЕКТРОННАЯ РЕГИСТРАТУРА</Typography>
-</Container>
+            <div className={styles["footer-contact"]}>
+                <button className={styles["subscribe-btn"]}>ПОДПИСАТЬСЯ</button>
+                <button className={styles["mail-btn"]}>e-mail</button>
+            </div>
 
-
-<Container>
-<Button variant="outlined" sx={{background:"#fff"}}>Подписаться</Button>
-
-        <TextField
-          label="Email"
-          id="outlined-size-small"
-          defaultValue="Email"
-          size="small"
-sx={{background:"#fff", marginLeft:"37px"}}
-        />
-      
-</Container>
-
-
-
-      </Container>
-     </div>
+        </div>
+    </footer>
     )
 }
 

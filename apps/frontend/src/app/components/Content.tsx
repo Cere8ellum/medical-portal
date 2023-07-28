@@ -1,74 +1,55 @@
 import { Button, Container, Typography } from "@mui/material"
+import styles from './styles/content.module.css'
 
 function Content() {
     return (
-     <div>
-      <Container>
+        <main className={styles["content"]}>
+          <div className={styles["content-top"]}>
+            <div className={styles["content-top-wrap"]}>
+                <div className={styles["content-top-info"]}>
+                    <h2 className={styles["content-top-title"]}>ЭЛЕКТРОННАЯ РЕГИСТРАТУРА</h2>
+                        <p className={styles["content-top-text"]}>Сервис позволяет записаться на приём к врачу в поликлинику,
+                            перенести и
+                            отменить запись к врачу, просматривать направления, записаться на приём по направлению,
+                            просматривать
+                            рецепты.
+                        </p>
+                </div>
+                <div className={styles["content-top-button"]}>
+                    <div className={styles["content-top-button-wrap"]}>
+                        <button className={styles["autirization-btn"]}>АВТОРИЗОВАТЬСЯ</button>
+                        <button className={styles["registration-btn"]}>ЗАРЕГИСТРИРОВАТЬСЯ</button>
+                    </div>
+                    <button className={styles["entry-btn"]}>ЗАПИСАТЬСЯ НА ПРИЕМ</button>
+                </div>
+            </div>
+            <div className={styles["content-top-img-wrap"]}>
+                <img className={styles["content-top-img"]} src="../assets/images/main-image.png" alt=""/>
+            </div>
+        </div>
 
-    <Container sx={{display:'flex'}}>
-        <Container>
-<Typography>ЭЛЕКТРОННАЯ РЕГИСТРАТУРА</Typography>
-<Typography>Сервис позволяет записаться на приём к врачу в поликлинику, перенести и отменить запись к врачу, просматривать направления, записаться на приём по направлению, просматривать рецепты.</Typography>
-       <Container>
-        <Button variant="outlined">АВТОРИЗОВАТЬСЯ</Button>
-        <Button variant="outlined">ЗАРЕГИСТРИРОВАТЬСЯ</Button>
-       </Container>
-       <Button variant="outlined">Записаться на приём</Button>
-       </Container>
-       <Container sx={{
-            backgroundImage: `url("../assets/images/main-image.png")`,
-    backgroundSize: "cover",
-    backgroundPosition: "right",
-     height: "400px",
-     width: "100%"
-            }}>
-        </Container>
-        </Container>
+        <div className={styles["content-bottom"]}>
+            <ul className={styles["content-menu-list"]}>
+                <li className={styles["content-menu-item"]}>
+                    <h3 className={styles["content-menu-title"]}>НАШИ ВРАЧИ</h3>
+                    <p className={styles["content-menu-text"]}>Специализация, опыт работы, образование</p>
+                    <img src="../assets/images/main-doctor.png" alt="Наши врачи" className={styles["content-menu-img"]}/>
+                </li>
+                <li className={styles["content-menu-item"]}>
+                    <h3 className={styles["content-menu-title"]}>ОТЗЫВЫ</h3>
+                    <p className={styles["content-menu-text"]}>Рейтинг, отзывы, стоимость приема</p>
+                    <img src="../assets/images/main-doctor-women.png" alt="Наши врачи" className={styles["content-menu-img"]}/>
+                </li>
+                <li className={styles["content-menu-item"]}>
+                    <h3 className={styles["content-menu-title"]}>ИНФОРМАЦИЯ О КНИНИКЕ</h3>
+                    <p className={styles["content-menu-text"]}>Адрес клиники, фотографии, схема проезда</p>
+                    <img src="../assets/images/main-flat.png" alt="Наши врачи" className={styles["content-menu-img"]}/>
+                </li>
+            </ul>
 
-{/* Вторая часть сonteta */}
-        <Container sx={{display:"flex"}}>
-<Container sx={{width:"293px"}}>
-    <Typography>НАШИ ВРАЧИ</Typography>
-    <Typography>Специализация, опыт работы, образование</Typography>
-    <Container sx={{
-            backgroundImage: `url("../assets/images/main-doctor.png")`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-     height: "405px",
-     width: "100%"
-            }}></Container>
-</Container>
+        </div>
 
-<Container sx={{width:"293px"}}>
-    <Typography>ОТЗЫВЫ</Typography>
-    <Typography>Рейтинг, отзывы, стоимость приема</Typography>
-    <Container sx={{
-            backgroundImage: `url("../assets/images/main-doctor-women.png")`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-     height: "405px",
-     width: "100%"
-            }}></Container>
-</Container>
-
-
-<Container sx={{width:"293px"}}>
-    <Typography>ИНФОРМАЦИЯ О КЛИНИКИ</Typography>
-    <Typography>Адрес клиники, фотографии, схема проезда</Typography>
-    <Container sx={{
-            backgroundImage: `url("../assets/images/main-flat.png")`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-     height: "405px",
-     width: "100%"
-            }}></Container>
-</Container>
-
-        </Container>
-
-
-      </Container>
-     </div>
+    </main>
     )
 }
 

@@ -1,57 +1,45 @@
 import { AppBar, Container, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography } from "@mui/material"
 import BlueLine from "./BlueLine";
+import styles from './styles/header.module.css'
+
 const navItems = ['Запись на приём', 'Список врачей', 'Контакты'];
 function Header() {
     return (
-        <div>
-        <AppBar position="static" sx={{background:"#fff"}}>
-            <Toolbar sx={{display:"flex", justifyContent:"space-between"}}>
-                <Container sx={{display: "flex", cursor:"pointer"}}>
-                <Typography sx={{
-                    color: "#8095BD",
-                    fontFamily: "Inter",
-                    fontSize: "40px",
-                    fontStyle: "normal",
-                    fontWeight: "700",
-                    lineHeight: "normal" 
-                }}>
-Medical
-                </Typography>
-                <Typography sx={{
-                    background:"#8095BD",
-                    color: "#fff",
-                    fontFamily: "Inter",
-                    fontSize: "40px",
-                    fontStyle: "normal",
-                    fontWeight: "700",
-                    lineHeight: "normal" 
-                }}>
- online
-                </Typography>
+      <header className={styles["header"]}
+      >
+      <div className={styles["header-wrap"]}
+      >
 
-                </Container>
+        <div className={styles["header-title"]}
+          >
+              <h2 className={styles["header-title-medical"]}
+              >Medical</h2>
+              <h2 className={styles["header-title-online"]}
+              >ONLINE</h2>
+          </div>
 
-                <List sx={{display:"flex"}}>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} sx={{whiteSpace:"nowrap",
-              color: "#0A1C3E",
-fontFamily: "Inter",
-fontSize: "20px",
-fontStyle: "normal",
-fontWeight: "200",
-lineHeight: "normal"
- }}/>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+          <nav className={styles["header-nav"]}
+          >
+              <ul className={styles["header-nav-list"]}
+              >
+                  <li className={styles["header-nav-item"]}
+                  ><a href="#" className={styles["header-nav-link"]}
+                  >Запись на прием</a></li>
+                  <li className={styles["header-nav-item"]}
+                  ><a href="#" className={styles["header-nav-link"]}
+                  >Список врачей</a></li>
+                  <li className={styles["header-nav-item"]}
+                  ><a href="#" className={styles["header-nav-link"]}
+                  >Контакты</a></li>
+              </ul>
+          </nav>
 
-            </Toolbar>
-        </AppBar>
-        <BlueLine></BlueLine>
-        </div>
+
+      </div>
+      <div className={styles["header-rectangle"]}
+      >
+      </div>
+  </header>
     )
 }
 
