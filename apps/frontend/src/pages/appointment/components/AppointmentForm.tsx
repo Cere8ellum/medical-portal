@@ -72,13 +72,11 @@ const AppointmentForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let doctor_name = ''
+    let doctor_name = '';
     doctors.forEach(doc => {
-      console.log(doc.value, doctor, doc.value === doctor)
       if(doc.value === doctor)
        {
           doctor_name = doc.label;
-          console.log(doctor_name)
         }
     })
 

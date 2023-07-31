@@ -32,7 +32,7 @@ useEffect(()=> {
     <div className={styles['appointment_table_column_doctor']}>Doctor</div>
     <div className={styles['appointment_table_column_date']}>Date</div>
     <div className={styles['appointment_table_column_status']}>Status</div>
-    <div className={styles['appointment_table_column_salary']}>Salary</div>
+    <div className={styles['appointment_table_column_summary']}>Summary</div>
     <div className={styles['appointment_table_column_cancel']}>Cancel</div>
   </div>
      { appointment? (
@@ -41,7 +41,7 @@ useEffect(()=> {
           <div className={styles['appointment_table_column_doctor']}>{appointment.doctor_name}</div>
           <div className={styles['appointment_table_column_date']}>{appointment.date}</div>
           <div className={styles['appointment_table_column_status']}>waiting</div>
-          <div className={styles['appointment_table_column_salary']}></div>
+          <div className={styles['appointment_table_column_summary']}></div>
           <div className={styles['appointment_table_column_cancel']}>X</div>
       </div>
      )

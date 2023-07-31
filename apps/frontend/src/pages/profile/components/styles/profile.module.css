@@ -59,7 +59,7 @@
   width: 350px;
 }
 
-.appointment_table_column_status, .appointment_table_column_salary, .appointment_table_column_cancel {
+.appointment_table_column_status, .appointment_table_column_summary, .appointment_table_column_cancel {
   border: 1px black solid;
   padding: 5px;
   -webkit-box-sizing: border-box;
