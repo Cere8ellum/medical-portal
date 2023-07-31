@@ -1,0 +1,55 @@
+.appointment {
+  margin: 50px;
+
+  &_title {
+    margin: 20px;
+  }
+
+  &_table_head {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    color: gray;
+  }
+
+  &_table_row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &_table_column {
+    border: 1px black solid;
+    padding: 5px;
+    box-sizing: border-box;
+
+    &_number {
+      border: 1px black solid;
+      padding: 5px;
+      box-sizing: border-box;
+      width: 20px;
+    }
+
+    &_doctor {
+      border: 1px black solid;
+      padding: 5px;
+      box-sizing: border-box;
+      width: 350px;
+    }
+
+    &_date {
+      border: 1px black solid;
+      padding: 5px;
+      box-sizing: border-box;
+      width: 350px;
+    }
+
+    &_status,
+    &_salary,
+    &_cancel {
+      border: 1px black solid;
+      padding: 5px;
+      box-sizing: border-box;
+      width: 100px;
+    }
+  }
+}

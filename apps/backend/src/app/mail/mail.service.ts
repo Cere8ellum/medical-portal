@@ -5,7 +5,6 @@ export class AppointmentDto  {
   user_name: string
   doctor_name: string
   date: string
-  time: string
   email: string
 }
 
@@ -30,8 +29,7 @@ export class MailService {
   }
 
   async sendNewAppointment(appointment: AppointmentDto ) {
-    console.log('Отправляются письма о новой новости администрации ресурса');
-    console.log(appointment)
+    console.log('Отправляем письмо о подтверждении записи');
         await this.mailerService.sendMail({
             to: appointment.email,
             subject: `Новая запись к врачу`,
@@ -39,15 +37,15 @@ export class MailService {
             context: {
               doctor : appointment.doctor_name,
               patient: appointment.user_name,
-              date: appointment.date,
-              time: appointment.time
+              date: appointment.date
             },
         })
-            .then((res) => {
-                console.log('res', res);
+            .then((res: Response) => {
+              console.log(res.statusText)
+                console.log(`Письмо успешно отправленно на ${appointment.email}`);
             })
             .catch((err) => {
-                console.log('err', err);
+                throw Error(err);
             });
 
 }

@@ -1,0 +1,127 @@
+* {
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095bd;
+  font-size: 42px;
+}
+
+h2 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095bd;
+  font-size: 40px;
+}
+
+h3 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095bd;
+  font-size: 24px;
+}
+
+p {
+  font-family: Inter;
+  font-weight: 300;
+  color: #3d537c;
+  font-size: 12px;
+}
+
+.header {
+  margin: 60px 0;
+}
+
+.header-wrap {
+  max-width: 1345px;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 0 10px 0;
+}
+
+.header-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin: 0 20px;
+}
+
+.header-title-medical {
+  margin: 0 5px 0 0;
+}
+
+.header-title-online {
+  background-color: #8095bd;
+  color: #ffffff;
+  width: 160px;
+  border-radius: 9px;
+  padding: 0 0 0 10px;
+}
+
+.header-nav {
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.header-nav-profile {
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  padding-right: 20px;
+}
+
+.header-nav-list {
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.header-nav-item {
+  margin: 0 12px;
+}
+
+.header-nav-link {
+  text-decoration: none;
+  color: #0a1c3e;
+}
+
+.header-rectangle {
+  height: 14px;
+  background-color: #3d537c;
+}
+/*# sourceMappingURL=header.module.css.map */

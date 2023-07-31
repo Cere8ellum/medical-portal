@@ -2,12 +2,13 @@
 
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { MailController } from './mail.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 
+@Global()
 @Module({
 
   //     transport: 'smtps://online.medical@mail.ru:ZGtcCwfkFHiNFmvwxcMg@smtp.mail.ru',
@@ -42,5 +43,6 @@ import { join } from 'path';
   ],
   providers: [MailService],
   controllers: [MailController],
+  exports: [MailService],
 })
 export class MailModule {}

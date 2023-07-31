@@ -1,0 +1,69 @@
+.appointment {
+  margin: 50px;
+}
+
+.appointment_title {
+  margin: 20px;
+}
+
+.appointment_table_head {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin-top: 20px;
+  color: gray;
+}
+
+.appointment_table_row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.appointment_table_column {
+  border: 1px black solid;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.appointment_table_column_number {
+  border: 1px black solid;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 20px;
+}
+
+.appointment_table_column_doctor {
+  border: 1px black solid;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 350px;
+}
+
+.appointment_table_column_date {
+  border: 1px black solid;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 350px;
+}
+
+.appointment_table_column_status, .appointment_table_column_salary, .appointment_table_column_cancel {
+  border: 1px black solid;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100px;
+}
+/*# sourceMappingURL=profile.module.css.map */

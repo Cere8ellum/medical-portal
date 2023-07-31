@@ -1,22 +1,23 @@
 import React from 'react';
-import Header from './components/Header';
-import Content from './components/Content';
-import Footer from './components/Footer';
-import { Container } from '@mui/material';
+import { Route, Routes } from 'react-router-dom';
+import MainScreen from '../pages/main';
+import AppointmentScreen from '../pages/appointment';
+import {Profile} from '../pages/profile/components/Profile'
 
 export function App() {
-  function toggleDrawer(anchor: string, arg1: boolean): React.MouseEventHandler<HTMLButtonElement> | undefined {
+  function toggleDrawer(
+    anchor: string,
+    arg1: boolean
+  ): React.MouseEventHandler<HTMLButtonElement> | undefined {
     throw new Error('Function not implemented.');
   }
 
   return (
-    <div>
-      <Header></Header>
-      <Container sx={{margin:"0 auto"}}>
-      <Content></Content>
-      </Container>
-     <Footer></Footer>
-    </div>
+    <Routes>
+      <Route path="/" element={<MainScreen />} />
+      <Route path="/appointment" element={<AppointmentScreen />} />
+      <Route path="/profile" element={<Profile />} />
+    </Routes>
   );
 }
 
