@@ -1,5 +1,4 @@
 import React from 'react';
-import { TextField } from '@mui/material';
 import { Dayjs } from 'dayjs';
 import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker';
 
@@ -12,15 +11,13 @@ const DatePicker: React.FC<Props> = ({ value, onChange }) => {
   return (
     <MuiDatePicker
       disableFuture
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          inputProps={{
-            ...params.inputProps,
-            placeholder: 'дд.мм.гггг',
-          }}
-          required
-          sx={{
+      label="Дата рождения"
+      value={value}
+      onChange={onChange}
+      slotProps={{
+        textField: {
+          required: true,
+          sx: {
             '.MuiInputBase-root': {
               width: '100%',
               height: '67px',
@@ -38,12 +35,9 @@ const DatePicker: React.FC<Props> = ({ value, onChange }) => {
             '& .MuiSvgIcon-root ': {
               fill: ({ palette }) => palette.primary.main,
             },
-          }}
-        />
-      )}
-      label="Дата рождения"
-      value={value}
-      onChange={onChange}
+          },
+        },
+      }}
     />
   );
 };

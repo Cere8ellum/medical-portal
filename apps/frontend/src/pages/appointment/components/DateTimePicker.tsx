@@ -1,7 +1,6 @@
 import React from 'react';
-import { TextField } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
-import { DateTimePicker as MuiDateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DateTimePicker as MuiDatetimePicker } from '@mui/x-date-pickers';
 
 interface Props {
   value: Dayjs | null;
@@ -9,20 +8,19 @@ interface Props {
 }
 
 const DateTimePicker: React.FC<Props> = ({ value, onChange }) => (
-  <MuiDateTimePicker
+  <MuiDatetimePicker
     disablePast
-    minTime={dayjs('2023-07-30T08:00')}
-    maxTime={dayjs('2023-07-30T19:59')}
-    renderInput={(params) => (
-      <TextField
-        {...params}
-        required
-        inputProps={{
-          ...params.inputProps,
-          placeholder: 'дд.мм.гггг чч:мм',
-        }}
-        helperText="Запись только на время в период с 8:00 до 20:00"
-        sx={{
+    minTime={dayjs().add(1, 'h').minute(0) }
+    maxTime={dayjs().hour(20)}
+    label="Время записи"
+    value={value}
+    onChange={onChange}
+    minutesStep={60}
+    slotProps={{
+      textField: {
+        required: true,
+        helperText: 'Запись осуществляется на  в период с 8:00 до 20:00',
+        sx: {
           '.MuiInputBase-root': {
             width: '100%',
             height: '67px',
@@ -40,12 +38,9 @@ const DateTimePicker: React.FC<Props> = ({ value, onChange }) => (
           '.MuiSvgIcon-root ': {
             fill: ({ palette }) => palette.primary.main,
           },
-        }}
-      />
-    )}
-    label="Время записи"
-    value={value}
-    onChange={onChange}
+        },
+      },
+    }}
   />
 );
 
