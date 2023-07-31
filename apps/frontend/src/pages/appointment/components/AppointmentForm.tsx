@@ -83,7 +83,7 @@ const AppointmentForm = () => {
     const appointmentData = {
       user_name: name,
       doctor_name: doctor_name,
-      date: dateOfAppointment?.toString(),
+      date: dateOfAppointment?.format('YYYY-MM-DD HH:mm'),
       email: 'ledix369@gmail.com'
     };
 
