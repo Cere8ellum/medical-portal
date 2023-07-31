@@ -32,14 +32,14 @@ const getInitialAppointment = (): Dayjs => {
   const hour = dayjs().hour();
 
   if (hour < appointmentPeriod.from) {
-    return dayjs().hour(appointmentPeriod.from);
+    return dayjs().hour(appointmentPeriod.from).minute(0);
   }
 
-  if (hour >= appointmentPeriod.to) {
+  if (hour >= appointmentPeriod.to - 1) {
     return dayjs().add(1, 'd').hour(appointmentPeriod.from).minute(0);
   }
 
-  return dayjs();
+  return dayjs().add(1, 'h').minute(0);
 };
 
 const AppointmentForm = () => {
@@ -69,12 +69,6 @@ const AppointmentForm = () => {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('doctor', doctor);
-    console.log('name', name);
-    console.log('birthday', birthday);
-    console.log('appointment', dateOfAppointment);
-
     alert(
       'Запись успешо выполнена, ожидайте подтверждение на электронную почту.'
     );
