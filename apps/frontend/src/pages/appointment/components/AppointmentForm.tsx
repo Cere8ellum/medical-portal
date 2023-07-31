@@ -70,10 +70,27 @@ const AppointmentForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('doctor', doctor);
-    console.log('name', name);
-    console.log('birthday', birthday);
-    console.log('appointment', dateOfAppointment);
+
+    const appointmentData = {
+      user_name: name,
+      doctor_name: doctor,
+      date: dateOfAppointment?.toString(),
+      email: 'ledix369@gmail.com'
+    };
+
+    fetch(
+      'http://localhost:3000/api/mail/appointment',
+       {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(appointmentData),
+       })
+      .then(response => console.log('status',response.statusText))
+      .catch(error => {
+        console.error('Ошибка:', error);
+      });
 
     alert(
       'Запись успешо выполнена, ожидайте подтверждение на электронную почту.'

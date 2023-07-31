@@ -1,13 +1,3 @@
-// @font-face {
-//   font-family: 'Inter';
-//   src: local('Inter'), url('fonts/Inter-Regular.woff2') format('woff2'),
-//     url('fonts/Inter-Regular.woff') format('woff'),
-//     url('fonts/Inter-Regular.ttf') format('truetype');
-//   font-style: normal;
-//   font-weight: 400;
-//   font-display: swap;
-// }
-
 * {
   font-family: 'Inter', Arial, Helvetica, sans-serif;
   font-weight: 400;
@@ -77,6 +67,13 @@ p {
 
 .header-nav {
   align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+
+  &-profile {
+    align-self: flex-end;
+    padding-right: 20px;
+  }
 }
 
 .header-nav-list {

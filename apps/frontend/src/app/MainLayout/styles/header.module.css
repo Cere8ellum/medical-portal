@@ -82,6 +82,19 @@ p {
 .header-nav {
   -ms-flex-item-align: end;
       align-self: flex-end;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.header-nav-profile {
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  padding-right: 20px;
 }
 
 .header-nav-list {
