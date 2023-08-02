@@ -5,7 +5,7 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
@@ -14,6 +14,16 @@ async function bootstrap() {
   app.enableCors();
   app.setGlobalPrefix(globalPrefix);
   app.enableCors();
+
+  // Swagger
+  const docConfig = new DocumentBuilder()
+    .setTitle('Medical online')
+    .setDescription('API description')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, docConfig);
+  SwaggerModule.setup('api', app, document);
+
   const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);

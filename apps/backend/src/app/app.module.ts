@@ -5,11 +5,13 @@ import { AppService } from './app.service';
 import { MailModule } from './mail/mail.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/entities/user.entity';
+import { AppointmentsModule } from './appointment/appointment.module';
 
 @Module({
-  imports: [MailModule,
+  imports: [
+    MailModule,
     ConfigModule.forRoot({
       isGlobal: true, // no need to import into other modules
     }),
@@ -25,10 +27,11 @@ import { User } from './user/entities/user.entity';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         synchronize: false,
-        entities: [User]
+        entities: [User],
       }),
       inject: [ConfigService],
-    })
+    }),
+    AppointmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
