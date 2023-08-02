@@ -52,7 +52,6 @@ const AppointmentForm = () => {
 
   const handleSelectChange = (event: SelectChangeEvent): void => {
     setDoctor(event.target.value as string);
-    console.log('doctor',event.target.name);
   };
 
   const handleDateOfAppointmentChange = (newValue: Dayjs | null): void => {
@@ -97,10 +96,7 @@ const AppointmentForm = () => {
         body: JSON.stringify(appointmentData),
        })
       .then(response => {
-        console.log('status',response.statusText);
-        // Преобразуем объект в JSON
         const dataJSON = JSON.stringify(appointmentData);
-        // Запись данных в Local Storage
         localStorage.setItem('appointments', dataJSON);
       })
       .catch(error => {
