@@ -10,6 +10,8 @@ import { DoctorService } from '../doctor/doctor.service';
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
   providers: [UserService],
-  exports: [UserService],
+  exports: [UserService,
+    TypeOrmModule.forFeature([UserEntity])
+  ],
 })
 export class UserModule {}
