@@ -34,6 +34,7 @@ async function bootstrap() {
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
+  console.log('dirname',__dirname)
 }
 
 bootstrap();

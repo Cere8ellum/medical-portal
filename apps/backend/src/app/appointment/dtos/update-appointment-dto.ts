@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, ValidateIf, IsEnum , IsDate} from 'class-validator';
-import { Status } from '../status/status.enum';
+import { Status } from '../enum/status.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { SrvRecord } from 'dns';
 

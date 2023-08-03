@@ -14,6 +14,7 @@ import { IsEnum, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { AppointmentEntity } from '../../appointment/entities/appointment.entity';
 
+@Entity('medical_history')
 export class MedicalHistoryEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty({

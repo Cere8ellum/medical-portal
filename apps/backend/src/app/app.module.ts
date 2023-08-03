@@ -11,6 +11,10 @@ import { UserEntity } from './user/entities/user.entity';
 import { DoctorModule } from './doctor/doctor.module';
 import { PatientModule } from './patient/patient.module';
 import { MedicalHistoryModule } from './medical-history/medical-history.module';
+import { DoctorEntity } from './doctor/entities/doctor.entity';
+import { PatientEntity } from './patient/entities/patient.entity';
+import { MedicalHistoryEntity } from './medical-history/entities/medical-history.entity';
+import { AppointmentEntity } from './appointment/entities/appointment.entity';
 
 @Module({
   imports: [
@@ -33,7 +37,8 @@ import { MedicalHistoryModule } from './medical-history/medical-history.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         synchronize: false,
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        entities: [__dirname + '../**/*.entity{.ts,.js}'],
+        //entities: [UserEntity,DoctorEntity,PatientEntity,MedicalHistoryEntity,AppointmentEntity]
       }),
       inject: [ConfigService],
     }),
@@ -42,3 +47,4 @@ import { MedicalHistoryModule } from './medical-history/medical-history.module';
   providers: [AppService],
 })
 export class AppModule {}
+console.log('**',__dirname + '/../../../')

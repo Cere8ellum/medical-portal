@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { AppointmentEntity } from './entities/appointment.entity';
 import { CreateAppointmentDto } from './dtos/create-appointment-dto';
 import { UserService } from '../user/user.service';
-import { Status } from './status/status.enum';
+import { Status } from './enum/status.enum';
 
 @Injectable()
 export class AppointmentsService {
@@ -26,6 +26,16 @@ async create (appointment: CreateAppointmentDto): Promise<AppointmentEntity> {
   return await this.appointmentsRepository.save(appointmentEntity)
 }
 
-async findOne(id:number) {}
+async findOne(id:number): Promise<AppointmentEntity> {
+ return await this.appointmentsRepository.findOneBy({id});
+}
+
+async findAllForPatient(patient_id: number): Promise<AppointmentEntity[]> {
+
+  return await this.appointmentsRepository.find({
+        relations: ["user", "medical_history"],
+        where: {patient: {id: patient_id}}
+      })
+}
 
 }

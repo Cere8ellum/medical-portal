@@ -13,7 +13,7 @@ import {
 import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '../../user/entities/user.entity';
-import { Status } from '../status/status.enum';
+import { Status } from '../enum/status.enum';
 import { DoctorEntity } from '../../doctor/entities/doctor.entity';
 import { PatientEntity } from '../../patient/entities/patient.entity';
 import { MedicalHistoryEntity } from '../../medical-history/entities/medical-history.entity';
@@ -56,16 +56,16 @@ export class AppointmentEntity {
     description: 'Status визита',
     default: 'waiting'
   })
-  status: Status
+  status: Status;
 
-  @OneToOne(()=> MedicalHistoryEntity, (medical_history) => medical_history.appointment, {nullable: true})
+  @OneToOne(()=> MedicalHistoryEntity, (medical_history) => medical_history.appointment)
   @JoinColumn()
   @ApiProperty({
     type: () => MedicalHistoryEntity,
     description: 'Медицинское заключение визита',
     default: null
   })
-  medical_history: MedicalHistoryEntity
+  medical_history: MedicalHistoryEntity;
 
   @CreateDateColumn({ type: 'timestamp' })
   @ApiProperty({

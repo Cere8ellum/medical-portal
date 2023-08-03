@@ -16,7 +16,7 @@ export class DoctorEntity {
     })
     id: number
 
-    @Column('string')
+    @Column('varchar')
     @IsEnum(Speciality)
     @ApiProperty({
       type: 'string',
@@ -26,7 +26,7 @@ export class DoctorEntity {
     })
     speciality: Speciality
 
-    @Column('string')
+    @Column('varchar')
     @IsEnum(Category)
     @ApiProperty({
       type: 'string',
@@ -36,7 +36,7 @@ export class DoctorEntity {
     })
     category: Category
 
-    @Column('string')
+    @Column('varchar')
     @IsEnum(DoctorType)
     @ApiProperty({
       type: 'string',
@@ -46,7 +46,7 @@ export class DoctorEntity {
     })
     type: DoctorType
 
-    @Column('number',{nullable: null})
+    @Column('int',{nullable: null})
     @ApiProperty({
       type: 'number',
       description: 'Год начала практики',
@@ -54,7 +54,7 @@ export class DoctorEntity {
     })
     startWorking: number
 
-    @Column('string')
+    @Column('text')
     @ApiProperty({
       type: 'number',
       description: 'Информация о враче',
@@ -63,7 +63,7 @@ export class DoctorEntity {
     })
     info: string
 
-    @Column('number')
+    @Column('int')
     @ApiProperty({
       type: 'number',
       description: 'Цена за 1 прием',
