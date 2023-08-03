@@ -1,6 +1,12 @@
-import { Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity("patients")
+@Entity('patients')
 export class PatientEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -12,5 +18,5 @@ export class PatientEntity {
   birthday: Date;
 
   @Column()
-  address: string
+  address: string;
 }
