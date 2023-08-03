@@ -6,8 +6,11 @@ import { MailModule } from './mail/mail.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user/entities/user.entity';
 import { AppointmentsModule } from './appointment/appointment.module';
+import { UserEntity } from './user/entities/user.entity';
+import { DoctorModule } from './doctor/doctor.module';
+import { PatientModule } from './patient/patient.module';
+import { MedicalHistoryModule } from './medical-history/medical-history.module';
 
 @Module({
   imports: [
@@ -17,6 +20,9 @@ import { AppointmentsModule } from './appointment/appointment.module';
     }),
     UserModule,
     AuthModule,
+    DoctorModule,
+    PatientModule,
+    MedicalHistoryModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -27,11 +33,10 @@ import { AppointmentsModule } from './appointment/appointment.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         synchronize: false,
-        entities: [User],
+        entities: [UserEntity],
       }),
       inject: [ConfigService],
     }),
-    AppointmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

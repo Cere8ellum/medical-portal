@@ -3,20 +3,22 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 import * as argon2 from 'argon2';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>, ) { }
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const existUser = await this.userRepository.findOne({
       where: {
         email: createUserDto.email,
-      }
-    })
+      },
+    });
     if (existUser) throw new BadRequestException('This email already exist');
 
     const user = await this.userRepository.save({
@@ -26,15 +28,15 @@ export class UserService {
       birthdate: createUserDto.birthdate,
       email: createUserDto.email,
       address: createUserDto.address,
-      mobile:createUserDto.mobile,
-      password: await argon2.hash(createUserDto.password)
-    })
-    return {user};
+      mobile: createUserDto.mobile,
+      password: await argon2.hash(createUserDto.password),
+    });
+    return { user };
   }
 
   async findAll() {
     const users = await this.userRepository.find();
-    return {users};
+    return { users };
     // return `This action returns all user`;
   }
 
