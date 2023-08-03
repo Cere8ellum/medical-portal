@@ -48,6 +48,7 @@
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
     "@nestjs/schematics": "^10.0.1",
+    "@nestjs/swagger": "^7.1.6",
     "@nestjs/testing": "^10.0.2",
     "@nrwl/react": "^16.5.5",
     "@nx/cypress": "16.5.5",

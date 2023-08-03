@@ -1,29 +1,48 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { DoctorEntity } from '../../doctor/entities/doctor.entity';
+import { PatientEntity } from '../../patient/entities/patient.entity';
 
-@Entity()
-export class User {
-    @PrimaryGeneratedColumn()
-    id: number
-    @Column()
-    firstname: string
-    @Column()
-    lastname: string
-    @Column()
-    gender: string
-    @Column()
-    birthdate: string
-    @Column()
-    email: string
-    @Column()
-    address: string
-    @Column()
-    mobile: string
-    @Column()
-    password: string
+@Entity('users')
+export class UserEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    // @CreateDateColumn()
-    // createdAt: Date
+  @Column()
+  profile_id: number;
 
-    // @UpdateDateColumn()
-    // updataAt: Date
+  @Column()
+  email: string;
+
+  @Column()
+  password: string;
+
+  @Column()
+  firstname: string;
+
+  @Column()
+  lastname: string;
+
+  @Column()
+  gender: string;
+
+  @Column()
+  birthday: string;
+
+  @Column()
+  address: string;
+
+  @Column()
+  avatar: string;
+
+  @Column()
+  mobile: string;
+
+  @Column()
+  role: string;
+
+  @OneToOne(() => DoctorEntity, (doctor) => doctor.id)
+  doctor: DoctorEntity;
+
+  @OneToOne(() => PatientEntity, (patient) => patient.id)
+  patient: PatientEntity;
 }

@@ -5,16 +5,23 @@ import { AppService } from './app.service';
 import { MailModule } from './mail/mail.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { User } from './user/entities/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from './user/entities/user.entity';
+import { DoctorModule } from './doctor/doctor.module';
+import { PatientModule } from './patient/patient.module';
+import { MedicalHistoryModule } from './medical-history/medical-history.module';
 
 @Module({
-  imports: [MailModule,
+  imports: [
+    MailModule,
     ConfigModule.forRoot({
       isGlobal: true, // no need to import into other modules
     }),
     UserModule,
     AuthModule,
+    DoctorModule,
+    PatientModule,
+    MedicalHistoryModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -25,10 +32,10 @@ import { User } from './user/entities/user.entity';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         synchronize: false,
-        entities: [User]
+        entities: [UserEntity],
       }),
       inject: [ConfigService],
-    })
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
