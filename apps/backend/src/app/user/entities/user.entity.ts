@@ -12,48 +12,48 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('string')
+  @Column({ type: 'varchar', nullable: false })
   firstname: string;
 
-  @Column('string')
+  @Column({ type: 'varchar', nullable: false })
   lastname: string;
 
-  @Column('string')
+  @Column({ type: 'varchar', nullable: false })
   @IsEnum(Gender)
   gender: string;
 
-  @Column('string',{nullable: true})
-  birthday: string;
+  @Column({ type: 'varchar', nullable: false })
+  birthdate: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: false })
   email: string;
 
-  @Column('string',{nullable: true})
+  @Column({ type: 'varchar', nullable: false })
   address: string;
 
   // @Column('string',{nullable: true})
   // avatar: string;
 
-  @Column('string',{nullable: true})
+  @Column({ type: 'varchar', nullable: false })
   mobile: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: false })
   password: string;
 
-  @Column('string')
+  @Column({ type: 'varchar', nullable: false })
   @IsEnum(Role)
   role: string;
 
-  @OneToOne(() => DoctorEntity, (doctor) => doctor.id)
-  @OneToOne(() => PatientEntity, (patient) => patient.id)
-  @JoinColumn()
-  profile: DoctorEntity | PatientEntity;
+  // @OneToOne(() => DoctorEntity, (doctor) => doctor.id)
+  // @OneToOne(() => PatientEntity, (patient) => patient.id)
+  // @JoinColumn()
+  // profile: DoctorEntity | PatientEntity;
 
-  @OneToMany(()=> AppointmentEntity,(appointment)=> appointment.patient, {nullable: true})
-  @ApiProperty({
-    type: ()=> AppointmentEntity,
-    description: 'Визит к врачy',
-    default: null
-  })
-  appointment: AppointmentEntity[]
+  // @OneToMany(()=> AppointmentEntity,(appointment)=> appointment.patient, {nullable: true})
+  // @ApiProperty({
+  //   type: ()=> AppointmentEntity,
+  //   description: 'Визит к врачy',
+  //   default: null
+  // })
+  // appointment: AppointmentEntity[]
 }

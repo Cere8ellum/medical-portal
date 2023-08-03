@@ -14,6 +14,7 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
+    console.log('createDto', this.userRepository);
     const existUser = await this.userRepository.findOne({
       where: {
         email: createUserDto.email,
@@ -35,8 +36,9 @@ export class UserService {
   }
 
   async findAll() {
+    console.log('findAll', this.userRepository);
     const users = await this.userRepository.find();
-    console.log('users', users);
+    console.log('users111', users);
     return { users };
     // return `This action returns all user`;
   }

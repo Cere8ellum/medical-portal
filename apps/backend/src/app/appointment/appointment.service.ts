@@ -14,17 +14,18 @@ constructor(
     private userService: UserService
 ) {}
 
-async create (appointment: CreateAppointmentDto): Promise<AppointmentEntity> {
-  const appointmentEntity = new AppointmentEntity();
-  const _doctor = await this.userService.findOne(Number(appointment.doctor_id));
-  //appointmentEntity.doctor = _doctor;
-  const _patient = await this.userService.findOne(Number(appointment.patient_id));
-  //appointmentEntity.patient = _patient;
-  appointmentEntity.status = Status.Waiting;
-  appointmentEntity.date_start = appointment.date_start
+// async create (appointment: CreateAppointmentDto): Promise<AppointmentEntity> {
+//   // const appointmentEntity = new AppointmentEntity();
+//   // const _doctor = await this.userService.findOne(Number(appointment.doctor_id));
+//   // //appointmentEntity.doctor = _doctor;
+//   // const _patient = await this.userService.findOne(Number(appointment.patient_id));
+//   // //appointmentEntity.patient = _patient;
+//   // appointmentEntity.status = Status.Waiting;
+//   // appointmentEntity.date_start = appointment.date_start
 
-  return await this.appointmentsRepository.save(appointmentEntity)
-}
+//   // return await this.appointmentsRepository.save(appointmentEntity)
+//   // return "create appointment service"
+// }
 
 async findOne(id:number) {}
 

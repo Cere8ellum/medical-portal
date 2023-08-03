@@ -27,59 +27,59 @@ export class AppointmentEntity {
     description: 'id appointment, pk'})
   id: number;
 
-  @ManyToOne(()=>UserEntity, (doctor) => doctor.appointment)
-  @JoinColumn()
-  @IsNotEmpty()
-  @ApiProperty({ type: () => UserEntity,description: 'Врач' })
-  doctor: UserEntity;
+  // @ManyToOne(()=>UserEntity, (doctor) => doctor.appointment)
+  // @JoinColumn()
+  // @IsNotEmpty()
+  // @ApiProperty({ type: () => UserEntity,description: 'Врач' })
+  // doctor: UserEntity;
 
-  @ManyToOne(()=> UserEntity, (patient) => patient.appointment)
-  @JoinColumn()
-  @IsNotEmpty()
-  @ApiProperty({ type: () => UserEntity, description: 'Пациент',})
-  patient: UserEntity
+  // @ManyToOne(()=> UserEntity, (patient) => patient.appointment)
+  // @JoinColumn()
+  // @IsNotEmpty()
+  // @ApiProperty({ type: () => UserEntity, description: 'Пациент',})
+  // patient: UserEntity
 
-  @Column('timestamp')
-  @IsNotEmpty()
-  @ApiProperty({
-    type: Timestamp,
-    description: 'Дата и время начала приема'
-  })
-  date_start: Date;
+  // @Column('timestamp')
+  // @IsNotEmpty()
+  // @ApiProperty({
+  //   type: Timestamp,
+  //   description: 'Дата и время начала приема'
+  // })
+  // date_start: Date;
 
 
-  @Column('varchar')
-  @IsNotEmpty()
-  @IsEnum(Status)
-  @ApiProperty({
-    enum: ['Waiting', 'Cancelled', 'Completed','Started'],
-    description: 'Status визита',
-    default: 'waiting'
-  })
-  status: Status
+  // @Column('varchar')
+  // @IsNotEmpty()
+  // @IsEnum(Status)
+  // @ApiProperty({
+  //   enum: ['Waiting', 'Cancelled', 'Completed','Started'],
+  //   description: 'Status визита',
+  //   default: 'waiting'
+  // })
+  // status: Status
 
-  @OneToOne(()=> MedicalHistoryEntity, (medical_history) => medical_history.appointment, {nullable: true})
-  @JoinColumn()
-  @ApiProperty({
-    type: () => MedicalHistoryEntity,
-    description: 'Медицинское заключение визита',
-    default: null
-  })
-  medical_history: MedicalHistoryEntity
+  // @OneToOne(()=> MedicalHistoryEntity, (medical_history) => medical_history.appointment, {nullable: true})
+  // @JoinColumn()
+  // @ApiProperty({
+  //   type: () => MedicalHistoryEntity,
+  //   description: 'Медицинское заключение визита',
+  //   default: null
+  // })
+  // medical_history: MedicalHistoryEntity
 
-  @CreateDateColumn({ type: 'timestamp' })
-  @ApiProperty({
-    type: Date,
-    description: 'Дата бронирования'
-  })
-  createdAt: Date;
+  // @CreateDateColumn({ type: 'timestamp' })
+  // @ApiProperty({
+  //   type: Date,
+  //   description: 'Дата бронирования'
+  // })
+  // createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
-  @ApiProperty({
-    type: Date,
-    description: 'Дата внесения изменений'
-  })
-  updatedAt: Date;
+  // @UpdateDateColumn({ type: 'timestamp' })
+  // @ApiProperty({
+  //   type: Date,
+  //   description: 'Дата внесения изменений'
+  // })
+  // updatedAt: Date;
 }
 
 

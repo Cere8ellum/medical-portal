@@ -10,7 +10,6 @@ import { AppointmentsModule } from './appointment/appointment.module';
 import { DoctorModule } from './doctor/doctor.module';
 import { PatientModule } from './patient/patient.module';
 import { MedicalHistoryModule } from './medical-history/medical-history.module';
-import { UserEntity } from './user/entities/user.entity';
 
 @Module({
   imports: [
@@ -33,8 +32,7 @@ import { UserEntity } from './user/entities/user.entity';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         synchronize: false,
-        // autoLoadEntities: true,
-        entities: [__dirname + '/**/*.entity.{ts,js}'],
+        autoLoadEntities: true,
       }),
       inject: [ConfigService],
     }),

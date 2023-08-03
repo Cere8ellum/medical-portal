@@ -11,7 +11,7 @@ export class PatientEntity {
   })
   id: number;
 
-  @Column('number',{nullable: true})
+  @Column({ type: 'character varying' || 'integer' })
   @ApiProperty({
     type: 'number',
     description: 'id parent for child-Patient',
@@ -19,7 +19,7 @@ export class PatientEntity {
   })
   parent_id: number;
 
-  @Column('string', {nullable: true})
+  @Column({ type: 'varchar' })
   @ApiProperty({
     type: 'string',
     description: 'Адрес проживания пациента',
