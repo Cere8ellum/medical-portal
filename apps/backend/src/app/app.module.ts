@@ -33,7 +33,7 @@ import { MedicalHistoryModule } from './medical-history/medical-history.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         synchronize: false,
-        entities: [UserEntity],
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
       }),
       inject: [ConfigService],
     }),

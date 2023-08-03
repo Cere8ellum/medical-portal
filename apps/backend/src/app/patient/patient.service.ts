@@ -11,7 +11,7 @@ export class PatientService {
   constructor(
     @InjectRepository(PatientEntity,)
     private readonly patientRepository: Repository<PatientEntity>,
-    private readonly userService: UserService
+    private userService: UserService
   ) {}
 
   async create(patient: CreatePatientDto) {

@@ -44,6 +44,11 @@ export class UserService {
     return `This action returns a #${id} user`;
   }
 
+  async findByEmail(email: string): Promise<UserEntity> {
+    const tlc = email.toLowerCase();
+    return this.userRepository.findOne({ where: { email: tlc } });
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }

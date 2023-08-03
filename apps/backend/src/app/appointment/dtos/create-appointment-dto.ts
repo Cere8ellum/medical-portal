@@ -31,16 +31,6 @@ export class CreateAppointmentDto {
   @IsNotEmpty()
   date_start: Date;
 
-
-
-  @IsEnum(Status)
-  @ApiProperty({
-    enum: ['Waiting', 'Cancelled', 'Completed','Started'],
-    description: 'Status визита',
-    default: 'waiting'
-  })
-  status: Status
-
   @ApiProperty({
     type: String,
     description: 'id Медицинское заключение визита',
