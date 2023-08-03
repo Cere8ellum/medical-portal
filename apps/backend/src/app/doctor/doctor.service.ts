@@ -3,6 +3,7 @@ import { DoctorEntity } from './entities/doctor.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
+import { UserEntity } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class DoctorService {
   constructor(
     @InjectRepository(DoctorEntity)
     private readonly doctorRepository: Repository<DoctorEntity>,
-    private userService: UserService
+    private readonly userService: UserService
   ) {}
 
   async create(doctor: CreateDoctorDto) {
@@ -32,5 +33,10 @@ export class DoctorService {
 
   async findById(id: number): Promise<DoctorEntity> {
     return this.doctorRepository.findOne({ where: { id } });
+  }
+
+  async findByEmail(email: string): Promise<any> {
+    const tlc = email.toLowerCase();
+    return //await this.userService.findOne({ where: { email: tlc } });
   }
 }

@@ -6,10 +6,11 @@ import { MailModule } from './mail/mail.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './user/entities/user.entity';
+import { AppointmentsModule } from './appointment/appointment.module';
 import { DoctorModule } from './doctor/doctor.module';
 import { PatientModule } from './patient/patient.module';
 import { MedicalHistoryModule } from './medical-history/medical-history.module';
+import { UserEntity } from './user/entities/user.entity';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { MedicalHistoryModule } from './medical-history/medical-history.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         synchronize: false,
-        entities: [__dirname + '../**/*.entity{.ts,.js}'],
+        // autoLoadEntities: true,
+        entities: [__dirname + '/**/*.entity.{ts,js}'],
       }),
       inject: [ConfigService],
     }),
