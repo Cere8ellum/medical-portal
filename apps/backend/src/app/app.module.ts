@@ -37,8 +37,9 @@ import { AppointmentEntity } from './appointment/entities/appointment.entity';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         synchronize: false,
-        entities: [__dirname + '../**/*.entity{.ts,.js}'],
-        //entities: [UserEntity,DoctorEntity,PatientEntity,MedicalHistoryEntity,AppointmentEntity]
+        autoLoadEntities: true,
+        //entities: [__dirname + '../**/*.entity{.ts,.js}'],
+        //entities: [UserEntity,DoctorEntity,PatientEntity,AppointmentEntity,MedicalHistoryEntity]
       }),
       inject: [ConfigService],
     }),
@@ -47,4 +48,3 @@ import { AppointmentEntity } from './appointment/entities/appointment.entity';
   providers: [AppService],
 })
 export class AppModule {}
-console.log('**',__dirname + '/../../../')

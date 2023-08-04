@@ -24,12 +24,19 @@ export class MedicalHistoryEntity {
 
   // дописать поля
 
-  @OneToOne(()=>AppointmentEntity, (appointment)=> appointment.medical_history,{nullable: true})
+  // @OneToOne(()=>AppointmentEntity, (appointment)=> appointment.medical_history,{nullable: true})
+  // @ApiProperty({
+  //   type: () => MedicalHistoryEntity,
+  //   description: 'Медицинское заключение визита',
+  //   default: null
+  // })
+  // appointment: AppointmentEntity
+
+  @CreateDateColumn({ type: 'timestamp' })
   @ApiProperty({
-    type: () => MedicalHistoryEntity,
-    description: 'Медицинское заключение визита',
-    default: null
+    type: Date,
+    description: 'Дата посещения врача'
   })
-  appointment: AppointmentEntity
+  createdAt: Date;
 
 }

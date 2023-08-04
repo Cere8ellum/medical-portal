@@ -4,7 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { SrvRecord } from 'dns';
 
 export class CreateAppointmentDto {
-
   @ApiProperty({
     type: String,
     description: 'id врача  ',
@@ -12,7 +11,7 @@ export class CreateAppointmentDto {
   })
   @IsString()
   @IsNotEmpty()
-  doctor_id: string;
+  doctor_id: number;
 
   @ApiProperty({
     type: String,
@@ -21,22 +20,13 @@ export class CreateAppointmentDto {
   })
   @IsString()
   @IsNotEmpty()
-  patient_id: string
+  patient_id: number
 
   @ApiProperty({
-    type: Date,
+    type: String,
     description: 'Дата и время начала приема'
   })
   @IsDate()
   @IsNotEmpty()
-  date_start: Date;
-
-  @ApiProperty({
-    type: String,
-    description: 'id Медицинское заключение визита',
-    default: null
-  })
-  @IsString()
-  @ValidateIf((o) => o.medical_history_id)
-  medical_history_id: string
+  date_start: string;
 }

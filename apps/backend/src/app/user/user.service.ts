@@ -40,8 +40,8 @@ export class UserService {
     // return `This action returns all user`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number): Promise <UserEntity> {
+    return await this.userRepository.findOneBy({id});
   }
 
   async findByEmail(email: string): Promise<UserEntity> {

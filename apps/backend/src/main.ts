@@ -16,8 +16,6 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   app.enableCors();
 
-
-
   const port = process.env.PORT || 3000;
 
   // Swagger
@@ -34,7 +32,6 @@ async function bootstrap() {
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
-  console.log('dirname',__dirname)
 }
 
 bootstrap();

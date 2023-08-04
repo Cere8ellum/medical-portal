@@ -14,8 +14,6 @@ import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '../../user/entities/user.entity';
 import { Status } from '../enum/status.enum';
-import { DoctorEntity } from '../../doctor/entities/doctor.entity';
-import { PatientEntity } from '../../patient/entities/patient.entity';
 import { MedicalHistoryEntity } from '../../medical-history/entities/medical-history.entity';
 
 
@@ -27,13 +25,13 @@ export class AppointmentEntity {
     description: 'id appointment, pk'})
   id: number;
 
-  @ManyToOne(()=>UserEntity, (doctor) => doctor.appointment)
+  @ManyToOne(()=>UserEntity, (doctor) => doctor.id)
   @JoinColumn()
   @IsNotEmpty()
   @ApiProperty({ type: () => UserEntity,description: 'Врач' })
   doctor: UserEntity;
 
-  @ManyToOne(()=> UserEntity, (patient) => patient.appointment)
+  @ManyToOne(()=> UserEntity, (patient) => patient.id)
   @JoinColumn()
   @IsNotEmpty()
   @ApiProperty({ type: () => UserEntity, description: 'Пациент',})
@@ -58,28 +56,14 @@ export class AppointmentEntity {
   })
   status: Status;
 
-  @OneToOne(()=> MedicalHistoryEntity, (medical_history) => medical_history.appointment)
-  @JoinColumn()
-  @ApiProperty({
-    type: () => MedicalHistoryEntity,
-    description: 'Медицинское заключение визита',
-    default: null
-  })
-  medical_history: MedicalHistoryEntity;
-
-  @CreateDateColumn({ type: 'timestamp' })
-  @ApiProperty({
-    type: Date,
-    description: 'Дата бронирования'
-  })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  @ApiProperty({
-    type: Date,
-    description: 'Дата внесения изменений'
-  })
-  updatedAt: Date;
+  // @OneToOne(()=> MedicalHistoryEntity, (medical_history) => medical_history.appointment)
+  // @JoinColumn()
+  // @ApiProperty({
+  //   type: () => MedicalHistoryEntity,
+  //   description: 'Медицинское заключение визита',
+  //   default: null
+  // })
+  // medical_history: MedicalHistoryEntity;
 }
 
 
