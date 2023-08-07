@@ -1,18 +1,15 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Checkbox,
   FormControlLabel,
-  IconButton,
-  InputAdornment,
   styled,
   Typography,
 } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useFormik } from 'formik';
-import TextField from '../../components/WhiteTextField';
+import axios from 'axios';
+import PasswordField from '../../components/PasswordField';
+import WhiteTextField from '../../components/WhiteTextField';
 import signupSchema from './schemas/signupSchema';
 
 const Form = styled('form')({
@@ -36,41 +33,38 @@ const SignupForm = () => {
     },
     validationSchema: signupSchema,
     onSubmit: async ({ email, password }, { resetForm }) => {
-      const formData = new FormData();
+      const body = {
+        // Следующие поля добавлены временно
+        firstname: 'Ivan',
+        lastname: 'Ivanov',
+        gender: 'male',
+        birthdate: '1691335349443',
+        address: 'World',
+        mobile: '+71234567890',
+        //
+        email,
+        password,
+      };
 
-      formData.append('email', email);
-      formData.append('password', password);
+      try {
+        const res = await axios.post(`http://localhost:3000/api/user/`, body);
 
-      // Следующие поля добавлены временно
-      formData.append('firstname', 'Ivan');
-      formData.append('lastame', 'Ivanov');
-      formData.append('gender', 'male');
-      formData.append('birthdate', '1691335349443');
-      formData.append('address', 'World');
-      formData.append('mobile', '+71234567890');
-
-      const response = await fetch(`http://localhost:3000/api/user`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      // if (!response.ok) {
-      //
-      // }
-
-      // resetForm();
-      // navigate('/');
+        alert(res.request.statusText);
+        resetForm();
+        navigate('/');
+      } catch (err) {
+        if (
+          axios.isAxiosError(err) &&
+          err.response !== null &&
+          err.response !== undefined
+        ) {
+          alert(err.response.data.message);
+        } else {
+          console.error(err);
+        }
+      }
     },
   });
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
 
   return (
     <Form id="signupForm" method="post" onSubmit={formik.handleSubmit}>
@@ -81,7 +75,7 @@ const SignupForm = () => {
       >
         регистрация
       </Typography>
-      <TextField
+      <WhiteTextField
         id="email"
         name="email"
         label="email"
@@ -95,64 +89,28 @@ const SignupForm = () => {
         error={formik.touched.email && Boolean(formik.errors.email)}
         helperText={formik.touched.email && formik.errors.email}
       />
-      <TextField
+      <PasswordField
+        TextField={WhiteTextField}
         id="password"
         name="password"
         label="Пароль"
         variant="standard"
-        type={showPassword ? 'text' : 'password'}
         fullWidth
         required
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? (
-                  <VisibilityOff sx={{ color: 'common.white' }} />
-                ) : (
-                  <Visibility sx={{ color: 'common.white' }} />
-                )}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
         value={formik.values.password}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         error={formik.touched.password && Boolean(formik.errors.password)}
         helperText={formik.touched.password && formik.errors.password}
       />
-      <TextField
+      <PasswordField
+        TextField={WhiteTextField}
         id="confirmPassword"
         name="confirmPassword"
         label="Повторите пароль"
         variant="standard"
-        type={showPassword ? 'text' : 'password'}
         fullWidth
         required
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? (
-                  <VisibilityOff sx={{ color: 'common.white' }} />
-                ) : (
-                  <Visibility sx={{ color: 'common.white' }} />
-                )}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
         value={formik.values.confirmPassword}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}

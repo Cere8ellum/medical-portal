@@ -9,7 +9,7 @@ const WhiteTextField = styled(TextField)(({ theme }) => ({
 
     '&.Mui-focused': {
       color: theme.palette.common.white,
-    }
+    },
   },
 
   '& .MuiInputBase-root': {
@@ -29,6 +29,10 @@ const WhiteTextField = styled(TextField)(({ theme }) => ({
 
   '& .MuiInput-underline:hover:before': {
     borderBottom: `3px solid ${theme.palette.common.white} !important`,
+  },
+
+  '& .MuiInputAdornment-root .MuiSvgIcon-root': {
+    color: theme.palette.common.white,
   },
 }));
 
