@@ -3,7 +3,7 @@ import { IsEnum } from "class-validator";
 import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { AppointmentEntity } from "../../appointment/entities/appointment.entity";
 import { UserEntity } from "../../user/entities/user.entity";
-import { Category } from "../enum/category.enum";
+import { QualificationCategory } from "../enum/category.enum";
 import { Speciality } from "../enum/speciality.enum";
 import { DoctorType } from "../enum/type.enum";
 
@@ -16,7 +16,7 @@ export class DoctorEntity {
     })
     id: number
 
-    @Column('varchar')
+    @Column('varchar',{nullable: null})
     @IsEnum(Speciality)
     @ApiProperty({
       type: 'string',
@@ -26,17 +26,17 @@ export class DoctorEntity {
     })
     speciality: Speciality
 
-    @Column('varchar')
-    @IsEnum(Category)
+    @Column('varchar',{nullable: null})
+    @IsEnum(QualificationCategory)
     @ApiProperty({
       type: 'string',
       enum: [],
       description: 'вторая, первая или высшая категории',
       default: 'первая'
     })
-    category: Category
+    category: QualificationCategory
 
-    @Column('varchar')
+    @Column('varchar',{nullable: null})
     @IsEnum(DoctorType)
     @ApiProperty({
       type: 'string',
@@ -46,15 +46,15 @@ export class DoctorEntity {
     })
     type: DoctorType
 
-    @Column('int',{nullable: null})
+    @Column('varchar',{nullable: null})
     @ApiProperty({
       type: 'number',
       description: 'Год начала практики',
       default: null
     })
-    startWorking: number
+    startWorking: string
 
-    @Column('text')
+    @Column('text',{nullable: true})
     @ApiProperty({
       type: 'number',
       description: 'Информация о враче',
@@ -63,11 +63,26 @@ export class DoctorEntity {
     })
     info: string
 
-    @Column('int')
+    @Column('varchar', {nullable: true})
     @ApiProperty({
-      type: 'number',
+      type: 'string',
       description: 'Цена за 1 прием',
       default: 0
     })
-    price: number
+    price: string
+
+    @Column('varchar',{nullable: true})
+    @ApiProperty({
+      type: 'string',
+      description: 'ссылка на фото врача',
+    })
+    photo: string
+
+    @OneToOne(()=> UserEntity, (user)=> (user.doctor))
+    @ApiProperty({
+      type: ()=> UserEntity,
+      description: 'Личные данные пользователя врач',
+      default: null
+    })
+    user:UserEntity
 }

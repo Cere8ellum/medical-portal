@@ -74,11 +74,21 @@ export class AppointmentsService {
     })
   }
 
-  async findAllByDoctorStatusWaiting(doctor_id:number):Promise<AppointmentEntity[]>{
-     return await this.appointmentsRepository.find({
+  async findAllByDoctorStatusWaiting(doctor_id:number,date: Date):Promise<AppointmentEntity[]>{
+    // Устанавливаем время начала дня (00:00)
+    const startDate = new Date(date);
+    startDate.setHours(0, 0);
+
+    // Устанавливаем время конца дня (23:59)
+    const finishDate = new Date(date);
+    finishDate.setHours(23, 59);
+
+    return await this.appointmentsRepository.find({
       relations: ["doctor"],
       where: {doctor: {id: doctor_id},
-              status: Status.Waiting}
+              status: Status.Waiting,
+              date_start: Between(startDate,finishDate)
+            }
     })
   }
 

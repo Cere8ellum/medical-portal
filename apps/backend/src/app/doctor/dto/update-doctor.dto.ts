@@ -4,14 +4,15 @@ import { QualificationCategory } from '../enum/category.enum'
 import { Speciality } from '../enum/speciality.enum'
 import { DoctorType } from '../enum/type.enum'
 
-export class CreateDoctorDto {
-  @IsNotEmpty()
+export class UpdateDoctorDto {
+
   @IsEnum(Speciality)
   @ApiProperty({
     type: 'string',
     description: 'специализация врача',
     default: null
   })
+  @ValidateIf((o) => o.speciality)
   speciality: Speciality
 
 
@@ -41,8 +42,8 @@ export class CreateDoctorDto {
     description: 'Год начала практики',
     default: null
   })
-  @IsString()
-  @IsNotEmpty()
+  @IsNumber()
+  @ValidateIf((o) => o.startWorking)
   startWorking: string
 
 
@@ -56,7 +57,7 @@ export class CreateDoctorDto {
   @ValidateIf((o) => o.info)
   info: string
 
-  @IsString()
+  @IsNumber()
   @ApiProperty({
     type: 'string',
     description: 'Цена за 1 прием',
@@ -72,12 +73,4 @@ export class CreateDoctorDto {
   })
   @ValidateIf((o) => o.photo)
   photo: string
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    type: 'number',
-    description: 'ссылка на фото врача',
-  })
-  userId: string
 }

@@ -61,14 +61,6 @@ export class UserEntity {
   })
   address: string;
 
-  // @Column('string',{nullable: true})
-  // @ApiProperty({
-  //   type: 'varchar',
-  //   description: 'photo or avatar',
-  //   example: 'url'
-  // })
-  // avatar: string;
-
   @Column('varchar',{nullable: true})
   @ApiProperty({
     type: 'varchar',
@@ -93,21 +85,13 @@ export class UserEntity {
   })
   role: string;
 
-  // @OneToOne(() => DoctorEntity, (doctor) => doctor.id)
-  // @OneToOne(() => PatientEntity, (patient) => patient.id)
-  // @JoinColumn()
-  // @ApiProperty({
-  //     type: ()=> AppointmentEntity,
-  //     description: 'Визит к врачy',
-  //     default: null
-  //   })
-  // profile: DoctorEntity | PatientEntity;
-
-  // @OneToMany(()=> AppointmentEntity,(appointment)=> appointment.id, {nullable: true})
-  // @ApiProperty({
-  //   type: ()=> AppointmentEntity,
-  //   description: 'Визит к врачy',
-  //   default: null
-  // })
-  // appointment: AppointmentEntity[]
+  @OneToOne(() => DoctorEntity, (doctor) => doctor.user)
+  //@OneToOne(() => PatientEntity, (patient) => patient.id)
+  @JoinColumn()
+  @ApiProperty({
+      type: ()=> AppointmentEntity,
+      description: 'Визит к врачy',
+      default: null
+    })
+  doctor: DoctorEntity | PatientEntity;
 }

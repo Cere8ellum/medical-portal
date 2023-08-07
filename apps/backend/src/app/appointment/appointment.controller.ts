@@ -20,8 +20,11 @@ export class AppointmentsController {
 
   @Get('doctor/:idDoctor')
   @ApiOperation({ summary: 'Все слоты к doctorid забронированные status = waiting' })
-  async findAllByIdDoctorBooked(@Param('idDoctor', ParseIntPipe) idDoctor: number):Promise<AppointmentEntity[]>{
-     return await this.appointmentsService.findAllByDoctorStatusWaiting(idDoctor)
+  async findAllByIdDoctorBooked(
+    @Param('idDoctor', ParseIntPipe) idDoctor: number,
+    @Query('date')date: string):Promise<AppointmentEntity[]>{
+
+     return await this.appointmentsService.findAllByDoctorStatusWaiting(idDoctor, new Date(date))
   }
 
   @Get(':id')
