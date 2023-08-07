@@ -70,42 +70,6 @@ const AppointmentForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    let doctor_name = '';
-    doctors.forEach(doc => {
-      if(doc.value === doctor)
-       {
-          doctor_name = doc.label;
-        }
-    })
-
-    const appointmentData = {
-      user_name: name,
-      doctor_name: doctor_name,
-      date: dateOfAppointment?.format('YYYY-MM-DD HH:mm'),
-      email: 'ledix369@gmail.com'
-    };
-
-    fetch(
-      'http://localhost:3000/api/mail/appointment',
-       {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(appointmentData),
-       })
-      .then(response => {
-        const dataJSON = JSON.stringify(appointmentData);
-        localStorage.setItem('appointments', dataJSON);
-      })
-      .catch(error => {
-        console.error('Ошибка:', error);
-      });
-
-    alert(
-      'Запись успешо выполнена, ожидайте подтверждение на электронную почту.'
-    );
   };
 
   return (
@@ -135,10 +99,7 @@ const AppointmentForm = () => {
         value={name}
         onChange={handleNameChange}
       />
-      <DatePicker
-        value={birthday}
-        onChange={handleBirthdayChange}
-      />
+      <DatePicker value={birthday} onChange={handleBirthdayChange} />
       <Button
         color="primary"
         variant="contained"
