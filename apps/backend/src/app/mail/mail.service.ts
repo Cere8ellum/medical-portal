@@ -3,12 +3,12 @@ import { Injectable } from '@nestjs/common';
 import { AppointmentEntity } from '../appointment/entities/appointment.entity';
 import { UserEntity } from '../user/entities/user.entity';
 
-export class AppointmentDto  {
-  user_name: string
-  doctor_name: string
-  date: string
-  email: string
-}
+// export class AppointmentDto  {
+//   user_name: string
+//   doctor_name: string
+//   date: string
+//   email: string
+// }
 
 @Injectable()
 export class MailService {

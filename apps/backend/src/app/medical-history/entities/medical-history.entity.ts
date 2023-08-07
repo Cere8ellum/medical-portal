@@ -22,7 +22,7 @@ export class MedicalHistoryEntity {
     description: 'id MedicalHistory, pk'})
   id: number;
 
-  // дописать поля
+  // // дописать поля
 
   // @OneToOne(()=>AppointmentEntity, (appointment)=> appointment.medical_history,{nullable: true})
   // @ApiProperty({

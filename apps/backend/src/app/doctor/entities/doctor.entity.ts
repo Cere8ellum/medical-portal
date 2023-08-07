@@ -16,7 +16,7 @@ export class DoctorEntity {
     })
     id: number
 
-    @Column('varchar',{nullable: null})
+    @Column({ type: 'varchar', nullable: false })
     @IsEnum(Speciality)
     @ApiProperty({
       type: 'string',
@@ -26,7 +26,7 @@ export class DoctorEntity {
     })
     speciality: Speciality
 
-    @Column('varchar',{nullable: null})
+    @Column('varchar',{nullable: false})
     @IsEnum(QualificationCategory)
     @ApiProperty({
       type: 'string',
@@ -36,7 +36,7 @@ export class DoctorEntity {
     })
     category: QualificationCategory
 
-    @Column('varchar',{nullable: null})
+    @Column('varchar',{nullable: false})
     @IsEnum(DoctorType)
     @ApiProperty({
       type: 'string',
@@ -46,7 +46,7 @@ export class DoctorEntity {
     })
     type: DoctorType
 
-    @Column('varchar',{nullable: null})
+    @Column({type: 'varchar', nullable: false})
     @ApiProperty({
       type: 'number',
       description: 'Год начала практики',
@@ -54,7 +54,7 @@ export class DoctorEntity {
     })
     startWorking: string
 
-    @Column('text',{nullable: true})
+    @Column({type: 'text', nullable: true})
     @ApiProperty({
       type: 'number',
       description: 'Информация о враче',

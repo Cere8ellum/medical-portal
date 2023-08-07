@@ -21,7 +21,6 @@ export class AppointmentsService {
       try {
         const _doctor = await this.userService.findOne(appointment.doctor_id);
         const _patient = await this.userService.findOne(appointment.patient_id);
-
         if(!_doctor || !_patient) {
           throw new HttpException(
             {

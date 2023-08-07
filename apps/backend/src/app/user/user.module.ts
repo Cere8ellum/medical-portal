@@ -1,13 +1,17 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { DoctorModule } from '../doctor/doctor.module';
-import { DoctorService } from '../doctor/doctor.service';
+import { PatientModule } from '../patient/patient.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [
+    PatientModule,
+    TypeOrmModule.forFeature([UserEntity]),
+    forwardRef(() => DoctorModule),
+  ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService,

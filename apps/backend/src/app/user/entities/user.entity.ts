@@ -16,21 +16,21 @@ export class UserEntity {
   })
   id: number;
 
-  @Column('varchar',{nullable:false})
+  @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
     type: 'varchar',
     description: 'firstname',
   })
   firstname: string;
 
-  @Column('varchar')
+  @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
     type: 'varchar',
     description: 'lastname',
   })
   lastname: string;
 
-  @Column('varchar')
+  @Column({ type: 'varchar', nullable: false })
   @IsEnum(Gender)
   @ApiProperty({
     type: 'string',
@@ -40,42 +40,42 @@ export class UserEntity {
   })
   gender: string;
 
-  @Column('varchar',{nullable: true})
+  @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
     type: 'varchar',
     description: 'birthdate',
   })
   birthdate: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
     type: 'varchar',
     description: 'email',
   })
   email: string;
 
-  @Column('varchar',{nullable: true})
+  @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
     type: 'varchar',
     description: 'address',
   })
   address: string;
 
-  @Column('varchar',{nullable: true})
+  @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
     type: 'varchar',
     description: 'mobile',
   })
   mobile: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
     type: 'varchar',
     description: 'password',
   })
   password: string;
 
-  @Column('varchar')
+  @Column({ type: 'varchar', nullable: false })
   @IsEnum(Role)
   @ApiProperty({
     type: 'varchar',
@@ -86,12 +86,20 @@ export class UserEntity {
   role: string;
 
   @OneToOne(() => DoctorEntity, (doctor) => doctor.user)
-  //@OneToOne(() => PatientEntity, (patient) => patient.id)
   @JoinColumn()
   @ApiProperty({
-      type: ()=> AppointmentEntity,
-      description: 'Визит к врачy',
+      type: ()=> DoctorEntity,
+      description: 'врач',
       default: null
     })
-  doctor: DoctorEntity | PatientEntity;
+  doctor: DoctorEntity;
+
+    // @OneToOne(() => PatientEntity, (patient) => patient.id)
+    // @JoinColumn()
+    // @ApiProperty({
+    //     type: ()=> PatientEntity,
+    //     description: ' patient',
+    //     default: null
+    //   })
+    // patient: PatientEntity;
 }

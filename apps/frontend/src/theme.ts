@@ -1,5 +1,21 @@
 import { createTheme } from '@mui/material';
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    reversePrimary: Palette['primary'];
+  }
+
+  interface PaletteOptions {
+    reversePrimary?: PaletteOptions['primary'];
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    reversePrimary: true;
+  }
+}
+
 const defaultTheme = createTheme({
   palette: {
     common: {
@@ -12,21 +28,69 @@ const defaultTheme = createTheme({
       light: '#8095bd',
     },
     secondary: {
-      main: '#e3ecfc',
+      main: '#8095bd',
+      contrastText: '#ffffff',
+    },
+    reversePrimary: {
+      main: '#ffffff',
       contrastText: '#3d537c',
-    }
+    },
   },
   typography: {
     fontFamily: [`'Inter', sanf-serif`].join(','),
-    h4: {
+    h2: {
+      fontSize: '40px',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      lineHeight: 'normal',
+    },
+    h3: {
       textTransform: 'uppercase',
       fontSize: '36px',
       fontStyle: 'normal',
       fontWeight: '700',
       lineHeight: 'normal',
-    }
+    },
+    h4: {
+      fontSize: '32px',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      lineHeight: 'normal',
+    },
+    h5: {
+      fontSize: '24px',
+      fontStyle: 'normal',
+      fontWeight: '600',
+      lineHeight: 'normal',
+    },
+    body1: {
+      fontSize: '12px',
+      fontStyle: 'normal',
+      fontWeight: '300',
+      lineHeight: 'normal',
+    },
   },
   spacing: 4,
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          ...(ownerState.variant === 'contained' && {
+            minWidth: '140px',
+            height: '58px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: '10px',
+            fontSize: '14px',
+            fontWeight: '600',
+            lineHeight: 'normal',
+            whiteSpace: 'nowrap',
+          }),
+        }),
+      },
+    },
+  },
 });
 
 export default defaultTheme;
