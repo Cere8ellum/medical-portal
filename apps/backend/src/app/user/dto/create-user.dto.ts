@@ -1,30 +1,24 @@
-import { IsEmail, IsNotEmpty } from 'class-validator'
-// import { IntegerType } from 'typeorm'
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export class CreateUserDto {
-    id: number
+  @IsEmail()
+  email: string;
 
-    @IsNotEmpty()
-    firstname: string
+  @IsNotEmpty()
+  password: string;
 
-    @IsNotEmpty()
-    lastname: string
+  @IsNotEmpty()
+  firstname: string;
 
-    @IsNotEmpty()
-    gender: string
+  @IsNotEmpty()
+  lastname: string;
 
-    @IsNotEmpty()
-    birthdate: string
+  @IsNotEmpty()
+  gender: string;
 
-    @IsEmail()
-    email: string
+  @IsNotEmpty()
+  role: string;
 
-    @IsNotEmpty()
-    address: string
-
-    @IsNotEmpty()
-    mobile: string
-
-    @IsNotEmpty()
-    password: string
+  @IsNotEmpty()
+  status: string;
 }

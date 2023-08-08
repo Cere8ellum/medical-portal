@@ -1,6 +1,4 @@
-export enum Role {
-  Admin = 'admin',
-  Doctor = 'doctor',
-  Patient = 'patient',
-  Labaratory = 'laboratory'
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
 }

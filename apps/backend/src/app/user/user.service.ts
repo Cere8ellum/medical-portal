@@ -14,7 +14,6 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    console.log('createDto', this.userRepository);
     const existUser = await this.userRepository.findOne({
       where: {
         email: createUserDto.email,
@@ -26,13 +25,11 @@ export class UserService {
       firstname: createUserDto.firstname,
       lastname: createUserDto.lastname,
       gender: createUserDto.gender,
-      birthdate: createUserDto.birthdate,
       email: createUserDto.email,
-      address: createUserDto.address,
-      mobile: createUserDto.mobile,
       password: await argon2.hash(createUserDto.password),
     });
-    return { user };
+
+    return user.id;
   }
 
   async findAll() {
@@ -43,8 +40,8 @@ export class UserService {
     // return `This action returns all user`;
   }
 
-  async findOne(id: number): Promise <UserEntity> {
-    return await this.userRepository.findOneBy({id});
+  async findOne(id: number): Promise<UserEntity> {
+    return await this.userRepository.findOneBy({ id });
   }
 
   async findByEmail(email: string): Promise<UserEntity> {

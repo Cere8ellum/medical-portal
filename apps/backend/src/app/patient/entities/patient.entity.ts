@@ -1,7 +1,16 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Column, CreateDateColumn, Entity, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { AppointmentEntity } from "../../appointment/entities/appointment.entity";
-import { UserEntity } from "../../user/entities/user.entity";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { AppointmentEntity } from '../../appointment/entities/appointment.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity('patients')
 export class PatientEntity {
@@ -15,8 +24,15 @@ export class PatientEntity {
   @Column({ type: 'character varying' || 'integer' })
   @ApiProperty({
     type: 'number',
+    description: 'id of user entity',
+  })
+  user_id: number;
+
+  @Column({ type: 'character varying' || 'integer' })
+  @ApiProperty({
+    type: 'number',
     description: 'id parent for child-Patient',
-    default: null
+    default: null,
   })
   parent_id: number;
 
@@ -24,23 +40,23 @@ export class PatientEntity {
   @ApiProperty({
     type: 'string',
     description: 'Адрес проживания пациента',
-    default: null
+    default: null,
   })
-  address: string
+  address: string;
 
   @Column({ type: 'varchar', nullable: true })
   @ApiProperty({
     type: 'string',
     description: 'avatar пациента',
-    default: null
+    default: null,
   })
-  avatar: string
+  avatar: string;
 
-  // @OneToOne(()=> UserEntity, (user)=> (user.patient))
+  // @OneToOne(() => UserEntity, (user) => user)
   // @ApiProperty({
-  //   type: ()=> UserEntity,
+  //   type: () => UserEntity,
   //   description: 'Личные данные пользователя patient',
-  //   default: null
+  //   default: null,
   // })
-  // user: UserEntity
+  // user: UserEntity;
 }

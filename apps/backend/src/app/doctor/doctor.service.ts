@@ -1,4 +1,10 @@
-import { BadGatewayException, BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadGatewayException,
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { DoctorEntity } from './entities/doctor.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,7 +15,7 @@ import { Speciality } from './enum/speciality.enum';
 import { QualificationCategory } from './enum/category.enum';
 import { DoctorType } from './enum/type.enum';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
-import { Gender } from '../user/enum/gender.enum';
+import { UserGender } from '../user/enum/gender.enum';
 
 @Injectable()
 export class DoctorService {
@@ -22,7 +28,7 @@ export class DoctorService {
   async create(doctor: CreateDoctorDto): Promise<DoctorEntity> {
     try {
       const _user = await this.userService.findOne(+doctor.userId);
-      if (_user){
+      if (_user) {
         const doctorEmtity = new DoctorEntity();
         doctorEmtity.speciality = doctor.speciality;
         doctorEmtity.category = doctor.category || QualificationCategory.Second;
@@ -31,18 +37,22 @@ export class DoctorService {
         doctorEmtity.price = doctor.price || '0';
         doctorEmtity.info = doctor.info;
         doctorEmtity.photo = doctor.photo;
-        doctorEmtity.user = _user
+        doctorEmtity.user = _user;
         return await this.doctorRepository.save(doctorEmtity);
       } else {
-        throw new Error(`user with this Id = ${doctor.userId} doesn't exist`)
+        throw new Error(`user with this Id = ${doctor.userId} doesn't exist`);
       }
     } catch (error) {
-      throw new HttpException({
-        status: HttpStatus.FORBIDDEN,
-        error: error,
-      }, HttpStatus.FORBIDDEN, {
-        cause: error
-      });
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: error,
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        }
+      );
     }
   }
 
@@ -53,7 +63,7 @@ export class DoctorService {
   async findById(id: number): Promise<DoctorEntity> {
     return this.doctorRepository.findOne({
       relations: ['user'],
-      where: { id }
+      where: { id },
     });
   }
 
@@ -62,13 +72,13 @@ export class DoctorService {
    * @param speciality
    * @returns докторов по выбранной специальности
    */
-  async findBySpeciality(speciality: Speciality): Promise<DoctorEntity[]>{
+  async findBySpeciality(speciality: Speciality): Promise<DoctorEntity[]> {
     return await this.doctorRepository.find({
       relations: ['user'],
       where: {
         speciality: speciality,
-      }
-    })
+      },
+    });
   }
 
   /**
@@ -76,15 +86,15 @@ export class DoctorService {
    * @param gender - мужской или женский пол
    * @returns докторов заданного пола
    */
-  async findByGender(gender: Gender): Promise <DoctorEntity[]> {
+  async findByGender(gender: UserGender): Promise<DoctorEntity[]> {
     return await this.doctorRepository.find({
-      relations:['user'],
+      relations: ['user'],
       where: {
         user: {
-          gender: gender
-        }
-      }
-    })
+          gender: gender,
+        },
+      },
+    });
   }
 
   /**
@@ -93,28 +103,31 @@ export class DoctorService {
    * @param speciality
    * @returns докторов заданного пола
    */
-  async findByGenderAndSpeciality(gender: Gender, speciality: Speciality): Promise <DoctorEntity[]> {
+  async findByGenderAndSpeciality(
+    gender: UserGender,
+    speciality: Speciality
+  ): Promise<DoctorEntity[]> {
     return await this.doctorRepository.find({
-      relations:['user'],
+      relations: ['user'],
       where: {
         user: {
-          gender: gender
+          gender: gender,
         },
-        speciality: speciality
-      }
-    })
+        speciality: speciality,
+      },
+    });
   }
 
   /**
    *
    * @returns список всех специальностей, которые есть в клинике
    */
-  async findAllSpecialities():Promise<string[]> {
+  async findAllSpecialities(): Promise<string[]> {
     const uniqueSpecialities = await this.doctorRepository
       .createQueryBuilder('doctors')
       .select('DISTINCT doctors.speciality', 'speciality')
       .getRawMany();
-    return uniqueSpecialities.map(item => item.speciality);
+    return uniqueSpecialities.map((item) => item.speciality);
   }
 
   /**
@@ -123,51 +136,59 @@ export class DoctorService {
    * @param updateDoctorDto
    * @returns updated DoctorEntity
    */
-  async update(id: number, updateDoctorDto: UpdateDoctorDto):Promise<DoctorEntity> {
-   try {
-     const _doctor = await this.findById(id);
-     if( _doctor) {
-      const doctorEntity = new DoctorEntity();
-      doctorEntity.id = _doctor.id
-      doctorEntity.speciality = updateDoctorDto.speciality || _doctor.speciality;
-      doctorEntity.category = updateDoctorDto.category || _doctor.category;
-      doctorEntity.type = updateDoctorDto.type || _doctor.type;
-      doctorEntity.startWorking = updateDoctorDto.startWorking || _doctor.startWorking;
-      doctorEntity.price = updateDoctorDto.price || _doctor.price;
-      doctorEntity.info = updateDoctorDto.info || _doctor.info;
-      doctorEntity.photo = updateDoctorDto.photo || _doctor.photo;
-      return await this.doctorRepository.save(doctorEntity);
-
-     } else {
-         throw new BadRequestException('Doctor with this id doesn`t exist')
-     }
-   } catch (error) {
-    throw new HttpException({
-      status: HttpStatus.FORBIDDEN,
-      error: error,
-    }, HttpStatus.FORBIDDEN, {
-      cause: error
-    });
-   }
-  }
-
-
-  async delete(id: number) : Promise<boolean> {
+  async update(
+    id: number,
+    updateDoctorDto: UpdateDoctorDto
+  ): Promise<DoctorEntity> {
     try {
-      const _doctor = await this.findById(id)
-      if(_doctor){
-         await this.doctorRepository.delete({id})
-         return true
+      const _doctor = await this.findById(id);
+      if (_doctor) {
+        const doctorEntity = new DoctorEntity();
+        doctorEntity.id = _doctor.id;
+        doctorEntity.speciality =
+          updateDoctorDto.speciality || _doctor.speciality;
+        doctorEntity.category = updateDoctorDto.category || _doctor.category;
+        doctorEntity.type = updateDoctorDto.type || _doctor.type;
+        doctorEntity.startWorking =
+          updateDoctorDto.startWorking || _doctor.startWorking;
+        doctorEntity.price = updateDoctorDto.price || _doctor.price;
+        doctorEntity.info = updateDoctorDto.info || _doctor.info;
+        doctorEntity.photo = updateDoctorDto.photo || _doctor.photo;
+        return await this.doctorRepository.save(doctorEntity);
       } else {
-          throw new HttpException(
-            {
-                status: HttpStatus.FORBIDDEN,
-                error: 'This doctor does not exist.',
-            }, HttpStatus.FORBIDDEN
-          )
+        throw new BadRequestException('Doctor with this id doesn`t exist');
       }
     } catch (error) {
-      throw new Error(error)
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: error,
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        }
+      );
+    }
+  }
+
+  async delete(id: number): Promise<boolean> {
+    try {
+      const _doctor = await this.findById(id);
+      if (_doctor) {
+        await this.doctorRepository.delete({ id });
+        return true;
+      } else {
+        throw new HttpException(
+          {
+            status: HttpStatus.FORBIDDEN,
+            error: 'This doctor does not exist.',
+          },
+          HttpStatus.FORBIDDEN
+        );
+      }
+    } catch (error) {
+      throw new Error(error);
     }
   }
 }

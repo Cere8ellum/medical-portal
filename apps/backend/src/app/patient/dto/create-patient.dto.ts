@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export class CreatePatientDto {
   parent_id: number;
@@ -7,5 +7,22 @@ export class CreatePatientDto {
   birthday: Date;
 
   @IsNotEmpty()
-  address: string
+  address: string;
+
+  // For User
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
+  password: string;
+
+  @IsNotEmpty()
+  firstname: string;
+
+  @IsNotEmpty()
+  lastname: string;
+
+  @IsNotEmpty()
+  gender: string;
 }

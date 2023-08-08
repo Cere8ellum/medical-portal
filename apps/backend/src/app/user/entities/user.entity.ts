@@ -1,11 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum } from 'class-validator';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { AppointmentEntity } from '../../appointment/entities/appointment.entity';
 import { DoctorEntity } from '../../doctor/entities/doctor.entity';
 import { PatientEntity } from '../../patient/entities/patient.entity';
-import { Gender } from '../enum/gender.enum';
-import { Role } from '../enum/role.enum';
+import { UserGender } from '../enum/gender.enum';
+import { UserRole } from '../enum/role.enum';
+import { UserStatus } from '../enum/status.enum';
 
 @Entity('user')
 export class UserEntity {
@@ -15,6 +23,20 @@ export class UserEntity {
     description: 'id User, pk',
   })
   id: number;
+
+  @Column({ type: 'varchar', nullable: false })
+  @ApiProperty({
+    type: 'varchar',
+    description: 'email',
+  })
+  email: string;
+
+  @Column({ type: 'varchar', nullable: false })
+  @ApiProperty({
+    type: 'varchar',
+    description: 'password',
+  })
+  password: string;
 
   @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
@@ -31,12 +53,12 @@ export class UserEntity {
   lastname: string;
 
   @Column({ type: 'varchar', nullable: false })
-  @IsEnum(Gender)
+  @IsEnum(UserGender)
   @ApiProperty({
     type: 'string',
     enum: ['Male', 'Female'],
     description: 'gender - male, female',
-    default: 'male'
+    default: 'male',
   })
   gender: string;
 
@@ -46,13 +68,6 @@ export class UserEntity {
     description: 'birthdate',
   })
   birthdate: string;
-
-  @Column({ type: 'varchar', nullable: false })
-  @ApiProperty({
-    type: 'varchar',
-    description: 'email',
-  })
-  email: string;
 
   @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
@@ -69,37 +84,40 @@ export class UserEntity {
   mobile: string;
 
   @Column({ type: 'varchar', nullable: false })
-  @ApiProperty({
-    type: 'varchar',
-    description: 'password',
-  })
-  password: string;
-
-  @Column({ type: 'varchar', nullable: false })
-  @IsEnum(Role)
+  @IsEnum(UserRole)
   @ApiProperty({
     type: 'varchar',
     enum: ['Admin', 'Doctor', 'Patient'],
     description: 'email',
-    default: 'patient'
+    default: 'patient',
   })
   role: string;
 
-  @OneToOne(() => DoctorEntity, (doctor) => doctor.user)
-  @JoinColumn()
+  @Column({ type: 'varchar', nullable: false })
+  @IsEnum(UserStatus)
   @ApiProperty({
-      type: ()=> DoctorEntity,
-      description: 'врач',
-      default: null
-    })
-  doctor: DoctorEntity;
+    type: 'varchar',
+    enum: { ...UserStatus },
+    description: 'status',
+    default: UserStatus.INACTIVE,
+  })
+  status: string;
 
-    // @OneToOne(() => PatientEntity, (patient) => patient.id)
-    // @JoinColumn()
-    // @ApiProperty({
-    //     type: ()=> PatientEntity,
-    //     description: ' patient',
-    //     default: null
-    //   })
-    // patient: PatientEntity;
+  // @OneToOne(() => DoctorEntity, (doctor) => doctor.user)
+  // @JoinColumn()
+  // @ApiProperty({
+  //     type: ()=> DoctorEntity,
+  //     description: 'врач',
+  //     default: null
+  //   })
+  // doctor: DoctorEntity;
+
+  // @OneToOne(() => PatientEntity, (patient) => patient.id)
+  // @JoinColumn()
+  // @ApiProperty({
+  //     type: ()=> PatientEntity,
+  //     description: ' patient',
+  //     default: null
+  //   })
+  // patient: PatientEntity;
 }
