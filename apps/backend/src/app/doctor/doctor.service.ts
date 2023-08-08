@@ -10,6 +10,8 @@ import { QualificationCategory } from './enum/category.enum';
 import { DoctorType } from './enum/type.enum';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { Gender } from '../user/enum/gender.enum';
+import { UpdateUserDto } from '../user/dto/update-user.dto';
+import { Role } from '../user/enum/role.enum';
 
 @Injectable()
 export class DoctorService {
@@ -23,18 +25,28 @@ export class DoctorService {
     try {
       const _user = await this.userService.findOne(+doctor.userId);
       if (_user){
-        const doctorEmtity = new DoctorEntity();
-        doctorEmtity.speciality = doctor.speciality;
-        doctorEmtity.category = doctor.category || QualificationCategory.Second;
-        doctorEmtity.type = doctor.type || DoctorType.Adult;
-        doctorEmtity.startWorking = doctor.startWorking;
-        doctorEmtity.price = doctor.price || '0';
-        doctorEmtity.info = doctor.info;
-        doctorEmtity.photo = doctor.photo;
-        doctorEmtity.user = _user
-        return await this.doctorRepository.save(doctorEmtity);
+        const userUpdate = await this.userService.update(+doctor.userId,{
+          lastname: doctor.lastname || _user.lastname,
+          firstname: doctor.firstname || _user.firstname,
+          email: doctor.email || _user.email,
+          gender: doctor.gender,
+          address: doctor.address || _user.address,
+          mobile: doctor.mobile || _user.mobile,
+          birthdate: doctor.birthdate || _user.birthdate
+        })
+        const doctorEntity = new DoctorEntity();
+        doctorEntity.speciality = doctor.speciality;
+        doctorEntity.category = doctor.category || QualificationCategory.Second;
+        doctorEntity.type = doctor.type || DoctorType.Adult;
+        doctorEntity.startWorking = doctor.startWorking;
+        doctorEntity.price = doctor.price || '0';
+        doctorEntity.info = doctor.info;
+        doctorEntity.photo = doctor.photo;
+        doctorEntity.user = _user
+        const _doctor = await this.doctorRepository.save(doctorEntity);
+       return _doctor
       } else {
-        throw new Error(`user with this Id = ${doctor.userId} doesn't exist`)
+        throw new BadRequestException(`User with Id = ${doctor.userId} doesn't exist`)
       }
     } catch (error) {
       throw new HttpException({
@@ -126,20 +138,30 @@ export class DoctorService {
   async update(id: number, updateDoctorDto: UpdateDoctorDto):Promise<DoctorEntity> {
    try {
      const _doctor = await this.findById(id);
-     if( _doctor) {
+     const _user = await this.userService.findOne(+updateDoctorDto.userId);
+     if( _doctor && _user) {
+       const updateUser = await this.userService.update(_user.id,{
+        lastname: updateDoctorDto.lastname || _user.lastname,
+        firstname: updateDoctorDto.firstname || _user.firstname,
+        email: updateDoctorDto.email || _user.email,
+        //password: updateDoctorDto.password,
+        gender: updateDoctorDto.gender || _user.gender,
+        address: updateDoctorDto.address || _user.address,
+        birthdate: updateDoctorDto.birthdate || _user.birthdate
+       })
       const doctorEntity = new DoctorEntity();
-      doctorEntity.id = _doctor.id
+      doctorEntity.id = id
       doctorEntity.speciality = updateDoctorDto.speciality || _doctor.speciality;
       doctorEntity.category = updateDoctorDto.category || _doctor.category;
       doctorEntity.type = updateDoctorDto.type || _doctor.type;
       doctorEntity.startWorking = updateDoctorDto.startWorking || _doctor.startWorking;
       doctorEntity.price = updateDoctorDto.price || _doctor.price;
-      doctorEntity.info = updateDoctorDto.info || _doctor.info;
       doctorEntity.photo = updateDoctorDto.photo || _doctor.photo;
-      return await this.doctorRepository.save(doctorEntity);
+      doctorEntity.info = updateDoctorDto.info || _doctor.info;
 
+      return await this.doctorRepository.save(doctorEntity);
      } else {
-         throw new BadRequestException('Doctor with this id doesn`t exist')
+         throw new BadRequestException('Doctor or User with this id doesn`t exist')
      }
    } catch (error) {
     throw new HttpException({
@@ -155,14 +177,17 @@ export class DoctorService {
   async delete(id: number) : Promise<boolean> {
     try {
       const _doctor = await this.findById(id)
-      if(_doctor){
+      const _user = await this.userService.findOne(_doctor.user.id)
+
+      if(_doctor && _user){
+         await this.userService.remove(_user.id)
          await this.doctorRepository.delete({id})
          return true
       } else {
           throw new HttpException(
             {
                 status: HttpStatus.FORBIDDEN,
-                error: 'This doctor does not exist.',
+                error: 'This doctor or user does not exist.',
             }, HttpStatus.FORBIDDEN
           )
       }

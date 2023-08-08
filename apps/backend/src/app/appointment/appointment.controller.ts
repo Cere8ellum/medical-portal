@@ -51,7 +51,7 @@ export class AppointmentsController {
   async create(@Body() appointmentDto: CreateAppointmentDto):Promise<string | Error>{
     try {
       const result = await this.appointmentsService.create(appointmentDto)
-      return `${result.patient.firstname} ${result.patient.lastname}, you booked appointment on date ${result.date_start} to Dr. ${result.doctor.lastname}`
+      return `${result.patient.firstname} ${result.patient.lastname}, you booked appointment on date ${result.date_start} to Dr. ${result.doctor.user.lastname}`
     } catch (error) {
       return new Error(`An error occurred while booking. Message: ${error}`)
     }

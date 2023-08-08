@@ -15,6 +15,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '../../user/entities/user.entity';
 import { Status } from '../enum/status.enum';
 import { MedicalHistoryEntity } from '../../medical-history/entities/medical-history.entity';
+import { DoctorEntity } from '../../doctor/entities/doctor.entity';
+import { PatientEntity } from '../../patient/entities/patient.entity';
 
 
 @Entity('appointments')
@@ -25,11 +27,11 @@ export class AppointmentEntity {
     description: 'id appointment, pk'})
   id: number;
 
-  @ManyToOne(()=>UserEntity, (doctor) => doctor.id)
+  @ManyToOne(()=>DoctorEntity, (doctor) => doctor.id)
   @JoinColumn()
   @IsNotEmpty()
-  @ApiProperty({ type: () => UserEntity,description: 'Врач' })
-  doctor: UserEntity;
+  @ApiProperty({ type: () => DoctorEntity,description: 'Врач' })
+  doctor: DoctorEntity;
 
   @ManyToOne(()=> UserEntity, (patient) => patient.id)
   @JoinColumn()

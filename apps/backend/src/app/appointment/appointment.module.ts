@@ -6,10 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MedicalHistoryModule } from '../medical-history/medical-history.module';
 import { UserModule } from '../user/user.module';
 import { MailerModule,} from '@nestjs-modules/mailer';
+import { DoctorService } from '../doctor/doctor.service';
+import { DoctorModule } from '../doctor/doctor.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AppointmentEntity]),
   forwardRef(() => MedicalHistoryModule),
+  forwardRef(() => DoctorModule),
   forwardRef(()=> UserModule),
   MailerModule],
   controllers: [AppointmentsController],

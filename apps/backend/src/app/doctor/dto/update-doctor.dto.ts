@@ -1,10 +1,87 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator'
+import { Gender } from '../../user/enum/gender.enum'
 import { QualificationCategory } from '../enum/category.enum'
 import { Speciality } from '../enum/speciality.enum'
 import { DoctorType } from '../enum/type.enum'
 
 export class UpdateDoctorDto {
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    type: 'number',
+    description: 'id user',
+  })
+  userId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'firstname',
+  })
+  @ValidateIf((o) => o.firstname)
+  firstname: string
+
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'lastname',
+  })
+  @ValidateIf((o) => o.lastname)
+  lastname: string
+
+
+  @IsEnum(Gender)
+  @ApiProperty({
+    type: 'string',
+    description: 'gender',
+    default: 'male'
+  })
+  @ValidateIf((o) => o.gender)
+  gender: string
+
+
+  @IsEmail()
+  @ApiProperty({
+    type: 'string',
+    description: 'email'
+  })
+  @ValidateIf((o) => o.email)
+  email: string
+
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'mobile',
+  })
+  @ValidateIf((o) => o.mobile)
+  mobile: string
+
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'address',
+  })
+  @ValidateIf((o) => o.address)
+  address: string
+
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'birthdate',
+  })
+  @ValidateIf((o) => o.birthdate)
+  birthdate: string
+
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'password',
+  })
+  @ValidateIf((o) => o.password)
+  password: string
 
   @IsEnum(Speciality)
   @ApiProperty({

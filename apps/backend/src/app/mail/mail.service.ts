@@ -36,7 +36,7 @@ export class MailService {
             subject: `Новая запись к врачу`,
             template: './appointment',
             context: {
-              doctor : `${appointment.doctor.firstname} ${appointment.doctor.lastname}`,
+              doctor : `${appointment.doctor.user.firstname} ${appointment.doctor.user.lastname}`,
               patient: `${appointment.patient.firstname} ${appointment.patient.lastname}`,
               date: appointment.date_start
             },

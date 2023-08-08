@@ -6,7 +6,7 @@ import { SrvRecord } from 'dns';
 export class CreateAppointmentDto {
   @ApiProperty({
     type: String,
-    description: 'id врача  ',
+    description: 'user_id врача  ',
     example: 1
   })
   @IsString()
@@ -15,7 +15,7 @@ export class CreateAppointmentDto {
 
   @ApiProperty({
     type: String,
-    description: 'id пациента',
+    description: 'user_id пациента',
     example: 1
   })
   @IsString()

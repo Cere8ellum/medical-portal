@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
 // import { IntegerType } from 'typeorm'
 
 export class CreateUserDto {
@@ -26,5 +26,6 @@ export class CreateUserDto {
     mobile: string
 
     @IsNotEmpty()
+    @IsString()
     password: string
 }

@@ -1,10 +1,85 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator'
+import { Gender } from '../../user/enum/gender.enum'
 import { QualificationCategory } from '../enum/category.enum'
 import { Speciality } from '../enum/speciality.enum'
 import { DoctorType } from '../enum/type.enum'
 
 export class CreateDoctorDto {
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    type: 'number',
+    description: 'id user',
+  })
+  userId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'firstname',
+  })
+  firstname: string
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'lastname',
+  })
+  lastname: string
+
+  @IsNotEmpty()
+  @IsEnum(Gender)
+  @ApiProperty({
+    type: 'string',
+    description: 'gender',
+    default: 'male'
+  })
+  gender: string
+
+  @IsNotEmpty()
+  @IsEmail()
+  @ApiProperty({
+    type: 'string',
+    description: 'email'
+  })
+  email: string
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'mobile',
+  })
+  mobile: string
+
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'address',
+  })
+  @ValidateIf((o) => o.address)
+  address: string
+
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'birthdate',
+  })
+  @ValidateIf((o) => o.password)
+  password: string
+
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    description: 'birthdate',
+  })
+  @ValidateIf((o) => o.birthdate)
+  birthdate: string
+
   @IsNotEmpty()
   @IsEnum(Speciality)
   @ApiProperty({
@@ -13,7 +88,6 @@ export class CreateDoctorDto {
     default: null
   })
   speciality: Speciality
-
 
   @IsEnum(QualificationCategory)
   @ApiProperty({
@@ -72,12 +146,4 @@ export class CreateDoctorDto {
   })
   @ValidateIf((o) => o.photo)
   photo: string
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    type: 'number',
-    description: 'ссылка на фото врача',
-  })
-  userId: string
 }

@@ -7,6 +7,8 @@ import { UserService } from '../user/user.service';
 import { Status } from './enum/status.enum';
 import { UpdateAppointmentDto } from './dtos/update-appointment-dto';
 import { MailService } from '../mail/mail.service';
+import { DoctorService } from '../doctor/doctor.service';
+
 
 @Injectable()
 export class AppointmentsService {
@@ -14,12 +16,13 @@ export class AppointmentsService {
     @InjectRepository(AppointmentEntity)
       private appointmentsRepository: Repository<AppointmentEntity>,
       private userService: UserService,
+      private doctorService: DoctorService,
       private mailServise: MailService
   ) {}
 
   async create (appointment: CreateAppointmentDto): Promise<AppointmentEntity> {
       try {
-        const _doctor = await this.userService.findOne(appointment.doctor_id);
+        const _doctor = await this.doctorService.findById(appointment.doctor_id);
         const _patient = await this.userService.findOne(appointment.patient_id);
         if(!_doctor || !_patient) {
           throw new HttpException(
