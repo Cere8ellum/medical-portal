@@ -16,16 +16,14 @@ export class PatientService {
   ) {}
 
   async create(patient: CreatePatientDto) {
-    const { birthday, address, ...patientData } = patient;
     const userData = {
       role: UserRole.USER,
       status: UserStatus.INACTIVE,
-      ...patientData,
+      ...patient,
     };
     const _createdUserId = await this.userService.create(userData);
     const _patient = await this.patientRepository.save({
       user_id: _createdUserId,
-      ...patientData,
     });
 
     return _patient;

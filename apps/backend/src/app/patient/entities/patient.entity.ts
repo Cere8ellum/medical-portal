@@ -36,27 +36,11 @@ export class PatientEntity {
   })
   parent_id: number;
 
-  @Column({ type: 'varchar' })
+  @OneToOne(() => UserEntity, (user) => user)
   @ApiProperty({
-    type: 'string',
-    description: 'Адрес проживания пациента',
+    type: () => UserEntity,
+    description: 'Личные данные пользователя patient',
     default: null,
   })
-  address: string;
-
-  @Column({ type: 'varchar', nullable: true })
-  @ApiProperty({
-    type: 'string',
-    description: 'avatar пациента',
-    default: null,
-  })
-  avatar: string;
-
-  // @OneToOne(() => UserEntity, (user) => user)
-  // @ApiProperty({
-  //   type: () => UserEntity,
-  //   description: 'Личные данные пользователя patient',
-  //   default: null,
-  // })
-  // user: UserEntity;
+  user: UserEntity;
 }
