@@ -1,12 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum } from 'class-validator';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Generated, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from 'typeorm';
 import { AppointmentEntity } from '../../appointment/entities/appointment.entity';
 import { DoctorEntity } from '../../doctor/entities/doctor.entity';
 import { PatientEntity } from '../../patient/entities/patient.entity';
 import { Gender } from '../enum/gender.enum';
 import { Role } from '../enum/role.enum';
 
+export enum UserRole {
+  admin = 'admin',
+  doctor = 'doctor',
+  patient = 'patient',
+  disabled = 'disabled'
+}
 @Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn()
@@ -15,6 +21,12 @@ export class UserEntity {
     description: 'id User, pk',
   })
   id: number;
+
+
+  @Column()
+  @Generated("uuid")
+  uuid: string;
+
 
   @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
@@ -93,6 +105,25 @@ export class UserEntity {
       default: null
     })
   doctor: DoctorEntity;
+
+  @Column({
+    type: "enum",
+    enum: UserRole,
+    default: UserRole.disabled,
+    })
+    status: UserRole
+
+    @CreateDateColumn()
+    created: Date;
+
+    @UpdateDateColumn()
+    updated: Date;
+
+  // @CreateDateColumn()
+  // created?: Date
+
+  // @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+  // created: Date;
 
     // @OneToOne(() => PatientEntity, (patient) => patient.id)
     // @JoinColumn()

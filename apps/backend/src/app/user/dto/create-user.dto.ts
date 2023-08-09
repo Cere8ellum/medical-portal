@@ -3,28 +3,18 @@ import { IsEmail, IsNotEmpty } from 'class-validator'
 
 export class CreateUserDto {
     id: number
-
-    @IsNotEmpty()
+    uuid: string
     firstname: string
-
-    @IsNotEmpty()
     lastname: string
-
-    @IsNotEmpty()
     gender: string
-
-    @IsNotEmpty()
     birthdate: string
-
     @IsEmail()
     email: string
-
-    @IsNotEmpty()
     address: string
-
-    @IsNotEmpty()
     mobile: string
-
     @IsNotEmpty()
     password: string
+    status: string
+    created: string
+    updated: string
 }
