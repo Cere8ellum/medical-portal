@@ -14,6 +14,7 @@ import { DoctorEntity } from './doctor/entities/doctor.entity';
 import { PatientEntity } from './patient/entities/patient.entity';
 import { MedicalHistoryEntity } from './medical-history/entities/medical-history.entity';
 import { AppointmentEntity } from './appointment/entities/appointment.entity';
+import { ScheduleSetupModule } from './schedule-setup/schedule-setup.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AppointmentEntity } from './appointment/entities/appointment.entity';
     DoctorModule,
     PatientModule,
     MedicalHistoryModule,
+    ScheduleSetupModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({

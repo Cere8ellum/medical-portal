@@ -14,8 +14,6 @@ import { PatientModule } from '../patient/patient.module';
   ],
   controllers: [UserController],
   providers: [UserService],
-  exports: [UserService,
-    TypeOrmModule.forFeature([UserEntity])
-  ],
+  exports: [UserService, TypeOrmModule.forFeature([UserEntity])],
 })
 export class UserModule {}
