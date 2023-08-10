@@ -3,10 +3,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from './entities/user.entity';
+import { UserEntity, UserRole } from './entities/user.entity';
 import * as argon2 from 'argon2';
 import { Role } from './enum/role.enum';
 import { DoctorService } from '../doctor/doctor.service';
+import { v4 as uuid } from 'uuid';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class UserService {
@@ -14,11 +16,12 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @Inject(forwardRef(() => DoctorService))
-    private doctorServise: DoctorService
+    private doctorServise: DoctorService,
+    private mailServise: MailService
   ) {}
 
+  // create user
   async create(createUserDto: CreateUserDto) {
-    console.log('createDto', this.userRepository);
     const existUser = await this.userRepository.findOne({
       where: {
         email: createUserDto.email,
@@ -27,32 +30,48 @@ export class UserService {
     if (existUser) throw new BadRequestException('This email already exist');
 
     const user = await this.userRepository.save({
-      firstname: createUserDto.firstname,
-      lastname: createUserDto.lastname,
-      gender: createUserDto.gender,
-      birthdate: createUserDto.birthdate,
+      uuid: uuid(),
       email: createUserDto.email,
-      address: createUserDto.address,
-      mobile: createUserDto.mobile,
       password: await argon2.hash(createUserDto.password),
+      status: UserRole.disabled,
+      created: new Date(),
     });
+
+    await this.mailServise.sendUserConfirmation(user, user.uuid);
+
     return { user };
   }
 
   async findAll() {
-    console.log('findAll', this.userRepository);
     const users = await this.userRepository.find();
-    console.log('users111', users);
     return { users };
-    // return `This action returns all user`;
   }
 
   async findOne(id: number): Promise <UserEntity> {
     try {
       return await this.userRepository.findOneBy({id});
     } catch (error) {
-      console.log(error)
+      throw new BadRequestException(error);
     }
+  }
+
+  // confirm user registration
+  async findUuid(uuid: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        uuid: uuid,
+      },
+    });
+    if (!user) throw new BadRequestException("'This confirm doesn't exist'");
+
+    if (user.status !== 'disabled')
+      throw new BadRequestException('Error confirm users');
+
+    user.status = UserRole.enabled;
+    await this.userRepository.save(user);
+    return {
+      message: 'success change status to patient',
+    };
   }
 
   async findByEmail(email: string): Promise<UserEntity> {

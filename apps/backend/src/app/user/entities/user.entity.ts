@@ -1,12 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum } from 'class-validator';
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from 'typeorm';
-import { AppointmentEntity } from '../../appointment/entities/appointment.entity';
-import { DoctorEntity } from '../../doctor/entities/doctor.entity';
-import { PatientEntity } from '../../patient/entities/patient.entity';
+import { Column, CreateDateColumn, Entity, Generated, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from 'typeorm';
 import { Gender } from '../enum/gender.enum';
 import { Role } from '../enum/role.enum';
 
+export enum UserRole {
+  blocked = 'blocked',
+  enabled = 'enabled',
+  disabled = 'disabled'
+}
 @Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn()
@@ -15,6 +17,12 @@ export class UserEntity {
     description: 'id User, pk',
   })
   id: number;
+
+
+  @Column()
+  @Generated("uuid")
+  uuid: string;
+
 
   @Column({ type: 'varchar', nullable: false })
   @ApiProperty({
@@ -93,6 +101,11 @@ export class UserEntity {
   @ApiProperty({ type: Timestamp })
   updated: Date;
 
-  @Column({ type: 'varchar', nullable: false })
-  uuid: string;
+  @Column({
+    type: "enum",
+    enum: UserRole,
+    default: UserRole.disabled,
+    })
+  status: UserRole
+
 }

@@ -9,6 +9,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
+import cookieParser from 'cookie-parser';
 
 
 async function bootstrap() {
@@ -16,7 +17,11 @@ async function bootstrap() {
     AppModule
   );
   const globalPrefix = 'api';
-  app.enableCors();
+  app.use(cookieParser());
+  app.enableCors({
+    origin: ['http://localhost:3002'],
+    credentials: true
+  });
   app.setGlobalPrefix(globalPrefix);
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());

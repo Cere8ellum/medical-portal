@@ -10,7 +10,7 @@ export class MailService {
 
   //в user вписать тип
   async sendUserConfirmation(user: UserEntity, token: string) {
-    const url = `example.com/auth/confirm?token=${token}`;
+    const url = `localhost:3000/api/user/${token}`;
 
     await this.mailerService.sendMail({
       to: user.email,
