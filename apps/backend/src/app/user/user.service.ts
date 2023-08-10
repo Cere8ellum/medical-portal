@@ -11,9 +11,12 @@ import { MailService } from '../mail/mail.service';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
-    private mailServise: MailService) {}
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+    private mailServise: MailService
+  ) {}
 
+  // create user
   async create(createUserDto: CreateUserDto) {
     const existUser = await this.userRepository.findOne({
       where: {
@@ -23,17 +26,16 @@ export class UserService {
     if (existUser) throw new BadRequestException('This email already exist');
 
     const user = await this.userRepository.save({
-       uuid: uuid(),
-       email: createUserDto.email,
-       password: await argon2.hash(createUserDto.password),
-       status: UserRole.disabled,
-       created: new Date()
+      uuid: uuid(),
+      email: createUserDto.email,
+      password: await argon2.hash(createUserDto.password),
+      status: UserRole.disabled,
+      created: new Date(),
+    });
 
-     });
+    await this.mailServise.sendUserConfirmation(user, user.uuid);
 
-     await this.mailServise.sendUserConfirmation(user, user.uuid);
-
-    return {user} ;
+    return { user };
   }
 
   async findAll() {
@@ -42,26 +44,27 @@ export class UserService {
     // return `This action returns all user`;
   }
 
-  async findOne(id: number): Promise <UserEntity> {
-    return await this.userRepository.findOneBy({id});
+  async findOne(id: number): Promise<UserEntity> {
+    return await this.userRepository.findOneBy({ id });
   }
 
-  // confirm registration
-  async findUuid(uuid:string) {
+  // confirm user registration
+  async findUuid(uuid: string) {
     const user = await this.userRepository.findOne({
       where: {
-        uuid: uuid
-      }
-    })
-    if (!user) throw new BadRequestException('This confirm doesnot exist');
-    user.status = UserRole.patient
+        uuid: uuid,
+      },
+    });
+    if (!user) throw new BadRequestException("'This confirm doesn't exist'");
+
+    if (user.status !== 'disabled')
+      throw new BadRequestException('Error confirm users');
+
+    user.status = UserRole.enabled;
     await this.userRepository.save(user);
     return {
-      message: 'success change status to patient'
-    }
-
-
-
+      message: 'success change status to patient',
+    };
   }
 
   async findByEmail(email: string): Promise<UserEntity> {

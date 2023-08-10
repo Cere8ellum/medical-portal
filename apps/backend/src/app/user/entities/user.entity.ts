@@ -8,9 +8,8 @@ import { Gender } from '../enum/gender.enum';
 import { Role } from '../enum/role.enum';
 
 export enum UserRole {
-  admin = 'admin',
-  doctor = 'doctor',
-  patient = 'patient',
+  blocked = 'blocked',
+  enabled = 'enabled',
   disabled = 'disabled'
 }
 @Entity('user')
