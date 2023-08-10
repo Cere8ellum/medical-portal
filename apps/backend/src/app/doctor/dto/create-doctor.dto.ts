@@ -38,14 +38,15 @@ export class CreateDoctorDto {
     description: 'gender',
     default: 'male'
   })
-  gender: string
+  gender: Gender
 
-  @IsNotEmpty()
+
   @IsEmail()
   @ApiProperty({
     type: 'string',
     description: 'email'
   })
+  @ValidateIf((o) => o.email)
   email: string
 
   @IsNotEmpty()
@@ -54,6 +55,7 @@ export class CreateDoctorDto {
     type: 'string',
     description: 'mobile',
   })
+  @ValidateIf((o) => o.mobile)
   mobile: string
 
   @IsString()

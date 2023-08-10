@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum } from "class-validator";
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { AppointmentEntity } from "../../appointment/entities/appointment.entity";
 import { UserEntity } from "../../user/entities/user.entity";
 import { QualificationCategory } from "../enum/category.enum";
@@ -24,7 +24,7 @@ export class DoctorEntity {
       description: 'специализация врача',
       default: null
     })
-    speciality: Speciality
+    speciality: string
 
     @Column('varchar',{nullable: false})
     @IsEnum(QualificationCategory)
@@ -34,7 +34,7 @@ export class DoctorEntity {
       description: 'вторая, первая или высшая категории',
       default: 'первая'
     })
-    category: QualificationCategory
+    category: string
 
     @Column('varchar',{nullable: false})
     @IsEnum(DoctorType)
@@ -44,7 +44,7 @@ export class DoctorEntity {
       description: 'Взрослый или детский врач',
       default: 'взрослый '
     })
-    type: DoctorType
+    type: string
 
     @Column({type: 'varchar', nullable: false})
     @ApiProperty({
@@ -78,7 +78,8 @@ export class DoctorEntity {
     })
     photo: string
 
-    @OneToOne(()=> UserEntity, (user)=> (user.doctor))
+    @OneToOne(()=> UserEntity, (user)=> (user.id))
+    @JoinColumn()
     @ApiProperty({
       type: ()=> UserEntity,
       description: 'Личные данные пользователя врач',

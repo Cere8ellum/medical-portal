@@ -1,16 +1,14 @@
-import { BadGatewayException, BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadGatewayException, BadRequestException, forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { DoctorEntity } from './entities/doctor.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
-import { UserEntity } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { Speciality } from './enum/speciality.enum';
 import { QualificationCategory } from './enum/category.enum';
 import { DoctorType } from './enum/type.enum';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { Gender } from '../user/enum/gender.enum';
-import { UpdateUserDto } from '../user/dto/update-user.dto';
 import { Role } from '../user/enum/role.enum';
 
 @Injectable()
@@ -18,22 +16,28 @@ export class DoctorService {
   constructor(
     @InjectRepository(DoctorEntity)
     private readonly doctorRepository: Repository<DoctorEntity>,
+    @Inject(forwardRef(() => UserService))
     private readonly userService: UserService
   ) {}
 
   async create(doctor: CreateDoctorDto): Promise<DoctorEntity> {
     try {
       const _user = await this.userService.findOne(+doctor.userId);
+
       if (_user){
         const userUpdate = await this.userService.update(+doctor.userId,{
-          lastname: doctor.lastname || _user.lastname,
-          firstname: doctor.firstname || _user.firstname,
-          email: doctor.email || _user.email,
-          gender: doctor.gender,
-          address: doctor.address || _user.address,
-          mobile: doctor.mobile || _user.mobile,
-          birthdate: doctor.birthdate || _user.birthdate
+          lastname: doctor.lastname,
+          firstname: doctor.firstname,
+          email: doctor.email,
+          gender: Gender[doctor.gender],
+          address: doctor.address,
+          mobile: doctor.mobile,
+          birthdate: doctor.birthdate,
+          role: Role.Doctor,
+          password: doctor.password
         })
+
+       try {
         const doctorEntity = new DoctorEntity();
         doctorEntity.speciality = doctor.speciality;
         doctorEntity.category = doctor.category || QualificationCategory.Second;
@@ -42,9 +46,13 @@ export class DoctorService {
         doctorEntity.price = doctor.price || '0';
         doctorEntity.info = doctor.info;
         doctorEntity.photo = doctor.photo;
-        doctorEntity.user = _user
+        doctorEntity.user = userUpdate;
         const _doctor = await this.doctorRepository.save(doctorEntity);
-       return _doctor
+        return _doctor
+       } catch (error) {
+        throw new BadRequestException(`Can't create doctor: ${error}`);
+       }
+
       } else {
         throw new BadRequestException(`User with Id = ${doctor.userId} doesn't exist`)
       }
@@ -59,14 +67,41 @@ export class DoctorService {
   }
 
   async findAll(): Promise<DoctorEntity[]> {
-    return this.doctorRepository.find({});
+    return await this.doctorRepository.find({});
   }
 
+  /**
+   *
+   * @param id
+   * @returns doctor by id
+   */
   async findById(id: number): Promise<DoctorEntity> {
-    return this.doctorRepository.findOne({
-      relations: ['user'],
-      where: { id }
-    });
+    try {
+      return await this.doctorRepository.findOne({
+        relations: ['user'],
+        where: { id: id }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /**
+   * поиск врача по его user_id
+   * @param user_id
+   * @returns doctor with user.id = user_id
+   */
+  async findByUserId(user_id: number): Promise<DoctorEntity> {
+    try {
+      return await this.doctorRepository.findOne({
+        relations: ['user'],
+        where: {user: {
+          id: user_id
+        }}
+      })
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
   }
 
   /**
@@ -138,16 +173,18 @@ export class DoctorService {
   async update(id: number, updateDoctorDto: UpdateDoctorDto):Promise<DoctorEntity> {
    try {
      const _doctor = await this.findById(id);
-     const _user = await this.userService.findOne(+updateDoctorDto.userId);
+     const _user = await this.userService.findOne(_doctor.user.id);
      if( _doctor && _user) {
        const updateUser = await this.userService.update(_user.id,{
-        lastname: updateDoctorDto.lastname || _user.lastname,
-        firstname: updateDoctorDto.firstname || _user.firstname,
-        email: updateDoctorDto.email || _user.email,
-        //password: updateDoctorDto.password,
-        gender: updateDoctorDto.gender || _user.gender,
-        address: updateDoctorDto.address || _user.address,
-        birthdate: updateDoctorDto.birthdate || _user.birthdate
+        lastname: updateDoctorDto.lastname,
+        firstname: updateDoctorDto.firstname,
+        email: updateDoctorDto.email,
+        password: updateDoctorDto.password,
+        gender: Gender[updateDoctorDto.gender],
+        address: updateDoctorDto.address,
+        birthdate: updateDoctorDto.birthdate,
+        role: Role.Doctor,
+        mobile: updateDoctorDto.mobile
        })
       const doctorEntity = new DoctorEntity();
       doctorEntity.id = id
@@ -158,6 +195,7 @@ export class DoctorService {
       doctorEntity.price = updateDoctorDto.price || _doctor.price;
       doctorEntity.photo = updateDoctorDto.photo || _doctor.photo;
       doctorEntity.info = updateDoctorDto.info || _doctor.info;
+      doctorEntity.user = updateUser;
 
       return await this.doctorRepository.save(doctorEntity);
      } else {
@@ -180,9 +218,9 @@ export class DoctorService {
       const _user = await this.userService.findOne(_doctor.user.id)
 
       if(_doctor && _user){
-         await this.userService.remove(_user.id)
-         await this.doctorRepository.delete({id})
-         return true
+        await this.doctorRepository.delete(id)
+       // await this.userService.remove(_user.id)
+        return true
       } else {
           throw new HttpException(
             {

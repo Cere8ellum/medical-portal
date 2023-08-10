@@ -7,13 +7,13 @@ import { DoctorType } from '../enum/type.enum'
 
 export class UpdateDoctorDto {
 
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    type: 'number',
-    description: 'id user',
-  })
-  userId: string;
+  // @IsString()
+  // @IsNotEmpty()
+  // @ApiProperty({
+  //   type: 'number',
+  //   description: 'id user',
+  // })
+  // userId: string;
 
   @IsNotEmpty()
   @IsString()

@@ -11,7 +11,7 @@ export class CreateAppointmentDto {
   })
   @IsString()
   @IsNotEmpty()
-  doctor_id: number;
+  doctor_id: string;
 
   @ApiProperty({
     type: String,
@@ -20,13 +20,13 @@ export class CreateAppointmentDto {
   })
   @IsString()
   @IsNotEmpty()
-  patient_id: number
+  patient_id: string
 
   @ApiProperty({
     type: String,
     description: 'Дата и время начала приема'
   })
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
   date_start: string;
 }

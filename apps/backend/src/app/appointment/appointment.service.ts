@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository } from 'typeorm';
 import { AppointmentEntity } from './entities/appointment.entity';
@@ -22,15 +22,12 @@ export class AppointmentsService {
 
   async create (appointment: CreateAppointmentDto): Promise<AppointmentEntity> {
       try {
-        const _doctor = await this.doctorService.findById(appointment.doctor_id);
-        const _patient = await this.userService.findOne(appointment.patient_id);
+
+        const _doctor = await this.doctorService.findById(+appointment.doctor_id);
+        const _patient = await this.userService.findOne(+appointment.patient_id);
+
         if(!_doctor || !_patient) {
-          throw new HttpException(
-            {
-                status: HttpStatus.FORBIDDEN,
-                error: 'The doctor or the patient does not exist.',
-            }, HttpStatus.FORBIDDEN
-          )
+          throw new BadRequestException(`Doctor or Patient doesn't exist.`);
         }
 
         let _app = await this.appointmentsRepository.save({
@@ -39,10 +36,11 @@ export class AppointmentsService {
           status: Status.Waiting,
           date_start: new Date(appointment.date_start)
         })
+
         await this.mailServise.sendNewAppointment(_app);
         return _app
       } catch (error) {
-        throw Error(`Error ${error}`)
+        throw new BadRequestException(`Can't book appointment: ${error}`);
       }
   }
 
@@ -99,23 +97,14 @@ export class AppointmentsService {
         const _appointment = await this.findOne(id);
       if(_appointment){
         const appointmentEntity = new AppointmentEntity();
-        appointmentEntity.id = _appointment.id
-        appointmentEntity.patient = _appointment.patient;
-        appointmentEntity.doctor = _appointment.doctor;
+        appointmentEntity.id = _appointment.id;
         appointmentEntity.status = Status[appointment.status];
-        appointmentEntity.date_start = _appointment.date_start;
-        await this.appointmentsRepository.save(appointmentEntity);
-        return await this.findOne(id)
+        return await this.appointmentsRepository.save(appointmentEntity);
       } else {
-        throw new HttpException(
-          {
-              status: HttpStatus.FORBIDDEN,
-              error: 'This appointment does not exist.',
-          }, HttpStatus.FORBIDDEN
-        )
+        throw new BadRequestException(`the appointment Id=${id} doesn't exist.`);
       }
     } catch (error) {
-      throw Error(`Произошла ошибка: ${error}`);
+      throw new BadRequestException(`Произошла ошибка: ${error}`);
     }
   }
 

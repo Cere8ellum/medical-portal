@@ -14,6 +14,7 @@ import {
   ParseIntPipe,
   Delete,
   Query,
+  ParseEnumPipe,
 } from '@nestjs/common';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { DoctorService } from './doctor.service';
@@ -74,6 +75,27 @@ export class DoctorController {
 
   /**
    *
+   * @param speciality
+   * @returns all doctors by spesiality
+   */
+  @Get('/speciality')
+  async getDoctorsWithSpeciality(
+   @Query('speciality') speciality : string): Promise<DoctorEntity[]> {
+
+    if(!Speciality[speciality]) {
+      for (const [key, value] of Object.entries(Speciality)) {
+        if(value === speciality){
+          return await this.doctorService.findBySpeciality(Speciality[key])
+        }
+      }
+    } else {
+        return await this.doctorService.findBySpeciality(Speciality[speciality])
+    }
+  }
+
+
+  /**
+   *
    * @param req
    * @returns All doctors
    */
@@ -88,6 +110,26 @@ export class DoctorController {
     return this.doctorService.findAll();
   }
 
+
+
+  /**
+   *
+   * @param id doctor_id
+   * @returns return DoctorEntity
+   */
+    @ApiResponse({
+      status: HttpStatus.OK,
+      description: 'Success',
+      type: [UserEntity],
+    })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @Get('/:id')
+    async getOneById(
+      @Param('id',ParseIntPipe)id : number
+    ) {
+      return await this.doctorService.findById(id);
+    }
+
   /**
    *
    * @returns all speciality
@@ -100,18 +142,6 @@ export class DoctorController {
   @Get('/all/specialities')
   async getAllSpecialities(): Promise<string[]>{
     return await this.doctorService.findAllSpecialities();
-  }
-
-/**
- *
- * @param speciality
- * @returns all doctors by spesiality
- */
-  @Get('/speciality')
-  async getDoctorsWithSpeciality(
-    @Query('speciality') speciality : string
-  ):Promise<DoctorEntity[]> {
-     return await this.doctorService.findBySpeciality(Speciality[speciality])
   }
 
   /**
@@ -162,7 +192,4 @@ export class DoctorController {
       return 'Запись успешно удалена'
     } else { return `Произошла ошибка,запись удалить не удалось` }
   }
-
-
-
 }
