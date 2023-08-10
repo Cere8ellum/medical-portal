@@ -21,8 +21,6 @@ import {JwtModule} from '@nestjs/jwt';
   ],
   controllers: [UserController],
   providers: [UserService],
-  exports: [UserService,
-    TypeOrmModule.forFeature([UserEntity])
-  ],
+  exports: [UserService, TypeOrmModule.forFeature([UserEntity])],
 })
 export class UserModule {}

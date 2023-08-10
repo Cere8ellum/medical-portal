@@ -12,6 +12,7 @@ import {
   BadRequestException,
   Res,
   Req,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,6 +27,11 @@ export class UserController {
     private readonly userService: UserService,
     private jwtService: JwtService
   ) {}
+
+  @Get('/:id')
+  async getByID(@Param('id', ParseIntPipe) id: number){
+    return this.userService.findOne(id)
+  }
 
   // регистрация пользователя
   @Post('register')
