@@ -23,7 +23,7 @@ async function bootstrap() {
     credentials: true
   });
   app.setGlobalPrefix(globalPrefix);
-  app.enableCors();
+  //app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   app.useStaticAssets(join(__dirname, '..', '..', '..', 'public'));
 

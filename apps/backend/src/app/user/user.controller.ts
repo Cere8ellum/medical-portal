@@ -122,7 +122,7 @@ export class UserController {
   //   return this.userService.findAll();
   // }
 
-  @Get(':uuid')
+  @Get('/confirm/:uuid')
   findUuid(@Param('uuid') uuid: string) {
     return this.userService.findUuid(uuid);
   }
