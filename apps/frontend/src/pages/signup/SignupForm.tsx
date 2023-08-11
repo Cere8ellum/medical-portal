@@ -47,11 +47,14 @@ const SignupForm = () => {
       };
 
       try {
-        const res = await axios.post(`http://localhost:3000/api/user/`, body);
+        const res = await axios.post(
+          `http://localhost:3000/api/user/register`,
+          body
+        );
 
         alert(res.request.statusText);
         resetForm();
-        navigate('/');
+        navigate('/login');
       } catch (err) {
         if (
           axios.isAxiosError(err) &&
