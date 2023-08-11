@@ -29,8 +29,8 @@ export class UserController {
   ) {}
 
   @Get('/:id')
-  async getByID(@Param('id', ParseIntPipe) id: number){
-    return this.userService.findOne(id)
+  async getByID(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findOne(id);
   }
 
   // регистрация пользователя
