@@ -29,8 +29,8 @@ export class UserController {
   ) {}
 
   @Get('/:id')
-  async getByID(@Param('id', ParseIntPipe) id: number){
-    return this.userService.findOne(id)
+  async getByID(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findOne(id);
   }
 
   // регистрация пользователя
@@ -122,7 +122,7 @@ export class UserController {
   //   return this.userService.findAll();
   // }
 
-  @Get(':uuid')
+  @Get('/confirm/:uuid')
   findUuid(@Param('uuid') uuid: string) {
     return this.userService.findUuid(uuid);
   }

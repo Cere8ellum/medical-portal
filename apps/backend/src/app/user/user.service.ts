@@ -1,4 +1,9 @@
-import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -47,9 +52,9 @@ export class UserService {
     return { users };
   }
 
-  async findOne(id: number): Promise <UserEntity> {
+  async findOne(id: number): Promise<UserEntity> {
     try {
-      return await this.userRepository.findOneBy({id});
+      return await this.userRepository.findOneBy({ id });
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -62,6 +67,7 @@ export class UserService {
         uuid: uuid,
       },
     });
+    console.log('user ', user);
     if (!user) throw new BadRequestException("'This confirm doesn't exist'");
 
     if (user.status !== 'disabled')
@@ -70,7 +76,7 @@ export class UserService {
     user.status = UserRole.enabled;
     await this.userRepository.save(user);
     return {
-      message: 'success change status to patient',
+      message: 'success change status to enabled',
     };
   }
 
@@ -80,13 +86,14 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {
-
     const existUser = await this.findOne(id);
     if (!existUser) throw new BadRequestException('This user doesn`t exist');
 
-    const existUserWithEmail = updateUserDto.email? await this.findByEmail(updateUserDto.email) : null;
+    const existUserWithEmail = updateUserDto.email
+      ? await this.findByEmail(updateUserDto.email)
+      : null;
 
-    if(existUserWithEmail && updateUserDto.email !== existUser.email) {
+    if (existUserWithEmail && updateUserDto.email !== existUser.email) {
       throw new BadRequestException('This email already exist');
     }
 
@@ -100,24 +107,25 @@ export class UserService {
       address: updateUserDto.address || existUser.address,
       role: updateUserDto.role || existUser.role,
       mobile: updateUserDto.mobile || existUser.mobile,
-      password: updateUserDto.password ? await argon2.hash(updateUserDto.password) : existUser.password,
+      password: updateUserDto.password
+        ? await argon2.hash(updateUserDto.password)
+        : existUser.password,
     });
-    return user ;
+    return user;
   }
 
   async remove(id: number) {
     try {
       const _user = await this.findOne(id);
-      if(!_user) {
+      if (!_user) {
         throw new BadRequestException('User with this id doesn`t exist');
       }
-      if(_user && _user.role === Role.Doctor) {
-          const _doctor = await this.doctorServise.findByUserId(id);
-          await this.doctorServise.delete(_doctor.id);
+      if (_user && _user.role === Role.Doctor) {
+        const _doctor = await this.doctorServise.findByUserId(id);
+        await this.doctorServise.delete(_doctor.id);
       }
       await this.userRepository.delete(id);
-      return true
-
+      return true;
     } catch (error) {
       throw new BadRequestException(error);
     }
