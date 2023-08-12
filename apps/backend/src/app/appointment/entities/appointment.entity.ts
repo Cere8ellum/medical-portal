@@ -16,7 +16,7 @@ import { UserEntity } from '../../user/entities/user.entity';
 import { Status } from '../enum/status.enum';
 import { MedicalHistoryEntity } from '../../medical-history/entities/medical-history.entity';
 import { DoctorEntity } from '../../doctor/entities/doctor.entity';
-import { PatientEntity } from '../../patient/entities/patient.entity';
+
 
 
 @Entity('appointments')

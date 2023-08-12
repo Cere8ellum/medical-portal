@@ -1,12 +1,152 @@
-.appointment {
-  margin: 50px;
+/* Inter Regular 400 */
+* {
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
 }
 
-.appointment_title {
-  margin: 20px;
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
-.appointment_table_head {
+h1 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095bd;
+  font-size: 42px;
+}
+
+h2 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095bd;
+  font-size: 40px;
+}
+
+h3 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095bd;
+  font-size: 24px;
+}
+
+p {
+  font-family: Inter;
+  font-weight: 600;
+  color: #3d537c;
+  font-size: 14px;
+}
+
+.header-nav-link {
+  text-decoration: none;
+  color: #0a1c3e;
+}
+
+.content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-image: url("../../../../assets/images/lk-background.png");
+  background-repeat: no-repeat;
+  background-position-x: left;
+  background-position-y: bottom;
+}
+
+.content-top {
+  width: 1339px;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.content-nav {
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.content-nav-item {
+  width: 258px;
+  height: 77px;
+  background: #8095bd;
+  border: 5px solid #8095bd;
+  border-radius: 20px 20px 0 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.content-nav-item-active {
+  border: 5px solid #3d537c;
+  /*border-bottom: rgba(255, 255, 255, 0.05);
+  border-bottom-width: 5px;
+  border-bottom-style: inset;*/
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.content-nav-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.content-nav-btn-persdata {
+  color: #3d537c;
+}
+
+.content-nav-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #3d537c;
+}
+
+.content-form {
+  width: 1339px;
+  border-radius: 0 63px 63px 63px;
+  border: 5px solid #3d537c;
+  margin-bottom: 50px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.persdata-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 540px;
+}
+
+.persdata-fields-container {
+  width: 66.7%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -14,11 +154,92 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  margin-top: 20px;
-  color: gray;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  margin-top: 50px;
 }
 
-.appointment_table_row {
+.persdata-field-wrap {
+  width: 342px;
+  height: 83px;
+  margin: 12px;
+  margin-left: 70px;
+}
+
+.persdata-field-wrap-gender {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.persdata-text {
+  margin: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #3d537c;
+}
+
+.persdata-text-gender {
+  margin-bottom: 25px;
+}
+
+.persdata-field {
+  width: 342px;
+  height: 60px;
+  border-radius: 10px;
+  border: 3px solid #3d537c;
+  padding: 7px;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='date'],
+input[type='number'] {
+  font-family: Inter;
+  font-weight: 600;
+  color: #3d537c;
+  font-size: 14px;
+}
+
+input {
+  -webkit-appearance: none;
+}
+
+input:checked {
+  outline: 3px solid #3d537c;
+  border: 4px solid #ffffff;
+  background: #3d537c;
+  width: 3px;
+  height: 3px;
+}
+
+.persdata-field-gender {
+  width: 16px;
+  height: 16px;
+  margin-right: 15px;
+  outline: 3px solid #3d537c;
+  border: none;
+  padding: 4.5px;
+  border-radius: 100%;
+}
+
+.persdata-gender-wrap {
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -26,44 +247,70 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  gap: 30px;
 }
 
-.appointment_table_column {
-  border: 1px black solid;
-  padding: 5px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+.persdata-gender-wrap-woman,
+.persdata-gender-wrap-man {
+  width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.appointment_table_column_number {
-  border: 1px black solid;
-  padding: 5px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  width: 20px;
+.persdata-btn {
+  width: 342px;
+  height: 60px;
+  border-radius: 10px;
+  border: 3px solid #3d537c;
+  background-color: #3d537c;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 15px;
 }
 
-.appointment_table_column_doctor {
-  border: 1px black solid;
-  padding: 5px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  width: 350px;
+.persdata-btns-container {
+  width: 33.3%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  margin-top: 71px;
 }
 
-.appointment_table_column_date {
-  border: 1px black solid;
-  padding: 5px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  width: 350px;
+.persdata-btn-addfamily {
+  border: 3px solid #8095bd;
+  background-color: #8095bd;
 }
 
-.appointment_table_column_status, .appointment_table_column_summary, .appointment_table_column_cancel {
-  border: 1px black solid;
-  padding: 5px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  width: 100px;
+.persdata-btn-addfamily-svg {
+  margin-left: 30px;
 }
 /*# sourceMappingURL=profile.module.css.map */
