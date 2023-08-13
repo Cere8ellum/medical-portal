@@ -11,19 +11,15 @@ import { join } from 'path';
 import { AppModule } from './app/app.module';
 import cookieParser from 'cookie-parser';
 
-
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(
-    AppModule
-  );
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const globalPrefix = 'api';
   app.use(cookieParser());
   app.enableCors({
     origin: ['http://localhost:3002'],
-    credentials: true
+    credentials: true,
   });
   app.setGlobalPrefix(globalPrefix);
-  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   app.useStaticAssets(join(__dirname, '..', '..', '..', 'public'));
 
