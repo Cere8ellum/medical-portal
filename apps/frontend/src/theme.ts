@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { alpha, createTheme } from '@mui/material';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -33,6 +33,7 @@ const defaultTheme = createTheme({
     },
     reversePrimary: {
       main: '#ffffff',
+      dark: alpha('#ffffff', 0.8),
       contrastText: '#3d537c',
     },
   },

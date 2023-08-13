@@ -4,11 +4,13 @@ import MainScreen from '../pages/main';
 import AppointmentScreen from '../pages/appointment';
 import { Profile } from '../pages/profile/components/Profile';
 import { SignupScreen } from '../pages/signup';
+import { LoginScreen } from '../pages/auth';
 
 export function App() {
   return (
     <Routes>
       <Route path="/" element={<MainScreen />} />
+      <Route path="/login" element={<LoginScreen />} />
       <Route path="/signup" element={<SignupScreen />} />
       <Route path="/appointment" element={<AppointmentScreen />} />
       <Route path="/profile" element={<Profile />} />
