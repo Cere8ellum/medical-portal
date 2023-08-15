@@ -74,6 +74,25 @@ export class AppointmentsService {
     })
   }
 
+async findBookingDate(doctor_id:number,date: Date):Promise<Date[]>{
+  // Устанавливаем время начала дня (00:00)
+  const startDate = new Date(date);
+  startDate.setHours(0, 0);
+
+  // Устанавливаем время конца дня (23:59)
+  const finishDate = new Date(date);
+  finishDate.setHours(23, 59);
+
+  const bookingdtime = await this.appointmentsRepository.find({
+    relations: ['patient','doctor'],
+    where: {doctor: {id: doctor_id},
+            date_start: Between(startDate,finishDate)
+          },
+  });
+
+  return bookingdtime.map(app => {return app.date_start})
+}
+
   async findAllByDoctorStatusWaiting(doctor_id:number,date: Date):Promise<Date[]>{
     // Устанавливаем время начала дня (00:00)
     const startDate = new Date(date);
@@ -90,7 +109,6 @@ export class AppointmentsService {
               date_start: Between(startDate,finishDate)
             },
     });
-    console.log(bookingdtime.map(app => {return app.date_start}))
     return bookingdtime.map(app => {return app.date_start})
   }
 
