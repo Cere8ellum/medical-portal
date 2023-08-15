@@ -74,7 +74,7 @@ export class AppointmentsService {
     })
   }
 
-  async findAllByDoctorStatusWaiting(doctor_id:number,date: Date):Promise<AppointmentEntity[]>{
+  async findAllByDoctorStatusWaiting(doctor_id:number,date: Date):Promise<Date[]>{
     // Устанавливаем время начала дня (00:00)
     const startDate = new Date(date);
     startDate.setHours(0, 0);
@@ -83,13 +83,15 @@ export class AppointmentsService {
     const finishDate = new Date(date);
     finishDate.setHours(23, 59);
 
-    return await this.appointmentsRepository.find({
+    const bookingdtime = await this.appointmentsRepository.find({
       relations: ['patient','doctor'],
       where: {doctor: {id: doctor_id},
               status: Status.Waiting,
               date_start: Between(startDate,finishDate)
-            }
-    })
+            },
+    });
+    console.log(bookingdtime.map(app => {return app.date_start}))
+    return bookingdtime.map(app => {return app.date_start})
   }
 
   async update(id:number,appointment:UpdateAppointmentDto): Promise<AppointmentEntity>{
