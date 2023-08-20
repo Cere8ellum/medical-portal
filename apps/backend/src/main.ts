@@ -11,11 +11,8 @@ import { join } from 'path';
 import { AppModule } from './app/app.module';
 import cookieParser from 'cookie-parser';
 
-
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(
-    AppModule
-  );
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const globalPrefix = 'api';
   app.use(cookieParser());
   app.enableCors({

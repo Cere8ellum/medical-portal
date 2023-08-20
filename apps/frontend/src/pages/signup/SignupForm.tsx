@@ -7,7 +7,8 @@ import {
   Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
-import axios from 'axios';
+import { isAxiosError } from 'axios';
+import api from '../../infrastructure/api';
 import PasswordField from '../../components/PasswordField';
 import WhiteTextField from '../../components/WhiteTextField';
 import signupSchema from './schemas/signupSchema';
@@ -33,31 +34,20 @@ const SignupForm = () => {
     },
     validationSchema: signupSchema,
     onSubmit: async ({ email, password }, { resetForm }) => {
-      const body = {
-        // Следующие поля добавлены временно
-        firstname: 'Ivan',
-        lastname: 'Ivanov',
-        gender: 'male',
-        birthdate: '1691335349443',
-        address: 'World',
-        mobile: '+71234567890',
-        //
-        email,
-        password,
-      };
-
       try {
-        const res = await axios.post(
-          `http://localhost:3000/api/user/register`,
-          body
-        );
+        const {
+          request: { statusText },
+        } = await api.post(`http://localhost:3000/api/user/register`, {
+          email,
+          password,
+        });
 
-        alert(res.request.statusText);
+        alert(statusText);
         resetForm();
         navigate('/login');
       } catch (err) {
         if (
-          axios.isAxiosError(err) &&
+          isAxiosError(err) &&
           err.response !== null &&
           err.response !== undefined
         ) {

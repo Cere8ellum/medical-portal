@@ -10,6 +10,7 @@ export function App() {
   return (
     <Routes>
       <Route path="/" element={<MainScreen />} />
+      <Route path="/login" element={<LoginScreen />} />
       <Route path="/signup" element={<SignupScreen />} />
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/appointment" element={<AppointmentScreen />} />
