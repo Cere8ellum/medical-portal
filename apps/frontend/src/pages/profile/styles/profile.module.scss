@@ -90,7 +90,7 @@ p {
   align-items: center;
 }
 
-.content-nav-item-active {
+.content-nav-item.active {
   border: 5px solid #3d537c;
   /*border-bottom: rgba(255, 255, 255, 0.05);
   border-bottom-width: 5px;
@@ -108,6 +108,9 @@ p {
   font-size: 20px;
   font-weight: 500;
   color: #ffffff;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }
 
 // .content-nav-btn-persdata {
@@ -255,4 +258,32 @@ input:checked {
 
 .persdata-btn-addfamily-svg {
   margin-left: 30px;
+}
+
+.tabs {
+  display: flex;
+}
+.tab {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: lightsteelblue;
+  padding: 2em 0;
+  border: none;
+  cursor: pointer;
+}
+.tab:not(:last-child) {
+  border-right: 1px solid steelblue;
+}
+.tab.active {
+  background: steelblue;
+  font-weight: bold;
+}
+.panel {
+  display: none;
+  background-color: #eaeaea;
+  padding: 10px;
+}
+.panel.active {
+  display: block;
 }
