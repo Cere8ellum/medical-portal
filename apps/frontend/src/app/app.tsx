@@ -5,6 +5,7 @@ import AppointmentScreen from '../pages/appointment';
 import ProfileScreen from '../pages/profile/ProfileScreen';
 import { SignupScreen } from '../pages/signup';
 import LoginScreen from '../pages/auth/LoginScreen';
+import DoctorListScreen from '../pages/doctor_list/DoctorListScreen';
 
 export function App() {
   return (
@@ -14,6 +15,7 @@ export function App() {
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/appointment" element={<AppointmentScreen />} />
       <Route path="/profile" element={<ProfileScreen />} />
+      <Route path="/doctors" element={<DoctorListScreen />} />
     </Routes>
   );
 }

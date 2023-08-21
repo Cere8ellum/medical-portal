@@ -22,12 +22,25 @@ export class AppointmentsService {
 
   async create (appointment: CreateAppointmentDto): Promise<AppointmentEntity> {
       try {
-
         const _doctor = await this.doctorService.findById(+appointment.doctor_id);
-        const _patient = await this.userService.findOne(+appointment.patient_id);
+        if(!_doctor){
+          throw new Error(
+          `The doctor doesn't exist.`
+          );
+        }
 
-        if(!_doctor || !_patient) {
-          throw new BadRequestException(`Doctor or Patient doesn't exist.`);
+        const _patient = await this.userService.findOne(+appointment.patient_id);
+        if(!_patient) {
+          throw new Error(
+            `The patient doesn't exist.`
+          );
+        }
+
+        const _isBooked = await this.findByPatientOnDate(+appointment.patient_id, new Date(appointment.date_start));
+        if(_isBooked){
+          throw new Error(
+            `The patient has already booked an appointment for this date and time`
+          );
         }
 
         let _app = await this.appointmentsRepository.save({
@@ -61,6 +74,26 @@ export class AppointmentsService {
             date_start: 'ASC'
           }
         });
+
+  }
+
+  async findByPatientOnDate(patient_id: number, date: Date):Promise<boolean> {
+    try {
+      const isBookedDate = await this.appointmentsRepository.findOne({
+        relations: ['patient'],
+        where: {
+          patient: {
+            id: patient_id
+          },
+          date_start: date
+        }
+      });
+      if(isBookedDate) return true
+      return false
+
+    } catch (error) {
+      throw new BadRequestException(`Произошла ошибка: ${error}`);
+    }
 
   }
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiForbiddenResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from '../user/user.service';
 import { AppointmentsModule } from './appointment.module';
@@ -6,11 +6,19 @@ import { AppointmentsService } from './appointment.service';
 import { CreateAppointmentDto } from './dtos/create-appointment-dto';
 import { UpdateAppointmentDto } from './dtos/update-appointment-dto';
 import { AppointmentEntity } from './entities/appointment.entity';
+import { getCookie } from '../../utils/cookie';
+import { Response, Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
+import { AuthGuard } from '../user/auth.guard';
+
 
 @ApiTags('appointments')
 @Controller('appointments')
 export class AppointmentsController {
-  constructor(private readonly appointmentsService: AppointmentsService) { }
+  constructor(
+    private readonly appointmentsService: AppointmentsService,
+    //private jwtService: JwtService
+    ) { }
 
   @Get('patient/:idPatient')
   @ApiOperation({ summary: 'Все записи к врачу для пациента с id' })
@@ -36,6 +44,20 @@ export class AppointmentsController {
      return await this.appointmentsService.findBookingDate(idDoctor, new Date(date))
   }
 
+  /**
+   *
+   * @param idPatient -пациент
+   * @param date - дата и время
+   * @returns true - забронировано, false - not
+   */
+  @Get('booked/patient/:idPatient')
+  @ApiOperation({ summary: 'Есть ли у пациента уже забронированный слот на это время' })
+  async isBookedSlotOnDate(
+    @Param('idPatient', ParseIntPipe) idPatient: number,
+    @Query('date')date: string):Promise<boolean>{
+     return await this.appointmentsService.findByPatientOnDate(idPatient, new Date(date))
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Appointment c id' })
   async findOneAppointment(@Param("id",ParseIntPipe) id : number): Promise<AppointmentEntity>{
@@ -52,17 +74,24 @@ export class AppointmentsController {
     return await this.appointmentsService.findAllByPatientForPeriod(idPatient,new Date(start),new Date(finish))
   }
 
+  @UseGuards(AuthGuard)
   @Post('create')
   @ApiOperation({ summary: 'Бронирование записи к врачу' })
   @ApiCreatedResponse({ description: 'The appointment has been successfully created.', type: AppointmentEntity })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @ApiBody({type:  CreateAppointmentDto})
-  async create(@Body() appointmentDto: CreateAppointmentDto):Promise<string | Error>{
+  async create(
+    @Body() appointmentDto: CreateAppointmentDto,
+    @Req() request: Request
+    ):Promise<string>{
     try {
-      const result = await this.appointmentsService.create(appointmentDto)
+      if(!appointmentDto.patient_id){
+        appointmentDto.patient_id = `${request['user'].id}`
+      }
+      const result = await this.appointmentsService.create(appointmentDto);
       return `${result.patient.firstname} ${result.patient.lastname}, you booked appointment on date ${result.date_start} to Dr. ${result.doctor.user.lastname}`
     } catch (error) {
-      return new Error(`An error occurred while booking. Message: ${error}`)
+      throw new BadRequestException(`An error occurred while booking. Message: ${error}`)
     }
   }
 
@@ -77,7 +106,7 @@ export class AppointmentsController {
     try {
       return await this.appointmentsService.update(id,appointmentDto);
     } catch (error) {
-      return new Error(`err: ${error}`);
+      return new BadRequestException(`err: ${error}`);
     }
   }
 

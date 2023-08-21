@@ -19,7 +19,7 @@ export class CreateAppointmentDto {
     example: 1
   })
   @IsString()
-  @IsNotEmpty()
+  @ValidateIf((o) => o.patient_id)
   patient_id: string
 
   @ApiProperty({

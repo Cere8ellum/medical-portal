@@ -1,0 +1,80 @@
+.doctors {
+  margin-top: 108px;
+  margin-bottom: 108px;
+
+  &_title {
+    color: #3d537c;
+    text-align: center;
+    font-family: Inter;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 44px;
+    margin-left: 165px;
+    height: 55px;
+    width: 402px;
+  }
+
+  &_search {
+    height: 68px;
+    background-color: #3d537c;
+    display: flex;
+    flex-direction: row;
+    gap: 9px;
+    justify-content: flex-start;
+    padding-left: 200px;
+    align-items: center;
+  }
+
+  &_card {
+    margin: 106px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.card {
+  width: 1023px;
+  height: 294px;
+  display: flex;
+  flex-direction: row;
+  padding: 15px;
+  justify-content: space-around;
+  border-radius: 10px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
+
+  &_photo {
+    width: 260px;
+    height: 260px;
+  }
+
+  &_info {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.filter {
+  &_title {
+    color: #fff;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    width: 355px;
+    height: 27px;
+  }
+
+  &_select {
+    color: #fff;
+    width: 17px;
+    height: 39px;
+    background-image: url('../../../assets/images/doctors-union.png');
+    background-position-y: 14px;
+    background-repeat: no-repeat;
+  }
+}

@@ -1,0 +1,107 @@
+.doctors {
+  margin-top: 108px;
+  margin-bottom: 108px;
+}
+
+.doctors_title {
+  color: #3d537c;
+  text-align: center;
+  font-family: Inter;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 44px;
+  margin-left: 165px;
+  height: 55px;
+  width: 402px;
+}
+
+.doctors_search {
+  height: 68px;
+  background-color: #3d537c;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 9px;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding-left: 200px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.doctors_card {
+  margin: 106px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.card {
+  width: 1023px;
+  height: 294px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding: 15px;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  border-radius: 10px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  -webkit-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
+}
+
+.card_photo {
+  width: 260px;
+  height: 260px;
+}
+
+.card_info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.filter_title {
+  color: #fff;
+  text-align: center;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  width: 355px;
+  height: 27px;
+}
+
+.filter_select {
+  color: #fff;
+  width: 17px;
+  height: 39px;
+  background-image: url("../../../assets/images/doctors-union.png");
+  background-position-y: 14px;
+  background-repeat: no-repeat;
+}
+/*# sourceMappingURL=doctor_list.module.css.map */
