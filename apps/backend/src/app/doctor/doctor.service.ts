@@ -20,11 +20,18 @@ export class DoctorService {
     private readonly userService: UserService
   ) {}
 
+  /**
+   *
+   * @param doctor
+   * @returns DoctorEntity
+   */
   async create(doctor: CreateDoctorDto): Promise<DoctorEntity> {
     try {
       const _user = await this.userService.findOne(+doctor.userId);
 
-      if (_user){
+      if (!_user){
+        throw new Error(`User with Id = ${doctor.userId} doesn't exist`);
+      }
         const userUpdate = await this.userService.update(+doctor.userId,{
           lastname: doctor.lastname,
           firstname: doctor.firstname,
@@ -37,7 +44,6 @@ export class DoctorService {
           password: doctor.password
         })
 
-       try {
         const doctorEntity = new DoctorEntity();
         doctorEntity.speciality = doctor.speciality;
         doctorEntity.category = doctor.category || QualificationCategory.Second;
@@ -48,26 +54,23 @@ export class DoctorService {
         doctorEntity.photo = doctor.photo;
         doctorEntity.user = userUpdate;
         const _doctor = await this.doctorRepository.save(doctorEntity);
-        return _doctor
-       } catch (error) {
-        throw new BadRequestException(`Can't create doctor: ${error}`);
-       }
-
-      } else {
-        throw new BadRequestException(`User with Id = ${doctor.userId} doesn't exist`)
-      }
+      return _doctor
     } catch (error) {
-      throw new HttpException({
-        status: HttpStatus.FORBIDDEN,
-        error: error,
-      }, HttpStatus.FORBIDDEN, {
-        cause: error
-      });
+      throw new BadRequestException(`Can't create doctor: ${error}`);
     }
   }
 
+  /**
+   *
+   * @returns DoctorEntity[]
+   */
   async findAll(): Promise<DoctorEntity[]> {
-    return await this.doctorRepository.find({});
+    try {
+      return await this.doctorRepository.find({relations:['user']});
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+
   }
 
   /**
@@ -82,7 +85,7 @@ export class DoctorService {
         where: { id: id }
       });
     } catch (error) {
-      console.log(error);
+      throw new BadRequestException(error);
     }
   }
 

@@ -16,6 +16,7 @@ import {JwtModule} from '@nestjs/jwt';
     forwardRef(() => DoctorModule),
     JwtModule.register({
       secret: 'secret',
+      global: true,
       signOptions: { expiresIn: '1w' }
     })
   ],
