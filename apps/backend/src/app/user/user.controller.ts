@@ -64,7 +64,7 @@ export class UserController {
 
     response.status(200);
     response.cookie('refresh_token', refreshToken, {
-      httpOnly: false,
+      httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
     });
 
@@ -96,6 +96,7 @@ export class UserController {
   ) {
     try {
       const refreshToken = request.cookies['refresh_token'];
+      console.log('refreshToken', refreshToken);
       const { id } = await this.jwtService.verifyAsync(refreshToken);
       const token = await this.jwtService.signAsync(
         { id },
@@ -109,12 +110,19 @@ export class UserController {
   }
 
   @Post('logout')
-  async logout(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie('refresh_token');
-    response.status(200);
-    return {
-      message: 'logout successfull',
-    };
+  async logout(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response
+  ) {
+    try {
+      response.status(200);
+      response.clearCookie('refresh_token');
+      return {
+        message: 'logout successful',
+      };
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // @Get()

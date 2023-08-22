@@ -16,11 +16,10 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.use(cookieParser());
   app.enableCors({
-    origin: ['http://localhost:3002','http://localhost:4200'],
-    credentials: true
+    origin: ['http://localhost:3002', 'http://localhost:4200'],
+    credentials: true,
   });
   app.setGlobalPrefix(globalPrefix);
-  //app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   app.useStaticAssets(join(__dirname, '..', '..', '..', 'public'));
 

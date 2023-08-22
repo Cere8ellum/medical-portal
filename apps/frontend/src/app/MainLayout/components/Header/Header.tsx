@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from '../../styles/header.module.css';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const navItems = ['Запись на приём', 'Список врачей', 'Контакты'];
 
@@ -11,13 +10,10 @@ function Header() {
     try {
       const { data } = await axios.post(
         `http://localhost:3000/api/user/logout/`,
-        {
-          withCredentials: true,
-        }
+        '',
+        { withCredentials: true }
       );
       axios.defaults.headers.common['Authorization'] = ``;
-      console.log('logout');
-      Cookies.remove('refresh_token');
       console.log('data', data);
       setMessage('Вы не авторизованы');
     } catch (err) {
