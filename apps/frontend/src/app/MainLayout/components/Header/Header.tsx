@@ -1,11 +1,44 @@
+import { useEffect, useState } from 'react';
 import styles from '../../styles/header.module.css';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const navItems = ['Запись на приём', 'Список врачей', 'Контакты'];
 
 function Header() {
+  const [message, setMessage] = useState('Вы не авторизованы');
+  const logout = async () => {
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3000/api/user/logout/`,
+        {
+          withCredentials: true,
+        }
+      );
+      axios.defaults.headers.common['Authorization'] = ``;
+      console.log('logout');
+      Cookies.remove('refresh_token');
+      console.log('data', data);
+      setMessage('Вы не авторизованы');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:3000/api/user/`, {
+          withCredentials: true,
+        });
+        setMessage(`${data.email}`);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, [message]);
   return (
     <header className={styles['header']}>
-
       <div className={styles['header-wrap']}>
         <div className={styles['header-title']}>
           <h2 className={styles['header-title-medical']}>Medical</h2>
@@ -13,9 +46,15 @@ function Header() {
         </div>
         <nav className={styles['header-nav']}>
           <div className={styles['header-nav-profile']}>
-            <a href="/profile" style={{textDecoration: 'none'}}>
-            <img src="./assets/images/user.png" alt="" style={{width: '25px', height: '25px'}}/>
+            <h4>{message}</h4>
+            <a href="/profile" style={{ textDecoration: 'none' }}>
+              <img
+                src="./assets/images/user.png"
+                alt=""
+                style={{ width: '25px', height: '25px' }}
+              />
             </a>
+            <button onClick={() => logout()}>Выход</button>
           </div>
           <ul className={styles['header-nav-list']}>
             <li className={styles['header-nav-item']}>

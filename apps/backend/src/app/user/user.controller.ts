@@ -64,7 +64,7 @@ export class UserController {
 
     response.status(200);
     response.cookie('refresh_token', refreshToken, {
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
     });
 

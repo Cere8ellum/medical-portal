@@ -32,10 +32,16 @@ const LoginForm: React.FC = () => {
     try {
       setSubmitting(true);
 
-      await axios.post(`http://localhost:3000/api/user/login`, {
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        `http://localhost:3000/api/user/login`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
+
+      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
 
       resetForm();
       navigate('/');
