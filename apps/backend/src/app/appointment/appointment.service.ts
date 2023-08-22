@@ -59,14 +59,14 @@ export class AppointmentsService {
 
   async findOne(id:number): Promise<AppointmentEntity> {
     return await this.appointmentsRepository.findOne({
-      relations: ["doctor","patient"],
+      relations: ["doctor","patient",'doctor.user'],
       where: {id:id}
     });
   }
 
   async findAllByPatient(patient_id: number): Promise<AppointmentEntity[]> {
    return await this.appointmentsRepository.find({
-          relations: ['patient','doctor'],
+          relations: ['patient','doctor','doctor.user'],
           where: {
             patient: {id: patient_id},
           },
@@ -99,7 +99,7 @@ export class AppointmentsService {
 
   async findAllByPatientForPeriod(patient_id: number,start: Date, finish: Date): Promise<AppointmentEntity[]> {
     return await this.appointmentsRepository.find({
-      relations: ['patient','doctor'],
+      relations: ['patient','doctor','doctor.user'],
       where: {
         patient: {id: patient_id},
         date_start: Between(start,finish)

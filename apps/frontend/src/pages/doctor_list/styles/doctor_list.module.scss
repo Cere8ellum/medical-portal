@@ -28,6 +28,7 @@
   &_card {
     margin: 106px 0;
     display: flex;
+    gap: 107px;
     flex-direction: column;
     align-items: center;
   }
@@ -39,7 +40,7 @@
   display: flex;
   flex-direction: row;
   padding: 15px;
-  justify-content: space-around;
+  gap: 25px;
   border-radius: 10px;
   border: 1px solid #d9d9d9;
   background: #fff;
@@ -48,11 +49,13 @@
   &_photo {
     width: 260px;
     height: 260px;
+    object-fit: contain;
   }
 
   &_info {
     display: flex;
     flex-direction: column;
+    gap: 15px;
   }
 }
 
@@ -76,5 +79,37 @@
     background-image: url('../../../assets/images/doctors-union.png');
     background-position-y: 14px;
     background-repeat: no-repeat;
+  }
+}
+
+.info {
+  &_name {
+    color: #000;
+    font-family: Inter;
+    font-size: 24px;
+  }
+
+  &_year {
+    color: #858585;
+    font-family: Inter;
+    font-size: 16px;
+  }
+
+  &_title {
+    color: #858585;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  &_about {
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
   }
 }

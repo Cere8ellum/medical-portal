@@ -15,6 +15,8 @@ import {
   Delete,
   Query,
   ParseEnumPipe,
+  BadRequestException,
+  Res,
 } from '@nestjs/common';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { DoctorService } from './doctor.service';
@@ -26,6 +28,7 @@ import { HelperFileLoader } from '../../utils/HelperFileLoader';
 import { diskStorage } from 'multer'
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { Speciality } from './enum/speciality.enum';
+import { Response } from 'express';
 
 const helperFileLoader = new HelperFileLoader();
 const PATH_NEWS = '/doctor_photos';
@@ -69,7 +72,7 @@ export class DoctorController {
         }
         return await this.doctorService.create(createDoctorDto);
       } catch (error) {
-        throw Error(`err: ${error}`);
+        throw new BadRequestException(`err: ${error}`);
       }
   }
 
@@ -79,18 +82,22 @@ export class DoctorController {
    * @returns all doctors by spesiality
    */
   @Get('/speciality')
+  @ApiOperation({ summary: 'all doctors by spesiality' })
   async getDoctorsWithSpeciality(
    @Query('speciality') speciality : string): Promise<DoctorEntity[]> {
-
-    if(!Speciality[speciality]) {
-      for (const [key, value] of Object.entries(Speciality)) {
-        if(value === speciality){
-          return await this.doctorService.findBySpeciality(Speciality[key])
+      try {
+        if(!Speciality[speciality]) {
+          for (const [key, value] of Object.entries(Speciality)) {
+            if(value === speciality){
+              return await this.doctorService.findBySpeciality(Speciality[key])
+            }
+          }
+        } else {
+            return await this.doctorService.findBySpeciality(Speciality[speciality])
         }
+      } catch (error) {
+        throw new BadRequestException(`err: ${error}`);
       }
-    } else {
-        return await this.doctorService.findBySpeciality(Speciality[speciality])
-    }
   }
 
 
@@ -99,15 +106,28 @@ export class DoctorController {
    * @param req
    * @returns All doctors
    */
+  @ApiOperation({ summary: 'All doctors' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Success',
-    type: [UserEntity],
+    type: [DoctorEntity],
   })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @Get('/all')
-  async getAll() {
-    return this.doctorService.findAll();
+  async getAll(
+    @Res() res: Response
+  ) {
+    try {
+      const _doctors = await this.doctorService.findAll();
+      const result = [];
+      _doctors.forEach(doctor => {
+        doctor.user.password = '';
+        result.push(doctor)
+      });
+      res.status(HttpStatus.OK).json(result);
+    } catch (error) {
+      throw new BadRequestException(`err: ${error}`);
+    }
   }
 
 
@@ -120,15 +140,27 @@ export class DoctorController {
     @ApiResponse({
       status: HttpStatus.OK,
       description: 'Success',
-      type: [UserEntity],
+      type: [DoctorEntity],
     })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiOperation({ summary: 'Doctor info' })
     @Get('/:id')
     async getOneById(
-      @Param('id',ParseIntPipe)id : number
+      @Param('id',ParseIntPipe)id : number,
+      @Res() res: Response
     ) {
-      return await this.doctorService.findById(id);
-    }
+      try {
+        const _doctor = await this.doctorService.findById(id);
+        if(!_doctor) {
+            res.status(HttpStatus.BAD_REQUEST).send('The doctor doesn`t exist');
+        }
+        const {user, ...doctor} = _doctor;
+        const {password, ...userData} = user;
+        res.status(HttpStatus.OK).json({doctor,userData});
+      } catch (error) {
+        throw new BadRequestException(`err: ${error}`);
+      }
+  }
 
   /**
    *
@@ -139,9 +171,15 @@ export class DoctorController {
     description: 'Success',
     type: [String],
   })
+  @ApiOperation({ summary: 'All speciality' })
   @Get('/all/specialities')
   async getAllSpecialities(): Promise<string[]>{
-    return await this.doctorService.findAllSpecialities();
+    try {
+      return await this.doctorService.findAllSpecialities();
+    } catch (error) {
+      throw new BadRequestException(`err: ${error}`);
+    }
+
   }
 
   /**
