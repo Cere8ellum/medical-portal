@@ -70,7 +70,6 @@ export class DoctorService {
     } catch (error) {
       throw new BadRequestException(error);
     }
-
   }
 
   /**
