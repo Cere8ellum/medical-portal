@@ -6,6 +6,7 @@ import ProfileScreen from '../pages/profile/ProfileScreen';
 import { SignupScreen } from '../pages/signup';
 import LoginScreen from '../pages/auth/LoginScreen';
 import DoctorListScreen from '../pages/doctor_list/DoctorListScreen';
+import ChangePassword from '../pages/changepassword/ChangePassword';
 
 export function App() {
   return (
@@ -17,6 +18,7 @@ export function App() {
       <Route path="/appointment" element={<AppointmentScreen />} />
       <Route path="/profile" element={<ProfileScreen />} />
       <Route path="/doctors" element={<DoctorListScreen />} />
+      <Route path="/changepassword" element={<ChangePassword />} />
     </Routes>
   );
 }
