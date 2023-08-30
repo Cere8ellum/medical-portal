@@ -1,9 +1,10 @@
 import { Box, Button, Link, styled, Typography } from '@mui/material';
-import axios from 'axios';
+import { isAxiosError } from 'axios';
 import { Formik, FormikHelpers, FormikValues } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import PasswordField from '../../components/PasswordField';
 import WhiteTextField from '../../components/WhiteTextField';
+import api from '../../infrastructure/api';
 import loginSchema from './schemas/loginSchema';
 
 const Form = styled('form')({
@@ -32,22 +33,22 @@ const LoginForm: React.FC = () => {
     try {
       setSubmitting(true);
 
-      const { data } = await axios.post(
-        `http://localhost:3000/api/user/login`,
+      const { data } = await api.post(
+        `user/login`,
         {
           email,
           password,
         },
-        { withCredentials: true }
       );
 
-      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      localStorage.setItem('refreshToken', data.token);
 
       resetForm();
       navigate('/');
     } catch (err) {
       if (
-        axios.isAxiosError(err) &&
+        isAxiosError(err) &&
         err.response !== null &&
         err.response !== undefined
       ) {

@@ -44,6 +44,7 @@ const AppointmentScreen = () => {
                 width: '440px',
                 marginBottom: '35px',
                 textAlign: 'center',
+                textTransform: 'uppercase',
               }}
             >
               электронная регистрация
@@ -51,10 +52,7 @@ const AppointmentScreen = () => {
             <AppointmentForm />
           </Box>
         </Box>
-        <BackGroundImg
-          src="../../assets/images/main-image.png"
-          alt="doctors"
-        />
+        <BackGroundImg src="../../assets/images/main-image.png" alt="doctors" />
       </Container>
     </MainLayout>
   );
