@@ -69,6 +69,7 @@ function Header() {
               </a>
             </li>
           </ul>
+          <div className={styles['header-burger-menu']}></div>
         </nav>
       </div>
       <div className={styles['header-rectangle']}></div>
