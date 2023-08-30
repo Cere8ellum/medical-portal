@@ -60,7 +60,7 @@ export class UserController {
 
     const accessToken = await this.jwtService.signAsync(
       { id: user.id },
-      { expiresIn: '30s' }
+      { expiresIn: '1d' }
     );
     const refreshToken = await this.jwtService.signAsync({ id: user.id });
 
@@ -102,7 +102,7 @@ export class UserController {
       const { id } = await this.jwtService.verifyAsync(refreshToken);
       const token = await this.jwtService.signAsync(
         { id },
-        { expiresIn: '30s' }
+        { expiresIn: '7d' }
       );
       response.status(200);
       return { token };

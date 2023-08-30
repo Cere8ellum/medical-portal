@@ -1,4 +1,4 @@
-import { BadGatewayException, BadRequestException, forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { BadGatewayException, BadRequestException, forwardRef, HttpException, HttpStatus, Inject, Injectable} from '@nestjs/common';
 import { DoctorEntity } from './entities/doctor.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,6 +10,7 @@ import { DoctorType } from './enum/type.enum';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { Gender } from '../user/enum/gender.enum';
 import { Role } from '../user/enum/role.enum';
+
 
 @Injectable()
 export class DoctorService {
@@ -150,6 +151,19 @@ export class DoctorService {
           gender: gender
         },
         speciality: speciality
+      }
+    })
+  }
+
+  async findByGenderSpecialityType(gender: Gender, speciality: Speciality,type: DoctorType): Promise <DoctorEntity[]>{
+    return await this.doctorRepository.find({
+      relations:['user'],
+      where: {
+        user: {
+          gender: gender,
+        },
+        speciality: speciality,
+        type: type
       }
     })
   }

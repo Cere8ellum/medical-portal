@@ -8,12 +8,14 @@ import { UserModule } from '../user/user.module';
 import { MailerModule,} from '@nestjs-modules/mailer';
 import { DoctorService } from '../doctor/doctor.service';
 import { DoctorModule } from '../doctor/doctor.module';
+import { AbsenceScheduleModule } from '../absence-schedule/absence-schedule.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AppointmentEntity]),
   forwardRef(() => MedicalHistoryModule),
   forwardRef(() => DoctorModule),
   forwardRef(()=> UserModule),
+  forwardRef(()=> AbsenceScheduleModule),
   MailerModule],
   controllers: [AppointmentsController],
   providers: [AppointmentsService],

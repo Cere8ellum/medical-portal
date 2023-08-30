@@ -21,7 +21,7 @@ import {
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { DoctorService } from './doctor.service';
 import { DoctorEntity } from './entities/doctor.entity';
-import { ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from '../user/entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { HelperFileLoader } from '../../utils/HelperFileLoader';
@@ -63,14 +63,18 @@ export class DoctorController {
       fileFilter: helperFileLoader.fileFilter
     }),
   )
+  @ApiBody({type: CreateDoctorDto})
   async create(
     @Body() createDoctorDto: CreateDoctorDto,
-    @UploadedFile() photo: Express.Multer.File): Promise<DoctorEntity> {
+    @UploadedFile() photo: Express.Multer.File,
+    @Res() res: Response){
       try {
         if (photo?.filename) {
           createDoctorDto.photo = PATH_NEWS + '/' + photo.filename;
         }
-        return await this.doctorService.create(createDoctorDto);
+        const _doctor = await this.doctorService.create(createDoctorDto);
+        _doctor.user.password = '';
+        res.status(HttpStatus.OK).json(_doctor);
       } catch (error) {
         throw new BadRequestException(`err: ${error}`);
       }
