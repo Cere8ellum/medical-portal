@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, Query, Req, Res, UseGuards } from '@nestjs/common';
-import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiForbiddenResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiForbiddenResponse, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from '../user/user.service';
 import { AppointmentsModule } from './appointment.module';
 import { AppointmentsService } from './appointment.service';
@@ -11,6 +11,7 @@ import { Response, Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '../user/auth.guard';
 import { DoctorService } from '../doctor/doctor.service';
+import moment from 'moment';
 
 
 @ApiTags('appointments')
@@ -29,6 +30,14 @@ export class AppointmentsController {
    */
   @Get('patient/:idPatient')
   @ApiOperation({ summary: 'Все записи к врачам для пациента id' })
+  @ApiParam({
+    name: 'idPatient',
+    required: true,
+    type: String,
+    description: 'id пациента'
+  })
+  @ApiResponse({ status: 200, description: 'Список записей пациента'})
+  @ApiResponse({ status: 403, description: 'Forbidden.'})
   async findAllByIdPatient(
     @Param('idPatient', ParseIntPipe) idPatient: number,
     @Res() res: Response
@@ -42,7 +51,7 @@ export class AppointmentsController {
         let _appList = [];
         _list.forEach(appointment => {
           _appList.push({
-            date: appointment.date_start,
+            date: moment(appointment.date_start).format('YYYY-MM-DD HH:mm'),
             doctor: `${appointment.doctor.user.firstname} ${appointment.doctor.user.lastname}`,
             speciality: appointment.doctor.speciality,
             patient: `${appointment.patient.firstname} ${appointment.patient.lastname}`,
@@ -58,23 +67,65 @@ export class AppointmentsController {
 
   @Get('doctor/:idDoctor')
   @ApiOperation({ summary: 'Все слоты к doctorid забронированные status = waiting' })
+  @ApiParam({
+    name: 'idDoctor',
+    required: true,
+    type: String,
+    description: 'id врача'
+  })
+  @ApiQuery({
+    name: 'date',
+    required: true,
+    type: String,
+    description: 'дата в формату YYYY-MM-DD для поиска'
+  })
+  @ApiResponse({ status: 200, description: 'Список записей у врача'})
+  @ApiResponse({ status: 400, description: 'Error'})
   async findAllByIdDoctorBookedWaiting(
     @Param('idDoctor', ParseIntPipe) idDoctor: number,
-    @Query('date')date: string):Promise<Date[]>{
+    @Query('date')date: string,
+    @Res() res: Response
+    ){
       try {
-        return await this.appointmentsService.findAllByDoctorStatusWaiting(idDoctor, new Date(date))
+        const _appointments = await this.appointmentsService.findAllByDoctorStatusWaiting(idDoctor, new Date(date));
+        let _appList = [];
+        _appointments.forEach(appointment => {
+          _appList.push({
+            date: moment(appointment.date_start).format('YYYY-MM-DD HH:mm'),
+            patient_name: `${appointment.patient.firstname} ${appointment.patient.lastname}`,
+            patient_id:appointment.patient.id,
+            id: appointment.id
+          });
+        });
+        res.status(HttpStatus.OK).json(_appList);
       } catch (error) {
         throw new BadRequestException(`err: ${error}`);
       }
   }
 
+
   @Get('booked/doctor/:idDoctor')
   @ApiOperation({ summary: 'Все забронированные слоты к doctorid' })
+  @ApiParam({
+    name: 'idDoctor',
+    required: true,
+    type: String,
+    description: 'id врача'
+  })
+  @ApiQuery({
+    name: 'date',
+    required: true,
+    type: String,
+    description: 'дата в формату YYYY-MM-DD для поиска'
+  })
+  @ApiResponse({ status: 200, description: 'Список времен в формате HH:mm'})
+  @ApiResponse({ status: 400, description: 'Forbidden.'})
   async findAllByIdDoctorBooked(
     @Param('idDoctor', ParseIntPipe) idDoctor: number,
-    @Query('date')date: string):Promise<Date[]>{
+    @Query('date')date: string):Promise<string[]>{
       try {
-        return await this.appointmentsService.findBookingDate(idDoctor, new Date(date))
+        return await this.appointmentsService.findBookingDate(idDoctor, new Date(date));
+
       } catch (error) {
         throw new BadRequestException(`err: ${error}`);
       }
@@ -88,6 +139,18 @@ export class AppointmentsController {
    */
   @Get('booked/patient/:idPatient')
   @ApiOperation({ summary: 'Есть ли у пациента уже забронированный слот на это время' })
+  @ApiParam({
+    name: 'idPatient',
+    required: true,
+    type: String,
+    description: 'id Patient'
+  })
+  @ApiQuery({
+    name: 'date',
+    required: true,
+    type: String,
+    description: 'дата в формату YYYY-MM-DD HH:mm для поиска'
+  })
   async isBookedSlotOnDate(
     @Param('idPatient', ParseIntPipe) idPatient: number,
     @Query('date')date: string):Promise<boolean>{
@@ -105,7 +168,13 @@ export class AppointmentsController {
    * @param res
    */
   @Get(':id')
-  @ApiOperation({ summary: 'Appointment data' })
+  @ApiOperation({ summary: 'поиск Appointment data по id' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    type: String,
+    description: 'appointment id'
+  })
   async findOneAppointment(
     @Param("id",ParseIntPipe) id : number,
     @Res() res: Response
@@ -116,7 +185,7 @@ export class AppointmentsController {
           res.status(HttpStatus.FORBIDDEN)
         }
         res.status(HttpStatus.OK).json({
-          date: _appointment.date_start,
+          date: moment(_appointment.date_start).format('YYYY-MM-DD HH:mm'),
           doctor: `${_appointment.doctor.user.firstname} ${_appointment.doctor.user.lastname}`,
           speciality: _appointment.doctor.speciality,
           patient: `${_appointment.patient.firstname} ${_appointment.patient.lastname}`,
@@ -130,6 +199,27 @@ export class AppointmentsController {
 
   @Get('sort/:idPatient')
   @ApiOperation({ summary: 'Отсортировать appointment за выбранный период у пациента с idPatient'})
+  @ApiQuery({
+    name: 'start',
+    required: true,
+    type: String,
+    description: 'дата начала поиска'
+  })
+  @ApiQuery({
+    name: 'finish',
+    required: true,
+    type: String,
+    description: 'дата конца поиска',
+    example: '2023-12-08'
+  })
+  @ApiParam({
+    name: 'idPatient',
+    required: true,
+    type: String,
+    description: 'id пациента'
+  })
+  @ApiResponse({ status: 200, description: 'Список записей'})
+  @ApiResponse({ status: 400, description: 'Error'})
   async sortAppointmentPeriod(
     @Param("idPatient",ParseIntPipe) idPatient : number,
     @Query('start') start: string,
@@ -145,7 +235,7 @@ export class AppointmentsController {
         let _appList = [];
         _list.forEach(appointment => {
           _appList.push({
-            date: appointment.date_start,
+            date: moment(appointment.date_start).format('YYYY-MM-DD HH:mm'),
             doctor: `${appointment.doctor.user.firstname} ${appointment.doctor.user.lastname}`,
             speciality: appointment.doctor.speciality,
             patient: `${appointment.patient.firstname} ${appointment.patient.lastname}`,
@@ -159,6 +249,7 @@ export class AppointmentsController {
     }
 
   }
+
 
   @UseGuards(AuthGuard)
   @Post('create')
@@ -184,8 +275,14 @@ export class AppointmentsController {
 
   @Patch('update/:id')
   @ApiOperation({ summary: 'Изменение статуса записи к врачу' })
-  @ApiResponse({ status: 201, description: 'The record has been successfully updated.' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 200, description: 'The record has been successfully updated.' })
+  @ApiResponse({ status: 400, description: 'Forbidden.' })
+  @ApiParam({
+    name: 'id',
+    required: false,
+    type: String,
+    description: 'appointment id'
+  })
   @ApiBody({type:  UpdateAppointmentDto})
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -207,6 +304,14 @@ export class AppointmentsController {
    */
   @Delete(':id')
   @ApiOperation({ summary: 'Удаление appointmentId' })
+  @ApiParam({
+    name: 'id',
+    required: false,
+    type: String,
+    description: 'appointment id'
+  })
+  @ApiResponse({ status: 200, description: 'Запись успешно отменена' })
+  @ApiResponse({ status: 403, description: 'Forbidden.Произошла ошибка,удаление не возможно' })
   async delete(
     @Param('id', ParseIntPipe) id : number,
     @Res() res: Response

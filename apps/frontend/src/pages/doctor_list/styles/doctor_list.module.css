@@ -5,14 +5,12 @@
 
 .doctors_title {
   color: #3d537c;
-  text-align: center;
   font-family: Inter;
   font-size: 36px;
   font-weight: 700;
   line-height: 44px;
-  margin-left: 165px;
+  padding-left: 205px;
   height: 55px;
-  width: 402px;
 }
 
 .doctors_search {
@@ -33,10 +31,11 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  position: relative;
 }
 
 .doctors_card {
-  margin: 106px 0;
+  margin-top: 106px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -50,8 +49,50 @@
           align-items: center;
 }
 
+@media (max-width: 1020px) and (min-width: 730px) {
+  .doctors {
+    margin-top: 86px;
+    margin-bottom: 86px;
+  }
+  .doctors_card {
+    margin-top: 70px;
+    gap: 65px;
+  }
+  .doctors_search {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    padding-left: 0px;
+  }
+  .doctors_title {
+    text-align: center;
+    padding: 0 0 25px 0;
+  }
+}
+
+@media (max-width: 730px) {
+  .doctors {
+    margin-top: 70px;
+    margin-bottom: 58px;
+  }
+  .doctors_card {
+    margin-top: 37px;
+    gap: 37px;
+  }
+  .doctors_search {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    padding-left: 0px;
+  }
+  .doctors_title {
+    text-align: center;
+    padding: 0 0 25px 0;
+  }
+}
+
 .card {
-  width: 1023px;
+  width: 1020px;
   height: 294px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -67,13 +108,12 @@
   background: #fff;
   -webkit-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
           box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
 }
 
 .card_photo {
   width: 260px;
   height: 260px;
-  -o-object-fit: contain;
-     object-fit: contain;
 }
 
 .card_info {
@@ -87,25 +127,109 @@
   gap: 15px;
 }
 
+@media (max-width: 1020px) and (min-width: 730px) {
+  .card {
+    width: 730px;
+    height: 405px;
+    display: block;
+    position: relative;
+    padding: 50px 11px 50px 25px;
+  }
+  .card_photo {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+  }
+  .card_info {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 730px) {
+  .card {
+    width: 310px;
+    height: 565px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 29px;
+    padding: 20px;
+  }
+  .card_info {
+    gap: 10px;
+  }
+}
+
+.photo {
+  width: 260px;
+  height: 260px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: 0 -10px;
+     object-position: 0 -10px;
+}
+
+.filter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 50px;
+}
+
 .filter_title {
   color: #fff;
-  text-align: center;
   font-family: Inter;
   font-size: 20px;
   font-style: normal;
   font-weight: 300;
-  line-height: normal;
-  width: 355px;
-  height: 27px;
+  height: 30px;
 }
 
-.filter_select {
+.filter_speciality {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 9px;
+}
+
+.filter_speciality_title {
+  color: #fff;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  height: 30px;
+}
+
+.filter_speciality_open {
+  display: block;
   color: #fff;
   width: 17px;
-  height: 39px;
-  background-image: url("../../../assets/images/doctors-union.png");
-  background-position-y: 14px;
-  background-repeat: no-repeat;
+  height: 23px;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+}
+
+.filter_speciality_open_active {
+  display: none;
+}
+
+@media (max-width: 730px) {
+  .filter_speciality_title {
+    font-size: 16px;
+  }
+  .filter_speciality_open {
+    color: #fff;
+    background-size: 70%;
+    background-position-y: 12px;
+  }
 }
 
 .info_name {
@@ -136,5 +260,105 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+}
+
+@media (max-width: 1020px) and (min-width: 730px) {
+  .info_name {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 730px) {
+  .info_name {
+    font-size: 16px;
+    text-align: center;
+  }
+  .info_about, .info_year {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 300;
+  }
+  .info_year {
+    text-align: center;
+  }
+  .info_title {
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 300;
+  }
+}
+
+.speciality {
+  position: absolute;
+  top: 68px;
+  width: 375px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 140px;
+  padding: 20px;
+  padding-bottom: 0px;
+  border-bottom: 3px solid #3d537c;
+  background: #fff;
+  -webkit-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
+  display: none;
+}
+
+.speciality_active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.speciality_list {
+  z-index: 2;
+  cursor: pointer;
+  overflow-y: scroll;
+}
+
+.speciality_item {
+  cursor: pointer;
+  text-decoration: none;
+  color: rgba(70, 70, 70, 0.45);
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+}
+
+.speciality_item:hover {
+  background: #3d537c;
+  color: #fff;
+  font-size: 16px;
+}
+
+.speciality_item_check {
+  display: none;
+  height: 19px;
+}
+
+.speciality_chevron_up {
+  width: 25px;
+  display: block;
+  -ms-flex-item-align: end;
+      -ms-grid-row-align: end;
+      align-self: end;
+}
+
+.speciality_chevron_up:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+}
+
+.active {
+  color: white;
+  background-color: #95c2e9;
+  font-size: 16px;
+}
+
+.active img {
+  display: inline;
+  float: left;
 }
 /*# sourceMappingURL=doctor_list.module.css.map */

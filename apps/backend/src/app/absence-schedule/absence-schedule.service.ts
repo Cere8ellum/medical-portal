@@ -66,6 +66,15 @@ export class AbsenceScheduleService {
     });
   }
 
+  async findByDoctorIdAtDate(doctorId: number,date: Date): Promise<AbsenceScheduleEntity> {
+    return await this.scheduleRepository.findOne({
+      where: {
+        doctor_id: doctorId,
+        date: date
+      },
+    });
+  }
+
   async findById(scheduleId: number): Promise<AbsenceScheduleEntity> {
     return await this.scheduleRepository.findOne({
       where: {

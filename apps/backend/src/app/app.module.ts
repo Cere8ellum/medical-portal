@@ -39,6 +39,7 @@ import { AbsenceScheduleModule } from './absence-schedule/absence-schedule.modul
         database: configService.get('DB_NAME'),
         synchronize: false,
         autoLoadEntities: true,
+        useUTC: true,
         //entities: [__dirname + '../**/*.entity{.ts,.js}'],
         //entities: [UserEntity,DoctorEntity,PatientEntity,AppointmentEntity,MedicalHistoryEntity]
       }),

@@ -58,6 +58,10 @@ export class UserController {
       throw new BadRequestException('Incorrect password');
     }
 
+    const accessToken = await this.jwtService.signAsync(
+      { id: user.id },
+      { expiresIn: '7d' }
+    );
     const refreshToken = await this.jwtService.signAsync({ id: user.id });
 
     response.status(200);
@@ -98,7 +102,7 @@ export class UserController {
       const { id } = await this.jwtService.verifyAsync(refreshToken);
       const token = await this.jwtService.signAsync(
         { id },
-        { expiresIn: '30s' }
+        { expiresIn: '7d' }
       );
       response.status(200);
       return { token };

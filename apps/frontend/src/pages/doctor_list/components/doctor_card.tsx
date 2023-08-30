@@ -1,23 +1,9 @@
 import { useEffect, useState } from 'react';
+import { DoctorDTO } from '../dto/doctor-dto';
 import styles from '../styles/doctor_list.module.css';
 
 export interface DoctorProps {
-  doctor: {
-    id: number;
-    category: string;
-    speciality: string;
-    type: string;
-    startWorking: string;
-    info: string;
-    price: string;
-    photo: string;
-    user: {
-      id: number;
-      firstname: string;
-      lastname: string;
-      gender: string;
-    };
-  };
+  doctor: DoctorDTO;
 }
 
 const DoctorCard = (props: DoctorProps) => {
@@ -31,9 +17,9 @@ const DoctorCard = (props: DoctorProps) => {
 
   return (
     <div className={styles['card']}>
-      <div>
+      <div className={styles['card_photo']}>
         <img
-          className={styles['card_photo']}
+          className={styles['photo']}
           src={`http://localhost:3000${props.doctor.photo}`}
           alt=""
         />

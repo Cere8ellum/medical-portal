@@ -8,6 +8,9 @@ import { Status } from './enum/status.enum';
 import { UpdateAppointmentDto } from './dtos/update-appointment-dto';
 import { MailService } from '../mail/mail.service';
 import { DoctorService } from '../doctor/doctor.service';
+import moment from 'moment';
+import { AbsenceScheduleService } from '../absence-schedule/absence-schedule.service';
+import { runInThisContext } from 'vm';
 
 
 @Injectable()
@@ -17,7 +20,8 @@ export class AppointmentsService {
       private appointmentsRepository: Repository<AppointmentEntity>,
       private userService: UserService,
       private doctorService: DoctorService,
-      private mailServise: MailService
+      private mailServise: MailService,
+      private absence_sheduleService: AbsenceScheduleService
   ) {}
 
   async create (appointment: CreateAppointmentDto): Promise<AppointmentEntity> {
@@ -51,6 +55,15 @@ export class AppointmentsService {
         })
 
         await this.mailServise.sendNewAppointment(_app);
+        const countAppAtDate = await this.countAppointmentByDoctorAtDate(+appointment.doctor_id,new Date(appointment.date_start));
+
+        if(countAppAtDate === 24) {
+          await this.absence_sheduleService.create({
+            id: null,
+            doctor_id: +appointment.doctor_id,
+            date: new Date(appointment.date_start)
+          })
+        }
         return _app
       } catch (error) {
         throw new BadRequestException(`Can't book appointment: ${error}`);
@@ -107,26 +120,7 @@ export class AppointmentsService {
     })
   }
 
-async findBookingDate(doctor_id:number,date: Date):Promise<Date[]>{
-  // Устанавливаем время начала дня (00:00)
-  const startDate = new Date(date);
-  startDate.setHours(0, 0);
-
-  // Устанавливаем время конца дня (23:59)
-  const finishDate = new Date(date);
-  finishDate.setHours(23, 59);
-
-  const bookingdtime = await this.appointmentsRepository.find({
-    relations: ['patient','doctor'],
-    where: {doctor: {id: doctor_id},
-            date_start: Between(startDate,finishDate)
-          },
-  });
-
-  return bookingdtime.map(app => {return app.date_start})
-}
-
-  async findAllByDoctorStatusWaiting(doctor_id:number,date: Date):Promise<Date[]>{
+  async findBookingDate(doctor_id:number,date: Date):Promise<string[]>{
     // Устанавливаем время начала дня (00:00)
     const startDate = new Date(date);
     startDate.setHours(0, 0);
@@ -138,11 +132,42 @@ async findBookingDate(doctor_id:number,date: Date):Promise<Date[]>{
     const bookingdtime = await this.appointmentsRepository.find({
       relations: ['patient','doctor'],
       where: {doctor: {id: doctor_id},
-              status: Status.Waiting,
               date_start: Between(startDate,finishDate)
             },
+      order: {
+        date_start: 'ASC',
+      },
     });
-    return bookingdtime.map(app => {return app.date_start})
+    return bookingdtime.map(app => {
+      return moment(app.date_start).format('HH:mm')
+    })
+
+  }
+
+  async findAllByDoctorStatusWaiting(doctor_id:number,date: Date):Promise<AppointmentEntity[]>{
+    // Устанавливаем время начала дня (00:00)
+    const startDate = new Date(date);
+    startDate.setHours(0, 0);
+
+    // Устанавливаем время конца дня (23:59)
+    const finishDate = new Date(date);
+    finishDate.setHours(23, 59);
+
+    return await this.appointmentsRepository.find({
+      relations: ['patient','doctor'],
+      where: {doctor: {id: doctor_id},
+              status: Status.Waiting,
+              date_start: Between(startDate,finishDate)
+      },
+      order: {
+        date_start: 'ASC',
+      },
+    });
+  }
+
+  async countAppointmentByDoctorAtDate(doctor_id:number,date: Date):Promise<number>{
+    const _appointments = await this.findBookingDate(doctor_id,date);
+    return _appointments.length
   }
 
   async update(id:number,appointment:UpdateAppointmentDto): Promise<AppointmentEntity>{
@@ -166,6 +191,12 @@ async findBookingDate(doctor_id:number,date: Date):Promise<Date[]>{
       const _appointment = await this.findOne(id)
       if(_appointment){
          await this.appointmentsRepository.delete({id})
+         const countAppAtDate = await this.countAppointmentByDoctorAtDate(_appointment.doctor.id,_appointment.date_start);
+
+         if(countAppAtDate === 23){
+           const _schedule = await this.absence_sheduleService.findByDoctorIdAtDate(_appointment.doctor.id,new Date(_appointment.date_start))
+          await this.absence_sheduleService.deleteById(_schedule.id);
+         }
          return true
       } else {
           throw new HttpException(
