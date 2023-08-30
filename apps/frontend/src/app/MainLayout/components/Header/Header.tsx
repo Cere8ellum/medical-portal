@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react';
+import api from '../../../../infrastructure/api';
 import styles from '../../styles/header.module.css';
-import axios from 'axios';
-
-const navItems = ['Запись на приём', 'Список врачей', 'Контакты'];
 
 function Header() {
   const [message, setMessage] = useState('Вы не авторизованы');
   const logout = async () => {
     try {
-      const { data } = await axios.post(
-        `http://localhost:3000/api/user/logout/`,
-        '',
-        { withCredentials: true }
-      );
-      axios.defaults.headers.common['Authorization'] = ``;
-      console.log('data', data);
+      await api.post( `user/logout`, '');
+      api.defaults.headers.common['Authorization'] = '';
+      localStorage.removeItem('refreshToken');
       setMessage('Вы не авторизованы');
     } catch (err) {
       console.log(err);
@@ -24,9 +18,7 @@ function Header() {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3000/api/user/`, {
-          withCredentials: true,
-        });
+        const { data } = await api.get(`/user`);
         setMessage(`${data.email}`);
       } catch (err) {
         console.log(err);
