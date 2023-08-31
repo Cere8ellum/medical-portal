@@ -3,40 +3,43 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-  OneToOne,
-  Timestamp,
-  JoinColumn,
-  ManyToOne,
 } from 'typeorm';
-import { IsEnum, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { AppointmentEntity } from '../../appointment/entities/appointment.entity';
 
-@Entity('medical_history')
+@Entity('medical-history')
 export class MedicalHistoryEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty({
-    type: Number,
-    description: 'id MedicalHistory, pk'})
+    type: 'number',
+    description: 'id of Medical History',
+  })
   id: number;
 
-  // // дописать поля
+  @Column('varchar', { nullable: false })
+  @ApiProperty({
+    type: 'string',
+    description: 'Complaint of Patient',
+  })
+  patient_complaint: string;
 
-  // @OneToOne(()=>AppointmentEntity, (appointment)=> appointment.medical_history,{nullable: true})
-  // @ApiProperty({
-  //   type: () => MedicalHistoryEntity,
-  //   description: 'Медицинское заключение визита',
-  //   default: null
-  // })
-  // appointment: AppointmentEntity
+  @Column('varchar', { nullable: false })
+  @ApiProperty({
+    type: 'string',
+    description: 'Plan of Treatment',
+  })
+  treatment_plan: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @Column('varchar', { nullable: false })
+  @ApiProperty({
+    type: 'string',
+    description: 'Disease Conclusion',
+  })
+  disease_conclusion: string;
+
+  @CreateDateColumn({ type: 'timestamp', nullable: false })
   @ApiProperty({
     type: Date,
-    description: 'Дата посещения врача'
+    description: 'Appointment start time',
   })
-  createdAt: Date;
-
+  time_start: Date;
 }

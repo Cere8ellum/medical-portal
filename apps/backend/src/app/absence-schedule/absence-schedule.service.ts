@@ -20,7 +20,7 @@ export class AbsenceScheduleService {
     const _existShedule = await this.scheduleRepository.findOne({
       where: {
         doctor_id: createScheduleDto.doctor_id,
-        date: createScheduleDto.date,
+        date_start: createScheduleDto.date_start,
       },
     });
     if (_existShedule)
@@ -28,7 +28,9 @@ export class AbsenceScheduleService {
 
     const schedule = await this.scheduleRepository.save({
       doctor_id: createScheduleDto.doctor_id,
-      date: createScheduleDto.date,
+      date_start: createScheduleDto.date_start,
+      date_end: createScheduleDto.date_end,
+      cause: createScheduleDto.cause,
     });
     return schedule;
   }
@@ -61,16 +63,19 @@ export class AbsenceScheduleService {
         doctor_id: doctorId,
       },
       order: {
-        date: 'ASC',
+        date_start: 'ASC',
       },
     });
   }
 
-  async findByDoctorIdAtDate(doctorId: number,date: Date): Promise<AbsenceScheduleEntity> {
+  async findByDoctorIdAtDate(
+    doctorId: number,
+    date: Date
+  ): Promise<AbsenceScheduleEntity> {
     return await this.scheduleRepository.findOne({
       where: {
         doctor_id: doctorId,
-        date: date
+        date_start: date,
       },
     });
   }

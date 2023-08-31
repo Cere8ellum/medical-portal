@@ -9,8 +9,8 @@ import { AbsenceScheduleEntity } from './entities/absence-schedule.entity';
 export class AbsenceScheduleController {
   constructor(private readonly absenceSheduleService: AbsenceScheduleService) {}
 
-  @Post()
   @ApiOperation({ summary: 'Создание расписания отсутствия врача' })
+  @Post()
   async create(
     @Body() absenceScheduleDto: CreateAbsenceScheduleDto
   ): Promise<AbsenceScheduleEntity | Error> {
