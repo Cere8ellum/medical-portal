@@ -1,4 +1,3 @@
-import MainLayout from 'apps/frontend/src/app/MainLayout/';
 import { useEffect, useState } from 'react';
 import styles from './styles/profile.module.css';
 import axios from 'axios';
@@ -38,12 +37,10 @@ function ProfileScreen() {
   }
 
   return (
-    <MainLayout>
-      <main className={styles['content']}>
-        {Tabs}
-        <ActiveTab></ActiveTab>
-      </main>
-    </MainLayout>
+    <main className={styles['content']}>
+      {Tabs}
+      <ActiveTab></ActiveTab>
+    </main>
   );
 }
 

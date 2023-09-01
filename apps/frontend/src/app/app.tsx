@@ -1,24 +1,35 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import MainScreen from '../pages/main';
-import AppointmentScreen from '../pages/appointment';
-import ProfileScreen from '../pages/profile/ProfileScreen';
-import { SignupScreen } from '../pages/signup';
-import LoginScreen from '../pages/auth/LoginScreen';
-import DoctorListScreen from '../pages/doctor_list/DoctorListScreen';
-import ChangePassword from '../pages/changepassword/ChangePassword';
+import { routes, routesWithoutLayout } from '../routes';
+import PrivateRoute from './PrivateRoute';
+import MainLayout from './MainLayout';
 
 export function App() {
   return (
     <Routes>
-      <Route path="/" element={<MainScreen />} />
-      <Route path="/login" element={<LoginScreen />} />
-      <Route path="/signup" element={<SignupScreen />} />
-      <Route path="/login" element={<LoginScreen />} />
-      <Route path="/appointment" element={<AppointmentScreen />} />
-      <Route path="/profile" element={<ProfileScreen />} />
-      <Route path="/doctors" element={<DoctorListScreen />} />
-      <Route path="/changepassword" element={<ChangePassword />} />
+      <Route path="/" element={<MainLayout />}>
+        {routes.map(({ isPublic, path, element }) =>
+          isPublic ? (
+            <Route key={path as string} path={path} element={element} />
+          ) : (
+            <Route
+              key={path as string}
+              path={path}
+              element={<PrivateRoute>{element}</PrivateRoute>}
+            />
+          )
+        )}
+      </Route>
+      {routesWithoutLayout.map(({ isPublic, path, element }) =>
+        isPublic ? (
+          <Route key={path as string} path={path} element={element} />
+        ) : (
+          <Route
+            key={path as string}
+            path={path}
+            element={<PrivateRoute>{element}</PrivateRoute>}
+          />
+        )
+      )}
     </Routes>
   );
 }

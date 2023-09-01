@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { authStore } from '../../../../stores';
 import api from '../../../../infrastructure/api';
 import styles from '../../styles/header.module.css';
 
@@ -6,9 +8,7 @@ function Header() {
   const [message, setMessage] = useState('Вы не авторизованы');
   const logout = async () => {
     try {
-      await api.post( `user/logout`, '');
-      api.defaults.headers.common['Authorization'] = '';
-      localStorage.removeItem('refreshToken');
+      await authStore.logout();
       setMessage('Вы не авторизованы');
     } catch (err) {
       console.log(err);
@@ -69,4 +69,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default observer(Header);
