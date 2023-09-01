@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AbsenceScheduleEntity } from './entities/absence-schedule.entity';
 import { Repository } from 'typeorm';
@@ -24,7 +19,7 @@ export class AbsenceScheduleService {
       },
     });
     if (_existShedule)
-      return new BadRequestException('This date is already busy');
+      throw new BadRequestException('This date is already busy');
 
     const schedule = await this.scheduleRepository.save({
       doctor_id: createScheduleDto.doctor_id,
@@ -35,7 +30,7 @@ export class AbsenceScheduleService {
     return schedule;
   }
 
-  async deleteById(sheduleId: number): Promise<boolean | Error> {
+  async deleteById(sheduleId: number) {
     try {
       const _schedule = await this.findById(sheduleId);
 
@@ -43,17 +38,10 @@ export class AbsenceScheduleService {
         await this.scheduleRepository.delete({ id: sheduleId });
         return true;
       } else {
-        console.log(_schedule);
-        return new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: 'This schedule does not exist.',
-          },
-          HttpStatus.NOT_FOUND
-        );
+        throw new BadRequestException('This schedule does not exist.');
       }
     } catch (error) {
-      return new Error(error);
+      throw new BadRequestException(error.message);
     }
   }
 

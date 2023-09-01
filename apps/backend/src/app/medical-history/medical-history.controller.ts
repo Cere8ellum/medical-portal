@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MedicalHistoryService } from './medical-history.service';
 import { CreateMedicalHistoryDto } from './dtos/create-medical-history.dto';
@@ -17,10 +17,19 @@ export class MedicalHistoryController {
     @Body() absenceScheduleDto: CreateMedicalHistoryDto
   ): Promise<MedicalHistoryEntity | Error> {
     try {
-      const result = await this.medicalHistoryService.create(
-        absenceScheduleDto
-      );
-      return result;
+      return await this.medicalHistoryService.create(absenceScheduleDto);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  @ApiOperation({
+    summary: 'Получить все медицинские истории',
+  })
+  @Get()
+  async getAll(): Promise<MedicalHistoryEntity[] | Error> {
+    try {
+      return await this.medicalHistoryService.findAll();
     } catch (error) {
       throw new Error(error.message);
     }

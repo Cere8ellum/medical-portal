@@ -19,4 +19,12 @@ export class MedicalHistoryService {
       time_start: createScheduleDto.time_start,
     });
   }
+
+  async findAll() {
+    return await this.medicalHistoryRepository.find({
+      order: {
+        id: 'ASC',
+      },
+    });
+  }
 }
