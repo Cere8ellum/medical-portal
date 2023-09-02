@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { AbsenceScheduleService } from './absence-schedule.service';
 import { CreateAbsenceScheduleDto } from './dtos/create-absence-shedule.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -9,8 +18,8 @@ import { AbsenceScheduleEntity } from './entities/absence-schedule.entity';
 export class AbsenceScheduleController {
   constructor(private readonly absenceSheduleService: AbsenceScheduleService) {}
 
-  @Post()
   @ApiOperation({ summary: 'Создание расписания отсутствия врача' })
+  @Post()
   async create(
     @Body() absenceScheduleDto: CreateAbsenceScheduleDto
   ): Promise<AbsenceScheduleEntity | Error> {
@@ -45,7 +54,11 @@ export class AbsenceScheduleController {
   @Delete('/schedule')
   async removeScheduleById(
     @Query('scheduleId') scheduleId: number
-  ): Promise<boolean | Error> {
-    return await this.absenceSheduleService.deleteById(scheduleId);
+  ): Promise<boolean | HttpException> {
+    try {
+      return await this.absenceSheduleService.deleteById(scheduleId);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 }

@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  Timestamp,
+} from 'typeorm';
 
 @Entity('absence-schedule')
 export class AbsenceScheduleEntity {
@@ -17,10 +23,24 @@ export class AbsenceScheduleEntity {
   })
   doctor_id: number;
 
-  @Column({ type: 'timestamp', nullable: false })
+  @CreateDateColumn({ type: 'timestamp', nullable: false })
   @ApiProperty({
-    type: 'timestamp',
-    description: 'Date of Shedule',
+    type: Timestamp,
+    description: 'Start Date of Absence',
   })
-  date: Date;
+  date_start: Date;
+
+  @CreateDateColumn({ type: 'timestamp', nullable: false })
+  @ApiProperty({
+    type: Timestamp,
+    description: 'End Date of Absence',
+  })
+  date_end: Date;
+
+  @Column('varchar', { nullable: false })
+  @ApiProperty({
+    type: 'string',
+    description: 'Cause of Absence',
+  })
+  cause: string;
 }
