@@ -4,8 +4,7 @@ import { Box, Button, Link, styled, Typography } from '@mui/material';
 import { isAxiosError } from 'axios';
 import { Formik, FormikHelpers, FormikValues } from 'formik';
 import { authStore } from '../../stores';
-import PasswordField from '../../components/PasswordField';
-import WhiteTextField from '../../components/WhiteTextField';
+import { PasswordField, WhiteTextField } from '../../components';
 import loginSchema from './schemas/loginSchema';
 
 const Form = styled('form')({
