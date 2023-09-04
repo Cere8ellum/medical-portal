@@ -21,7 +21,7 @@ import {
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { DoctorService } from './doctor.service';
 import { DoctorEntity } from './entities/doctor.entity';
-import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from '../user/entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { HelperFileLoader } from '../../utils/HelperFileLoader';
@@ -87,18 +87,33 @@ export class DoctorController {
    */
   @Get('/speciality')
   @ApiOperation({ summary: 'all doctors by spesiality' })
+  @ApiQuery({
+    name: 'speciality',
+    type: String,
+    description: 'специализация врача'
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Success',
+    type: [DoctorEntity],
+  })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request', type: Error })
   async getDoctorsWithSpeciality(
    @Query('speciality') speciality : string): Promise<DoctorEntity[]> {
       try {
+        let _doctors:DoctorEntity[] = [];
         if(!Speciality[speciality]) {
           for (const [key, value] of Object.entries(Speciality)) {
             if(value === speciality){
-              return await this.doctorService.findBySpeciality(Speciality[key])
+              _doctors =  await this.doctorService.findBySpeciality(Speciality[key])
             }
           }
         } else {
-            return await this.doctorService.findBySpeciality(Speciality[speciality])
+          _doctors =  await this.doctorService.findBySpeciality(Speciality[speciality])
         }
+        _doctors.map((doc: DoctorEntity)=> { doc.user.password = ''});
+
+        return _doctors
       } catch (error) {
         throw new BadRequestException(`err: ${error}`);
       }
@@ -123,12 +138,10 @@ export class DoctorController {
   ) {
     try {
       const _doctors = await this.doctorService.findAll();
-      const result = [];
-      _doctors.forEach(doctor => {
+      _doctors.map(doctor => {
         doctor.user.password = '';
-        result.push(doctor)
       });
-      res.status(HttpStatus.OK).json(result);
+      res.status(HttpStatus.OK).json( _doctors);
     } catch (error) {
       throw new BadRequestException(`err: ${error}`);
     }
@@ -144,10 +157,15 @@ export class DoctorController {
     @ApiResponse({
       status: HttpStatus.OK,
       description: 'Success',
-      type: [DoctorEntity],
+      type: DoctorEntity,
     })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
     @ApiOperation({ summary: 'Doctor info' })
+    @ApiParam({
+      name: 'id',
+      type: String,
+      description: 'id doctor'
+    })
     @Get('/:id')
     async getOneById(
       @Param('id',ParseIntPipe)id : number,
@@ -176,6 +194,7 @@ export class DoctorController {
     type: [String],
   })
   @ApiOperation({ summary: 'All speciality' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @Get('/all/specialities')
   async getAllSpecialities(): Promise<string[]>{
     try {
@@ -196,6 +215,21 @@ export class DoctorController {
   @Patch('/update/:id')
   @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Update a doctor' })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    description: 'doctor id'
+  })
+  @ApiBody({
+    type: UpdateDoctorDto,
+    description: 'поля с измененными данными '
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Success',
+    type: DoctorEntity,
+  })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('photo',
     {
@@ -215,7 +249,9 @@ export class DoctorController {
         if (photo?.filename) {
           updateDoctorDto.photo = PATH_NEWS + '/' + photo.filename;
         }
-        return await this.doctorService.update(id,updateDoctorDto);
+        const _doctor = await this.doctorService.update(id,updateDoctorDto);
+        _doctor.user.password = '';
+        return _doctor
       } catch (error) {
         throw Error(`err: ${error}`);
       }
@@ -226,6 +262,17 @@ export class DoctorController {
  * @param id
  * @returns message about operation delete
  */
+ @ApiResponse({
+  status: HttpStatus.OK,
+  description: 'Запись успешно удалена',
+  type: String,
+})
+@ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+@ApiParam({
+  name:'id',
+  type: String,
+  description: 'doctor id'
+})
   @Delete(':id')
   @ApiOperation({ summary: 'Удаление doctor' })
   async delete(@Param('id', ParseIntPipe) id : number) {

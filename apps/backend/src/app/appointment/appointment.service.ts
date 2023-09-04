@@ -16,6 +16,7 @@ import { DoctorService } from '../doctor/doctor.service';
 import moment from 'moment';
 import { AbsenceScheduleService } from '../absence-schedule/absence-schedule.service';
 import { runInThisContext } from 'vm';
+import { MedicalHistoryService } from '../medical-history/medical-history.service';
 
 @Injectable()
 export class AppointmentsService {
@@ -25,7 +26,8 @@ export class AppointmentsService {
     private userService: UserService,
     private doctorService: DoctorService,
     private mailServise: MailService,
-    private absence_sheduleService: AbsenceScheduleService
+    private absence_sheduleService: AbsenceScheduleService,
+    private medical_history: MedicalHistoryService,
   ) {}
 
   async create(appointment: CreateAppointmentDto): Promise<AppointmentEntity> {
@@ -63,13 +65,15 @@ export class AppointmentsService {
         new Date(appointment.date_start)
       );
 
-      // if(countAppAtDate === 24) {
-      //   await this.absence_sheduleService.create({
-      //     id: null,
-      //     doctor_id: +appointment.doctor_id,
-      //     date: new Date(appointment.date_start)
-      //   })
-      // }
+      if(countAppAtDate === 24) {
+        await this.absence_sheduleService.create({
+          id: null,
+          doctor_id: +appointment.doctor_id,
+          date_start: new Date(appointment.date_start),
+          date_end: new Date(appointment.date_start),
+          cause: 'full day'
+        })
+      }
       return _app;
     } catch (error) {
       throw new BadRequestException(`Can't book appointment: ${error}`);
@@ -78,7 +82,7 @@ export class AppointmentsService {
 
   async findOne(id: number): Promise<AppointmentEntity> {
     return await this.appointmentsRepository.findOne({
-      relations: ['doctor', 'patient', 'doctor.user'],
+      relations: ['doctor', 'patient', 'doctor.user','opinion'],
       where: { id: id },
     });
   }
@@ -119,7 +123,7 @@ export class AppointmentsService {
     finish: Date
   ): Promise<AppointmentEntity[]> {
     return await this.appointmentsRepository.find({
-      relations: ['patient', 'doctor', 'doctor.user'],
+      relations: ['patient', 'doctor', 'doctor.user','opinion'],
       where: {
         patient: { id: patient_id },
         date_start: Between(start, finish),
@@ -184,17 +188,24 @@ export class AppointmentsService {
     return _appointments.length;
   }
 
-  async update(
+  async updateStatus(
     id: number,
-    appointment: UpdateAppointmentDto
+    status: Status
   ): Promise<AppointmentEntity> {
     try {
       const _appointment = await this.findOne(id);
       if (_appointment) {
         const appointmentEntity = new AppointmentEntity();
         appointmentEntity.id = _appointment.id;
-        appointmentEntity.status = Status[appointment.status];
-        return await this.appointmentsRepository.save(appointmentEntity);
+        // const _opinion = await this.medical_history.findOne(appointment.opinion_id);
+        // if(_opinion) {
+        //   appointmentEntity.opinion_id = _opinion;
+        //   appointmentEntity.status = Status.Completed;
+        // } else {
+          appointmentEntity.status = Status[status];
+        // }
+        await this.appointmentsRepository.save(appointmentEntity);
+        return await this.findOne(id);
       } else {
         throw new BadRequestException(
           `the appointment Id=${id} doesn't exist.`
@@ -202,6 +213,40 @@ export class AppointmentsService {
       }
     } catch (error) {
       throw new BadRequestException(`Произошла ошибка: ${error}`);
+    }
+  }
+
+  async updateAddMedicalHistory(
+    id: number,
+    opinion_id: number
+  ): Promise<AppointmentEntity> {
+    try {
+      const _appointment = await this.findOne(id);
+      if (_appointment) {
+        const appointmentEntity = new AppointmentEntity();
+        appointmentEntity.id = _appointment.id;
+        const _opinion = await this.medical_history.findOne(opinion_id);
+        if(_opinion) {
+          appointmentEntity.opinion = _opinion;
+          appointmentEntity.status = Status.Completed;
+        } else {
+          throw new Error(
+            `The medical history with Id=${opinion_id} doesn't exist.`
+          );
+        }
+        await this.appointmentsRepository.save({
+          id: _appointment.id,
+          opinion: _opinion,
+          status: Status.Completed
+        });
+        return await this.findOne(id);
+      } else {
+        throw new Error(
+          `the appointment Id=${id} doesn't exist.`
+        );
+      }
+    } catch (error) {
+      throw new BadRequestException(`Произошла ошибка: ${error.message}`);
     }
   }
 

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { DoctorDTO } from '../dto/doctor-dto';
 import Pagination from '@mui/material/Pagination';
 import FilterSpeciality from './filter_components/filter_speciality';
+import api from 'apps/frontend/src/infrastructure/api';
 
 interface SearchField {
   speciality: string[];
@@ -19,7 +20,7 @@ const initialFilter: SearchField = {
   type: 'all',
 };
 
-const itemsPerPage = 10;
+const itemsPerPage = 4;
 
 const DoctorList = () => {
   const [doctors, setDoctors] = useState<DoctorDTO[]>([]);
@@ -31,9 +32,10 @@ const DoctorList = () => {
    * pagination
    */
 
-  const [currentItems, setCurrentItems] = useState<DoctorDTO[]>([]);
+  // const [currentItems, setCurrentItems] = useState<DoctorDTO[]>([]);
   const [pageCount, setPageCount] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
+  const [startOffSet, setStartOffSet] = useState<number>(0);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -45,50 +47,40 @@ const DoctorList = () => {
   useEffect(() => {
     async function getDoctors() {
       try {
-        axios
-          .get('http://localhost:3000/api/doctors/all')
+        api('/doctors/all')
           .then(({ data }) => {
             setDoctors(data);
             setDocFilter(data);
           })
-          .catch((error) => {});
+          .catch((error) => {
+            throw new Error(
+              `REST API ERROR. Impossible to get a list of doctors: ${error}`
+            );
+          });
       } catch (error) {
-        console.error(error);
+        throw new Error(`${error}`);
       }
     }
 
     async function getSpeciality() {
       try {
-        const response = await axios.get(
-          'http://localhost:3000/api/doctors/all/specialities'
-        );
+        const response = await api('/doctors/all/specialities');
         setSpecialities(response.data);
       } catch (error) {
         console.error(error);
       }
     }
-
     getDoctors();
     getSpeciality();
   }, []);
 
   useEffect(() => {
-    console.log('pаботает фильтр');
+    setStartOffSet(page * itemsPerPage - itemsPerPage);
     setPageCount(Math.ceil(docFilter.length / itemsPerPage));
-
-    const startOffset = page * itemsPerPage - itemsPerPage;
-    const endOffset = startOffset + itemsPerPage;
-    setCurrentItems(docFilter.slice(startOffset, endOffset));
   }, [docFilter]);
 
   useEffect(() => {
-    console.log('смена page or pagecount');
-    function setPagination() {
-      const startOffset = page * itemsPerPage - itemsPerPage;
-      const endOffset = startOffset + itemsPerPage;
-      setCurrentItems(docFilter.slice(startOffset, endOffset));
-    }
-    setPagination();
+    setStartOffSet(page * itemsPerPage - itemsPerPage);
   }, [page]);
 
   async function filter() {
@@ -179,11 +171,14 @@ const DoctorList = () => {
       </div>
 
       <div className={styles['doctors_card']}>
-        {currentItems.length !== 0 ? (
+        {docFilter.slice(startOffSet, startOffSet + itemsPerPage).length !==
+        0 ? (
           <>
-            {currentItems.map((doc: DoctorDTO) => {
-              return <DoctorCard key={doc.id} doctor={doc} />;
-            })}
+            {docFilter
+              .slice(startOffSet, startOffSet + itemsPerPage)
+              .map((doc: DoctorDTO) => {
+                return <DoctorCard key={doc.id} doctor={doc} />;
+              })}
           </>
         ) : (
           <div>

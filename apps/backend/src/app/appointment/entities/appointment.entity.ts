@@ -58,12 +58,12 @@ export class AppointmentEntity {
   })
   status: Status;
 
-  // @OneToOne(()=> MedicalHistoryEntity, (medical_history) => medical_history.appointment)
-  // @JoinColumn()
-  // @ApiProperty({
-  //   type: () => MedicalHistoryEntity,
-  //   description: 'Медицинское заключение визита',
-  //   default: null
-  // })
-  // medical_history: MedicalHistoryEntity;
+  @OneToOne(()=> MedicalHistoryEntity, (medical_history) => medical_history.id)
+  @JoinColumn()
+  @ApiProperty({
+    type: () => MedicalHistoryEntity,
+    description: 'заключение визита',
+    default: null
+  })
+  opinion: MedicalHistoryEntity;
 }

@@ -1,0 +1,280 @@
+.consultative-report {
+  border: 1px solid black;
+  width: 70%;
+  height: auto;
+  margin: auto;
+  margin-top: 100px;
+  padding-bottom: 100px;
+}
+
+.close {
+  width: 40px;
+  float: right;
+  cursor: pointer;
+}
+
+.header {
+  padding: 30px 100px 20px 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.header-title-medical {
+  margin: 0 5px 0 0;
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095bd;
+  font-size: 32px;
+}
+
+.header-title-online {
+  background-color: #8095bd;
+  color: #ffffff;
+  border-radius: 9px;
+  padding: 0 10px 0 10px;
+  font-family: 'Inter';
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.consult-title {
+  padding-bottom: 20px;
+  text-align: end;
+}
+
+.consult-date-list {
+  list-style-type: none;
+  text-align: end;
+}
+
+.consult-date-item {
+  padding-bottom: 10px;
+}
+
+.content {
+  padding: 0 100px;
+}
+
+.patient-list {
+  list-style-type: none;
+}
+
+.patient-item {
+  display: flex;
+  flex-direction: column;
+
+  // &-birthday {
+  //   margin-top: 20px;
+  //   margin-bottom: 20px;
+  // }
+}
+
+.patient-text-name,
+.patient-text-birthday,
+.patient-text-survey,
+.patient-text-diagnosis,
+.patient-text-therapy {
+  font-weight: 800;
+  font-family: sans-serif;
+  display: inline-block;
+}
+
+.patient-text-name-field,
+.patient-text-birthday-field {
+  display: inline-block;
+  font-weight: 400;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  white-space: pre-line;
+}
+
+.patient-text-diagnosis-field,
+.patient-text-survey-field,
+.patient-text-therapy-field {
+  display: inline-block;
+  font-weight: 400;
+  margin: 20px 0;
+  padding-left: 20px;
+  white-space: pre-line;
+}
+
+.doctor-info {
+  margin: 60px 0;
+  color: #8095bd;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  &-list {
+    list-style-type: none;
+    text-align: end;
+    margin-top: 70px;
+  }
+
+  &-text-name {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+  }
+}
+
+.report-btn-print {
+  width: 217px;
+  height: 58px;
+  background-color: #3d537c;
+  border-radius: 10px;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  float: right;
+}
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 100px;
+  align-items: center;
+
+  & img {
+    width: fill;
+  }
+}
+
+@media (max-width: 970px) {
+  .consultative-report {
+    width: 80%;
+    margin-top: 70px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 70px 20px 70px;
+  }
+
+  .content {
+    padding: 0 70px;
+  }
+
+  .consult-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .patient-text-name-field,
+  .patient-text-birthday-field,
+  .patient-text-diagnosis-field,
+  .patient-text-survey-field {
+    margin: 10px 0;
+  }
+
+  .doctor-info {
+    margin-top: 50px;
+  }
+}
+
+@media (max-width: 750px) {
+  .consultative-report {
+    width: 85%;
+    margin-top: 50px;
+  }
+
+  .consult-header {
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .doctor-info {
+    margin-top: 20px;
+  }
+
+  .header {
+    padding: 20px 50px 10px 50px;
+  }
+
+  .content {
+    padding: 0 50px;
+  }
+
+  .consult-date-list {
+    text-align: center;
+  }
+
+  .consult-title {
+    text-align: center;
+  }
+}
+
+@media (max-width: 390px) {
+  .consultative-report {
+    width: 90%;
+    margin-top: 20px;
+  }
+
+  .consult-header {
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .doctor-info {
+    margin-top: 20px;
+  }
+
+  .header {
+    padding: 20px 30px 10px 30px;
+  }
+
+  .content {
+    padding: 0 30px;
+  }
+}
+
+// @media print {
+//   html,
+//   body {
+//     height: initial !important;
+//     // 100vh; /* Use 100% here to support printing more than a single page*/
+//     margin: 0 !important;
+//     //padding: 0 !important;
+//     overflow: initial !important;
+//   }
+// }
+
+@media all {
+  .page-break {
+    display: none;
+  }
+}
+
+@media print {
+  html,
+  body {
+    height: initial !important;
+    overflow: initial !important;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+@media print {
+  .page-break {
+    margin-top: 1rem;
+    display: block;
+    page-break-before: auto;
+  }
+}
+
+@page {
+  size: auto;
+  margin: 10mm;
+}

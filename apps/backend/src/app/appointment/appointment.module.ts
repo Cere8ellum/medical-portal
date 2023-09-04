@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MedicalHistoryModule } from '../medical-history/medical-history.module';
 import { UserModule } from '../user/user.module';
 import { MailerModule,} from '@nestjs-modules/mailer';
-import { DoctorService } from '../doctor/doctor.service';
 import { DoctorModule } from '../doctor/doctor.module';
 import { AbsenceScheduleModule } from '../absence-schedule/absence-schedule.module';
 
@@ -16,6 +15,7 @@ import { AbsenceScheduleModule } from '../absence-schedule/absence-schedule.modu
   forwardRef(() => DoctorModule),
   forwardRef(()=> UserModule),
   forwardRef(()=> AbsenceScheduleModule),
+  forwardRef(()=> MedicalHistoryModule),
   MailerModule],
   controllers: [AppointmentsController],
   providers: [AppointmentsService],

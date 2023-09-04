@@ -12,6 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '../user/auth.guard';
 import { DoctorService } from '../doctor/doctor.service';
 import moment from 'moment';
+import { Status } from './enum/status.enum';
 
 
 @ApiTags('appointments')
@@ -171,8 +172,8 @@ export class AppointmentsController {
   @ApiOperation({ summary: 'поиск Appointment data по id' })
   @ApiParam({
     name: 'id',
-    required: true,
-    type: String,
+    required: false,
+    type: Number,
     description: 'appointment id'
   })
   async findOneAppointment(
@@ -182,15 +183,18 @@ export class AppointmentsController {
       try {
         const _appointment = await this.appointmentsService.findOne(id);
         if(!_appointment) {
-          res.status(HttpStatus.FORBIDDEN)
+          res.status(HttpStatus.FORBIDDEN).send('The appointmnent with this id doesn`t exist');
         }
         res.status(HttpStatus.OK).json({
           date: moment(_appointment.date_start).format('YYYY-MM-DD HH:mm'),
           doctor: `${_appointment.doctor.user.firstname} ${_appointment.doctor.user.lastname}`,
           speciality: _appointment.doctor.speciality,
           patient: `${_appointment.patient.firstname} ${_appointment.patient.lastname}`,
+          bday: _appointment.patient.birthdate,
           status: _appointment.status,
-          id: _appointment.id
+          category: _appointment.doctor.category,
+          id: _appointment.id,
+          opinion: _appointment.opinion
         });
       } catch (error) {
         throw new BadRequestException(`err: ${error}`);
@@ -240,7 +244,9 @@ export class AppointmentsController {
             speciality: appointment.doctor.speciality,
             patient: `${appointment.patient.firstname} ${appointment.patient.lastname}`,
             status: appointment.status,
-            id: appointment.id
+            category: appointment.doctor.category,
+            id: appointment.id,
+            opinion: appointment.opinion
           });
         });
         res.status(HttpStatus.OK).json(_appList);
@@ -274,7 +280,7 @@ export class AppointmentsController {
   }
 
   @Patch('update/:id')
-  @ApiOperation({ summary: 'Изменение статуса записи к врачу' })
+  @ApiOperation({ summary: 'Изменение записи к врачу' })
   @ApiResponse({ status: 200, description: 'The record has been successfully updated.' })
   @ApiResponse({ status: 400, description: 'Forbidden.' })
   @ApiParam({
@@ -283,15 +289,62 @@ export class AppointmentsController {
     type: String,
     description: 'appointment id'
   })
-  @ApiBody({type:  UpdateAppointmentDto})
+  @ApiQuery({
+    enum: ['Waiting', 'Cancelled', 'Completed','Started'],
+    description: 'Status визита',
+    name: 'status',
+    type: String
+  })
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() appointmentDto: UpdateAppointmentDto,
+    @Query('status') status: Status,
     @Res() res: Response
     ) {
     try {
-      await this.appointmentsService.update(id,appointmentDto);
-      res.status(HttpStatus.OK).send('Изменение статуса произошло успешно');
+      await this.appointmentsService.updateStatus(id,status);
+      res.status(HttpStatus.OK).send('Изменение произошло успешно');
+    } catch (error) {
+      throw new BadRequestException(`err: ${error}`);
+    }
+  }
+
+  @Patch('addOpinion/:id')
+  @ApiOperation({ summary: 'Изменение записи к врачу' })
+  @ApiResponse({ status: 200, description: 'The record has been successfully updated.' })
+  @ApiResponse({ status: 400, description: 'Forbidden.' })
+  @ApiParam({
+    name: 'id',
+    required: false,
+    type: String,
+    description: 'appointment id'
+  })
+  @ApiQuery({
+    description: 'id medical history',
+    name: 'opinion_id',
+    type: String
+  })
+  async addOpinion(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('opinion_id',ParseIntPipe) opinion_id: number,
+    @Res() res: Response
+    ) {
+    try {
+      const _appointment = await this.appointmentsService.updateAddMedicalHistory(id,opinion_id);
+      if(!_appointment) {
+        res.status(HttpStatus.FORBIDDEN).send('The appointmnent with this id doesn`t exist');
+      }
+      console.log('_appointment',_appointment);
+      res.status(HttpStatus.OK).json({
+        date: moment(_appointment.date_start).format('YYYY-MM-DD HH:mm'),
+        doctor: `${_appointment.doctor.user.firstname} ${_appointment.doctor.user.lastname}`,
+        speciality: _appointment.doctor.speciality,
+        patient: `${_appointment.patient.firstname} ${_appointment.patient.lastname}`,
+        bday: _appointment.patient.birthdate,
+        status: _appointment.status,
+        category: _appointment.doctor.category,
+        id: _appointment.id,
+        opinion: _appointment.opinion
+      });
     } catch (error) {
       throw new BadRequestException(`err: ${error}`);
     }
