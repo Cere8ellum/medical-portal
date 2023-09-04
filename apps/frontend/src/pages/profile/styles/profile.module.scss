@@ -9,13 +9,6 @@
 //   font-display: swap;
 // }
 
-* {
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-}
-
 *,
 *::before,
 *::after {
@@ -193,6 +186,10 @@ input {
   -webkit-appearance: none;
 }
 
+input:read-only {
+  filter: brightness(85%);
+}
+
 input:checked {
   outline: 3px solid #3d537c;
   border: 4px solid #ffffff;
@@ -239,6 +236,7 @@ input:checked {
   justify-content: center;
   align-items: center;
   margin: 15px;
+  cursor: pointer;
 }
 
 .persdata-btns-container {

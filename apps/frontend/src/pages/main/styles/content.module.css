@@ -1,27 +1,26 @@
 @font-face {
-  font-family: 'Inter';
+  font-family: "Inter";
   src: local("Inter"), url("../../../assets/fonts/Inter-Regular.woff2") format("woff2"), url("../../../assets/fonts/Inter-Regular.woff") format("woff"), url("../../../assets/fonts/Inter-Regular.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
-
 h1 {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 700;
   color: #8095bd;
   font-size: 42px;
 }
 
 h2 {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 700;
   color: #8095bd;
   font-size: 40px;
 }
 
 h3 {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 700;
   color: #8095bd;
   font-size: 24px;
@@ -91,7 +90,8 @@ p {
   font-weight: 600;
   font-size: 14px;
   width: 160px;
-  height: 58px;
+  line-height: 58px;
+  text-align: center;
 }
 
 .registration-btn {
@@ -141,38 +141,35 @@ p {
   margin: 0 0 15px 0;
 }
 
-@media(max-width: 960px){
-  .content-top-img{
-     display: none; 
-    
+@media (max-width: 960px) {
+  .content-top-img {
+    display: none;
   }
-
-  .content-top{
-    justify-content: center;
-    background-color: rgba(256,256,256,0.75);
+  .content-top {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    background-color: rgba(255, 255, 255, 0.75);
     margin-bottom: 81px;
     margin-left: 0;
   }
-
-  .content-opasity{
+  .content-opasity {
     background-image: url("../../../../src/assets/images/main-image.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-   
   }
-  
-  .content-menu-list{
-    justify-content: center;
-    flex-wrap: wrap;
+  .content-menu-list {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
   }
-
-  .content-menu-text{
+  .content-menu-text {
     margin-right: 10px;
   }
-
-  .entry-btn{
+  .entry-btn {
     margin-bottom: 50px;
   }
-}
-/*# sourceMappingURL=content.module.css.map */
+}/*# sourceMappingURL=content.module.css.map */

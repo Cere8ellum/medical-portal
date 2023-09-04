@@ -1,10 +1,3 @@
-* {
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-}
-
 .footer {
   background-color: #3d537c;
   height: 155px;
@@ -72,4 +65,37 @@
   border-radius: 10px;
   background-color: #3d537c;
   color: #ffffff;
+}
+
+@media (max-width: 960px) {
+  .footer {
+    height: 100%;
+  }
+  .footer-wrap {
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-left {
+    margin-bottom: 60px;
+  }
+
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .subscribe-btn {
+    order: 2;
+    margin-right: 0;
+    width: 255px;
+    height: 54px;
+    margin-bottom: 105px;
+  }
+
+  .mail-btn {
+    order: 1;
+    width: 255px;
+    height: 54px;
+    margin-bottom: 38px;
+  }
 }
