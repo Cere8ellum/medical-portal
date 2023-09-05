@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { SyntheticEvent, useEffect, useMemo, useReducer, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
@@ -13,7 +12,8 @@ import {
 } from 'formik';
 import { isAxiosError } from 'axios';
 import api from '../../../infrastructure/api';
-import Form from '../../../components/Form';
+import { snackbarStore } from '../../../stores';
+import { Form, Snackbar } from '../../../components';
 import { Field, formReducer, FormState, Status } from '../reducers/formReducer';
 import appointmentSchema from '../schemas/appointmentSchema';
 import WrappedAutoComplete from './Autocomplete';
@@ -63,7 +63,6 @@ const initialValues: FormikValues = {
 
 const AppointmentForm = () => {
   const [state, dispatch] = useReducer(formReducer, initialState);
-  const navigate = useNavigate();
   const formikRef = useRef<FormikProps<FormikValues>>(null);
   const dateRef = useRef<Dayjs | null>(null);
   const timeSlotsOptions = useMemo(
@@ -96,7 +95,12 @@ const AppointmentForm = () => {
         dispatch({ type: 'REJECT' });
 
         if (isAxiosError(error)) {
-          alert(error.request.data.message);
+          snackbarStore.setContent({
+            severity: 'error',
+            message: error.request.data.message,
+          });
+
+          snackbarStore.handleOpen();
         } else {
           console.error(error);
         }
@@ -130,7 +134,12 @@ const AppointmentForm = () => {
         error.response !== null &&
         error.response !== undefined
       ) {
-        alert(error.response.data.message);
+        snackbarStore.setContent({
+          severity: 'error',
+          message: error.request.data.message,
+        });
+
+        snackbarStore.handleOpen();
       } else {
         console.error(error);
       }
@@ -161,7 +170,12 @@ const AppointmentForm = () => {
         error.response !== null &&
         error.response !== undefined
       ) {
-        alert(error.response.data.message);
+        snackbarStore.setContent({
+          severity: 'error',
+          message: error.request.data.message,
+        });
+
+        snackbarStore.handleOpen();
       } else {
         console.error(error);
       }
@@ -203,7 +217,12 @@ const AppointmentForm = () => {
         error.response !== null &&
         error.response !== undefined
       ) {
-        alert(error.response.data.message);
+        snackbarStore.setContent({
+          severity: 'error',
+          message: error.request.data.message,
+        });
+
+        snackbarStore.handleOpen();
       } else {
         console.error(error);
       }
@@ -229,9 +248,14 @@ const AppointmentForm = () => {
       });
 
       resetForm();
-      alert(
-        'Вы успешно записались на прием. Ожидайте письмо на электронную почту'
-      );
+
+      snackbarStore.setContent({
+        severity: 'success',
+        message:
+          'Вы успешно записались на прием. Ожидайте письмо на электронную почту',
+      });
+
+      snackbarStore.handleOpen();
     } catch (err) {
       if (
         isAxiosError(err) &&
@@ -241,12 +265,22 @@ const AppointmentForm = () => {
         const { message } = err.response.data;
 
         if (Array.isArray(message)) {
-          alert(message.join('. '));
+          snackbarStore.setContent({
+            severity: 'error',
+            message: message.join('. '),
+          });
+
+          snackbarStore.handleOpen();
           return;
         }
 
         if (typeof message === 'string') {
-          alert(message);
+          snackbarStore.setContent({
+            severity: 'error',
+            message: message,
+          });
+
+          snackbarStore.handleOpen();
         }
       } else {
         console.error(err);
@@ -257,219 +291,223 @@ const AppointmentForm = () => {
   };
 
   return (
-    <Formik
-      innerRef={formikRef}
-      initialValues={initialValues}
-      enableReinitialize
-      validate={(values) => {
-        const validationSchema = appointmentSchema;
+    <>
+      <Formik
+        innerRef={formikRef}
+        initialValues={initialValues}
+        enableReinitialize
+        validate={(values) => {
+          const validationSchema = appointmentSchema;
 
-        try {
-          validateYupSchema<FormikValues>(values, validationSchema, true, {
-            absences: state.absences,
-          });
-        } catch (err) {
-          return yupToFormErrors(err);
-        }
+          try {
+            validateYupSchema<FormikValues>(values, validationSchema, true, {
+              absences: state.absences,
+            });
+          } catch (err) {
+            return yupToFormErrors(err);
+          }
 
-        return {};
-      }}
-      onSubmit={handleSubmit}
-    >
-      {({
-        values: { speciality, doctor, appointmentDate, appointmentTime },
-        errors,
-        touched,
-        handleBlur,
-        handleSubmit,
-        setFieldValue,
-        setFieldTouched,
-        resetForm,
-        isSubmitting,
-        isValid,
-        dirty,
-      }) => (
-        <Form
-          method="post"
-          sx={{
-            width: '342px',
-            display: 'flex',
-            flexDirection: 'column',
-            rowGap: '26px',
-          }}
-          onSubmit={handleSubmit}
-        >
-          <WrappedAutoComplete
-            id="speciality-select"
-            name="speciality"
-            label="Специальность"
-            options={state.specialities}
-            value={speciality}
-            error={touched.speciality && Boolean(errors.speciality)}
-            helperText={touched.speciality && errors.speciality}
-            disabled={
-              state.status === Status.Loading || state.status === Status.Error
-            }
-            onChange={(event: SyntheticEvent, speciality) => {
-              resetForm();
-              setFieldValue('speciality', speciality);
-
-              if (speciality !== null) {
-                fetchDoctors(speciality);
-              }
-            }}
-            onBlur={handleBlur}
-          />
-          <WrappedAutoComplete
-            id="doctor-select"
-            name="doctor"
-            label="Врач"
-            options={state.doctors}
-            value={doctor}
-            error={touched.doctor && Boolean(errors.doctor)}
-            helperText={touched.doctor && errors.doctor}
-            disabled={
-              state.status === Status.Loading ||
-              state.status === Status.Error ||
-              !speciality
-            }
-            onChange={(event: SyntheticEvent, option) => {
-              setFieldValue('appointmentDate', null);
-              setFieldValue('appointmentTime', null);
-
-              if (option === null) {
-                setFieldValue('doctor', null);
-                return;
-              }
-
-              setFieldValue('doctor', option);
-
-              if (typeof option !== 'string') {
-                fetchAbsences(option.value);
-              }
-            }}
-            onBlur={handleBlur}
-          />
-          <DatePicker
-            label="Выберите день записи"
-            value={appointmentDate}
-            disabled={
-              state.status === Status.Loading ||
-              state.status === Status.Error ||
-              !speciality ||
-              !doctor
-            }
-            disablePast
-            maxDate={dayjs().add(3, 'month')}
-            onChange={(value) => {
-              setFieldValue('appointmentDate', value);
-            }}
-            onClose={() => {
-              setFieldTouched('appointmentDate', true, false);
-            }}
-            onAccept={(value) => {
-              if (doctor && value !== null && dayjs(value).isValid()) {
-                dateRef.current = value;
-
-                fetchDoctorAppointments(
-                  doctor.value,
-                  value.format('YYYY-MM-DD')
-                );
-              }
-            }}
-            shouldDisableDate={(date: unknown): boolean => {
-              if (dayjs.isDayjs(date)) {
-                return state.absences.some(
-                  (el) => el.format('YYYY-MM-DD') === date.format('YYYY-MM-DD')
-                );
-              }
-
-              return false;
-            }}
-            slotProps={{
-              textField: {
-                name: 'appointmentDate',
-                error:
-                  touched.appointmentDate && Boolean(errors.appointmentDate),
-                helperText: touched.appointmentDate && errors.appointmentDate,
-                onBlur: (e) => {
-                  handleBlur(e);
-
-                  if (
-                    doctor &&
-                    appointmentDate !== null &&
-                    dayjs(appointmentDate).isValid() &&
-                    dateRef.current !== appointmentDate
-                  ) {
-                    dateRef.current = appointmentDate;
-                    setFieldValue('appointmentTime', null);
-
-                    fetchDoctorAppointments(
-                      doctor.value,
-                      appointmentDate.format('YYYY-MM-DD')
-                    );
-                  }
-                },
-              },
-            }}
+          return {};
+        }}
+        onSubmit={handleSubmit}
+      >
+        {({
+          values: { speciality, doctor, appointmentDate, appointmentTime },
+          errors,
+          touched,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+          setFieldTouched,
+          resetForm,
+          isSubmitting,
+          isValid,
+          dirty,
+        }) => (
+          <Form
+            method="post"
             sx={{
-              '& .MuiInputBase-root': {
-                width: '100%',
-                backgroundColor: ({ palette }) => palette.common.white,
-                borderRadius: '10px',
-              },
-
-              '& fieldset': {
-                borderColor: ({ palette }) => palette.primary.main,
-                borderWidth: '2px',
-                borderRadius: '10px',
-                boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-              },
-
-              '& .MuiSvgIcon-root ': {
-                fill: ({ palette }) => palette.primary.main,
-              },
+              width: '342px',
+              display: 'flex',
+              flexDirection: 'column',
+              rowGap: '26px',
             }}
-          />
-          <WrappedAutoComplete
-            id="appointmentTime"
-            name="appointmentTime"
-            label="Время записи"
-            options={state.timeSlots}
-            value={appointmentTime}
-            error={touched.appointmentTime && Boolean(errors.appointmentTime)}
-            helperText={touched.appointmentTime && errors.appointmentTime}
-            disabled={
-              state.status === Status.Loading ||
-              state.status === Status.Error ||
-              !speciality ||
-              !doctor ||
-              !appointmentDate ||
-              Boolean(errors.appointmentDate)
-            }
-            onChange={(event: SyntheticEvent, time) => {
-              setFieldValue('appointmentTime', time);
-            }}
-            onBlur={handleBlur}
-          />
-          <Button
-            color="primary"
-            variant="contained"
-            sx={{
-              borderRadius: '10px',
-              width: '100%',
-              fontSize: '14px',
-              fontWeight: '600',
-              lineHeight: 'normal',
-            }}
-            type="submit"
-            disabled={!(isValid && dirty) || isSubmitting}
+            onSubmit={handleSubmit}
           >
-            Записаться на прием
-          </Button>
-        </Form>
-      )}
-    </Formik>
+            <WrappedAutoComplete
+              id="speciality-select"
+              name="speciality"
+              label="Специальность"
+              options={state.specialities}
+              value={speciality}
+              error={touched.speciality && Boolean(errors.speciality)}
+              helperText={touched.speciality && errors.speciality}
+              disabled={
+                state.status === Status.Loading || state.status === Status.Error
+              }
+              onChange={(event: SyntheticEvent, speciality) => {
+                resetForm();
+                setFieldValue('speciality', speciality);
+
+                if (speciality !== null) {
+                  fetchDoctors(speciality);
+                }
+              }}
+              onBlur={handleBlur}
+            />
+            <WrappedAutoComplete
+              id="doctor-select"
+              name="doctor"
+              label="Врач"
+              options={state.doctors}
+              value={doctor}
+              error={touched.doctor && Boolean(errors.doctor)}
+              helperText={touched.doctor && errors.doctor}
+              disabled={
+                state.status === Status.Loading ||
+                state.status === Status.Error ||
+                !speciality
+              }
+              onChange={(event: SyntheticEvent, option) => {
+                setFieldValue('appointmentDate', null);
+                setFieldValue('appointmentTime', null);
+
+                if (option === null) {
+                  setFieldValue('doctor', null);
+                  return;
+                }
+
+                setFieldValue('doctor', option);
+
+                if (typeof option !== 'string') {
+                  fetchAbsences(option.value);
+                }
+              }}
+              onBlur={handleBlur}
+            />
+            <DatePicker
+              label="Выберите день записи"
+              value={appointmentDate}
+              disabled={
+                state.status === Status.Loading ||
+                state.status === Status.Error ||
+                !speciality ||
+                !doctor
+              }
+              disablePast
+              maxDate={dayjs().add(3, 'month')}
+              onChange={(value) => {
+                setFieldValue('appointmentDate', value);
+              }}
+              onClose={() => {
+                setFieldTouched('appointmentDate', true, false);
+              }}
+              onAccept={(value) => {
+                if (doctor && value !== null && dayjs(value).isValid()) {
+                  dateRef.current = value;
+
+                  fetchDoctorAppointments(
+                    doctor.value,
+                    value.format('YYYY-MM-DD')
+                  );
+                }
+              }}
+              shouldDisableDate={(date: unknown): boolean => {
+                if (dayjs.isDayjs(date)) {
+                  return state.absences.some(
+                    (el) =>
+                      el.format('YYYY-MM-DD') === date.format('YYYY-MM-DD')
+                  );
+                }
+
+                return false;
+              }}
+              slotProps={{
+                textField: {
+                  name: 'appointmentDate',
+                  error:
+                    touched.appointmentDate && Boolean(errors.appointmentDate),
+                  helperText: touched.appointmentDate && errors.appointmentDate,
+                  onBlur: (e) => {
+                    handleBlur(e);
+
+                    if (
+                      doctor &&
+                      appointmentDate !== null &&
+                      dayjs(appointmentDate).isValid() &&
+                      dateRef.current !== appointmentDate
+                    ) {
+                      dateRef.current = appointmentDate;
+                      setFieldValue('appointmentTime', null);
+
+                      fetchDoctorAppointments(
+                        doctor.value,
+                        appointmentDate.format('YYYY-MM-DD')
+                      );
+                    }
+                  },
+                },
+              }}
+              sx={{
+                '& .MuiInputBase-root': {
+                  width: '100%',
+                  backgroundColor: ({ palette }) => palette.common.white,
+                  borderRadius: '10px',
+                },
+
+                '& fieldset': {
+                  borderColor: ({ palette }) => palette.primary.main,
+                  borderWidth: '2px',
+                  borderRadius: '10px',
+                  boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                },
+
+                '& .MuiSvgIcon-root ': {
+                  fill: ({ palette }) => palette.primary.main,
+                },
+              }}
+            />
+            <WrappedAutoComplete
+              id="appointmentTime"
+              name="appointmentTime"
+              label="Время записи"
+              options={state.timeSlots}
+              value={appointmentTime}
+              error={touched.appointmentTime && Boolean(errors.appointmentTime)}
+              helperText={touched.appointmentTime && errors.appointmentTime}
+              disabled={
+                state.status === Status.Loading ||
+                state.status === Status.Error ||
+                !speciality ||
+                !doctor ||
+                !appointmentDate ||
+                Boolean(errors.appointmentDate)
+              }
+              onChange={(event: SyntheticEvent, time) => {
+                setFieldValue('appointmentTime', time);
+              }}
+              onBlur={handleBlur}
+            />
+            <Button
+              color="primary"
+              variant="contained"
+              sx={{
+                borderRadius: '10px',
+                width: '100%',
+                fontSize: '14px',
+                fontWeight: '600',
+                lineHeight: 'normal',
+              }}
+              type="submit"
+              disabled={!(isValid && dirty) || isSubmitting}
+            >
+              Записаться на прием
+            </Button>
+          </Form>
+        )}
+      </Formik>
+      <Snackbar />
+    </>
   );
 };
 
