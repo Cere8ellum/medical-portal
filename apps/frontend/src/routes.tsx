@@ -6,6 +6,8 @@ import LoginScreen from './pages/auth';
 import SignupScreen from './pages/signup';
 import DoctorListScreen from './pages/doctor_list/DoctorListScreen';
 import NotFoundPage from './pages/NotFoundPage';
+import OpinionDocument from './pages/opinion/opinion_doc';
+import OpinionForm from './pages/opinion/opinion_form';
 
 type Route = RouteObject & {
   isPublic: boolean;
@@ -48,6 +50,16 @@ export const routesWithoutLayout: Route[] = [
   {
     path: '*',
     element: <NotFoundPage />,
+    isPublic: true,
+  },
+  {
+    path: '/opinion/:appointmentId',
+    element: <OpinionDocument />,
+    isPublic: true,
+  },
+  {
+    path: '/opinionform/:appointmentId',
+    element: <OpinionForm />,
     isPublic: true,
   },
 ];
