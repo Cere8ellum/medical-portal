@@ -1,10 +1,11 @@
+import { useLocation, useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react';
 import { Box, Button, Link, styled, Typography } from '@mui/material';
 import { isAxiosError } from 'axios';
 import { Formik, FormikHelpers, FormikValues } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { authStore } from '../../stores';
 import PasswordField from '../../components/PasswordField';
 import WhiteTextField from '../../components/WhiteTextField';
-import api from '../../infrastructure/api';
 import loginSchema from './schemas/loginSchema';
 
 const Form = styled('form')({
@@ -23,29 +24,22 @@ interface Values {
 
 const initialValues: Values = { email: '', password: '' };
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.FC = (props) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const fromPage = location.state?.from?.pathname || '/';
 
   const handleSubmit = async (
     { email, password }: FormikValues,
     { resetForm, setSubmitting, setFieldError }: FormikHelpers<Values>
   ) => {
+    setSubmitting(true);
+
     try {
-      setSubmitting(true);
-
-      const { data } = await api.post(
-        `user/login`,
-        {
-          email,
-          password,
-        },
-      );
-
-      api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
-      localStorage.setItem('refreshToken', data.token);
-
+      await authStore.login(email, password);
       resetForm();
-      navigate('/');
+      navigate(fromPage);
     } catch (err) {
       if (
         isAxiosError(err) &&
@@ -169,4 +163,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default observer(LoginForm);

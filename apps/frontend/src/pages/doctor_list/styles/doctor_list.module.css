@@ -2,7 +2,6 @@
   margin-top: 108px;
   margin-bottom: 108px;
 }
-
 .doctors_title {
   color: #3d537c;
   font-family: Inter;
@@ -12,7 +11,6 @@
   padding-left: 205px;
   height: 55px;
 }
-
 .doctors_search {
   height: 68px;
   background-color: #3d537c;
@@ -33,7 +31,6 @@
           align-items: center;
   position: relative;
 }
-
 .doctors_card {
   margin-top: 106px;
   display: -webkit-box;
@@ -48,7 +45,6 @@
       -ms-flex-align: center;
           align-items: center;
 }
-
 @media (max-width: 1020px) and (min-width: 730px) {
   .doctors {
     margin-top: 86px;
@@ -69,7 +65,6 @@
     padding: 0 0 25px 0;
   }
 }
-
 @media (max-width: 730px) {
   .doctors {
     margin-top: 70px;
@@ -110,12 +105,10 @@
           box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
   overflow: hidden;
 }
-
 .card_photo {
   width: 260px;
   height: 260px;
 }
-
 .card_info {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -126,7 +119,6 @@
           flex-direction: column;
   gap: 15px;
 }
-
 @media (max-width: 1020px) and (min-width: 730px) {
   .card {
     width: 730px;
@@ -144,7 +136,6 @@
     gap: 20px;
   }
 }
-
 @media (max-width: 730px) {
   .card {
     width: 310px;
@@ -179,7 +170,6 @@
   display: flex;
   gap: 50px;
 }
-
 .filter_title {
   color: #fff;
   font-family: Inter;
@@ -188,7 +178,6 @@
   font-weight: 300;
   height: 30px;
 }
-
 .filter_speciality {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -198,7 +187,6 @@
           align-items: center;
   gap: 9px;
 }
-
 .filter_speciality_title {
   color: #fff;
   font-family: Inter;
@@ -207,7 +195,6 @@
   font-weight: 300;
   height: 30px;
 }
-
 .filter_speciality_open {
   display: block;
   color: #fff;
@@ -216,11 +203,9 @@
   -ms-flex-item-align: end;
       align-self: flex-end;
 }
-
 .filter_speciality_open_active {
   display: none;
 }
-
 @media (max-width: 730px) {
   .filter_speciality_title {
     font-size: 16px;
@@ -237,13 +222,11 @@
   font-family: Inter;
   font-size: 24px;
 }
-
 .info_year {
   color: #858585;
   font-family: Inter;
   font-size: 16px;
 }
-
 .info_title {
   color: #858585;
   font-family: Inter;
@@ -252,7 +235,6 @@
   font-weight: 700;
   line-height: normal;
 }
-
 .info_about {
   color: #000;
   font-family: Inter;
@@ -261,13 +243,11 @@
   font-weight: 700;
   line-height: normal;
 }
-
 @media (max-width: 1020px) and (min-width: 730px) {
   .info_name {
     font-size: 36px;
   }
 }
-
 @media (max-width: 730px) {
   .info_name {
     font-size: 16px;
@@ -305,19 +285,16 @@
           box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
   display: none;
 }
-
 .speciality_active {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
-
 .speciality_list {
   z-index: 2;
   cursor: pointer;
   overflow-y: scroll;
 }
-
 .speciality_item {
   cursor: pointer;
   text-decoration: none;
@@ -326,26 +303,21 @@
   font-weight: 600;
   display: block;
 }
-
 .speciality_item:hover {
   background: #3d537c;
   color: #fff;
   font-size: 16px;
 }
-
 .speciality_item_check {
   display: none;
   height: 19px;
 }
-
 .speciality_chevron_up {
   width: 25px;
   display: block;
   -ms-flex-item-align: end;
-      -ms-grid-row-align: end;
       align-self: end;
 }
-
 .speciality_chevron_up:hover {
   -webkit-transform: scale(1.2);
           transform: scale(1.2);
@@ -356,9 +328,7 @@
   background-color: #95c2e9;
   font-size: 16px;
 }
-
 .active img {
   display: inline;
   float: left;
-}
-/*# sourceMappingURL=doctor_list.module.css.map */
+}/*# sourceMappingURL=doctor_list.module.css.map */

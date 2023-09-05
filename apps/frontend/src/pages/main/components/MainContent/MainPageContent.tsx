@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from '../../styles/content.module.css';
 
 function MainPageContent() {
@@ -18,9 +19,9 @@ function MainPageContent() {
             </div>
             <div className={styles['content-top-button']}>
               <div className={styles['content-top-button-wrap']}>
-                <button className={styles['autirization-btn']}>
+                <Link className={styles['autirization-btn']} to="/login/">
                   АВТОРИЗОВАТЬСЯ
-                </button>
+                </Link>
                 <button className={styles['registration-btn']}>
                   ЗАРЕГИСТРИРОВАТЬСЯ
                 </button>

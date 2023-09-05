@@ -1,34 +1,27 @@
 /* Inter Regular 400 */
-* {
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-}
-
 *,
 *::before,
 *::after {
   -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 h1 {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 700;
   color: #8095bd;
   font-size: 42px;
 }
 
 h2 {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 700;
   color: #8095bd;
   font-size: 40px;
 }
 
 h3 {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 700;
   color: #8095bd;
   font-size: 24px;
@@ -52,12 +45,12 @@ p {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background-image: url('../../../assets/images/lk-background.png');
+      -ms-flex-align: center;
+          align-items: center;
+  background-image: url("../../../assets/images/lk-background.png");
   background-repeat: no-repeat;
   background-position-x: left;
   background-position-y: bottom;
@@ -70,11 +63,11 @@ p {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .content-nav {
@@ -83,8 +76,8 @@ p {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: space-evenly;
-  -ms-flex-pack: space-evenly;
-  justify-content: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
 }
 
 .content-nav-item {
@@ -97,22 +90,21 @@ p {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.content-nav-item-active {
+.content-nav-item.active {
   border: 5px solid #3d537c;
   /*border-bottom: rgba(255, 255, 255, 0.05);
   border-bottom-width: 5px;
   border-bottom-style: inset;*/
   background-color: rgba(255, 255, 255, 0.3);
 }
-
-.content-nav-item-active button {
+.content-nav-item.active button {
   color: #3d537c;
 }
 
@@ -122,6 +114,9 @@ p {
   font-size: 20px;
   font-weight: 500;
   color: #ffffff;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }
 
 .content-nav-title {
@@ -152,15 +147,15 @@ p {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+      flex-wrap: wrap;
   -ms-flex-line-pack: start;
-  align-content: flex-start;
+      align-content: flex-start;
   -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   margin-top: 50px;
 }
 
@@ -177,14 +172,14 @@ p {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-align: start;
-  -ms-flex-align: start;
-  align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
   -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .persdata-text {
@@ -206,10 +201,10 @@ p {
   padding: 7px;
 }
 
-input[type='text'],
-input[type='email'],
-input[type='date'],
-input[type='number'] {
+input[type=text],
+input[type=email],
+input[type=date],
+input[type=number] {
   font-family: Inter;
   font-weight: 600;
   color: #3d537c;
@@ -218,6 +213,15 @@ input[type='number'] {
 
 input {
   -webkit-appearance: none;
+}
+
+input:-moz-read-only {
+  filter: brightness(85%);
+}
+
+input:read-only {
+  -webkit-filter: brightness(85%);
+          filter: brightness(85%);
 }
 
 input:checked {
@@ -245,8 +249,8 @@ input:checked {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
   gap: 30px;
 }
 
@@ -258,11 +262,11 @@ input:checked {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .persdata-btn {
@@ -278,12 +282,13 @@ input:checked {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin: 15px;
+  cursor: pointer;
 }
 
 .persdata-btns-container {
@@ -293,15 +298,15 @@ input:checked {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+      flex-wrap: wrap;
   -ms-flex-line-pack: center;
-  align-content: center;
+      align-content: center;
   -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   margin-top: 71px;
 }
 
@@ -313,4 +318,42 @@ input:checked {
 .persdata-btn-addfamily-svg {
   margin-left: 30px;
 }
-/*# sourceMappingURL=profile.module.css.map */
+
+.tabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tab {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  background: lightsteelblue;
+  padding: 2em 0;
+  border: none;
+  cursor: pointer;
+}
+
+.tab:not(:last-child) {
+  border-right: 1px solid steelblue;
+}
+
+.tab.active {
+  background: steelblue;
+  font-weight: bold;
+}
+
+.panel {
+  display: none;
+  background-color: #eaeaea;
+  padding: 10px;
+}
+
+.panel.active {
+  display: block;
+}/*# sourceMappingURL=profile.module.css.map */

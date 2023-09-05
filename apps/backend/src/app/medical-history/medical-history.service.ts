@@ -51,4 +51,12 @@ export class MedicalHistoryService {
       throw new BadRequestException(error.message)
     }
   }
+
+  async findAll() {
+    return await this.medicalHistoryRepository.find({
+      order: {
+        id: 'ASC',
+      },
+    });
+  }
 }

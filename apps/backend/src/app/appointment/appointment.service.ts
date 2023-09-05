@@ -89,7 +89,7 @@ export class AppointmentsService {
 
   async findAllByPatient(patient_id: number): Promise<AppointmentEntity[]> {
     return await this.appointmentsRepository.find({
-      relations: ['patient', 'doctor', 'doctor.user'],
+      relations: ['patient', 'doctor', 'doctor.user','opinion'],
       where: {
         patient: { id: patient_id },
       },

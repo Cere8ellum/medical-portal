@@ -1,5 +1,4 @@
 import { Box, Container, styled, Typography } from '@mui/material';
-import MainLayout from '../../app/MainLayout';
 import AppointmentForm from './components/AppointmentForm';
 
 const BackGroundImg = styled('img')({
@@ -13,48 +12,46 @@ const BackGroundImg = styled('img')({
 
 const AppointmentScreen = () => {
   return (
-    <MainLayout>
-      <Container
-        disableGutters
-        sx={{ position: 'relative', maxWidth: '1345px !important' }}
+    <Container
+      disableGutters
+      sx={{ position: 'relative', maxWidth: '1345px !important' }}
+    >
+      <Box
+        sx={{
+          height: '686px',
+          position: 'relative',
+          padding: '19px 0 30px 174px',
+          overflow: 'hidden',
+          boxSizing: 'border-box',
+        }}
       >
         <Box
           sx={{
-            height: '686px',
+            width: '440px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            zIndex: 2,
             position: 'relative',
-            padding: '19px 0 30px 174px',
-            overflow: 'hidden',
-            boxSizing: 'border-box',
           }}
         >
-          <Box
+          <Typography
+            variant="h4"
+            color="primary.main"
             sx={{
               width: '440px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              zIndex: 2,
-              position: 'relative',
+              marginBottom: '35px',
+              textAlign: 'center',
+              textTransform: 'uppercase',
             }}
           >
-            <Typography
-              variant="h4"
-              color="primary.main"
-              sx={{
-                width: '440px',
-                marginBottom: '35px',
-                textAlign: 'center',
-                textTransform: 'uppercase',
-              }}
-            >
-              электронная регистрация
-            </Typography>
-            <AppointmentForm />
-          </Box>
+            электронная регистрация
+          </Typography>
+          <AppointmentForm />
         </Box>
-        <BackGroundImg src="../../assets/images/main-image.png" alt="doctors" />
-      </Container>
-    </MainLayout>
+      </Box>
+      <BackGroundImg src="../../assets/images/main-image.png" alt="doctors" />
+    </Container>
   );
 };
 

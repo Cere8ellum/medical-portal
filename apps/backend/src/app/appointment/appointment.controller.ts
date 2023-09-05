@@ -52,12 +52,14 @@ export class AppointmentsController {
         let _appList = [];
         _list.forEach(appointment => {
           _appList.push({
-            date: moment(appointment.date_start).format('YYYY-MM-DD HH:mm'),
+            date: moment(appointment.date_start).format('YYYY-MM-DD'),
+            time: moment(appointment.date_start).format('HH:mm'),
             doctor: `${appointment.doctor.user.firstname} ${appointment.doctor.user.lastname}`,
             speciality: appointment.doctor.speciality,
             patient: `${appointment.patient.firstname} ${appointment.patient.lastname}`,
             status: appointment.status,
-            id: appointment.id
+            id: appointment.id,
+            opinion: appointment.opinion
           });
         });
         res.status(HttpStatus.OK).json(_appList);
@@ -92,10 +94,11 @@ export class AppointmentsController {
         let _appList = [];
         _appointments.forEach(appointment => {
           _appList.push({
-            date: moment(appointment.date_start).format('YYYY-MM-DD HH:mm'),
+            date: moment(appointment.date_start).format('YYYY-MM-DD'),
+            time:  moment(appointment.date_start).format('HH:mm'),
             patient_name: `${appointment.patient.firstname} ${appointment.patient.lastname}`,
             patient_id:appointment.patient.id,
-            id: appointment.id
+            id: appointment.id,
           });
         });
         res.status(HttpStatus.OK).json(_appList);

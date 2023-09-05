@@ -1,17 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react';
+import { authStore } from '../../../../stores';
 import api from '../../../../infrastructure/api';
 import styles from '../../styles/header.module.css';
 
 function Header() {
-  const [message, setMessage] = useState('Вы не авторизованы');
-  const logout = async () => {
-    try {
-      await api.post( `user/logout`, '');
-      api.defaults.headers.common['Authorization'] = '';
-      localStorage.removeItem('refreshToken');
-      setMessage('Вы не авторизованы');
-    } catch (err) {
-      console.log(err);
+  const navigate = useNavigate();
+  const [message, setMessage] = useState('');
+  const logout = async (e: MouseEvent) => {
+    if (e !== undefined) {
+      e.preventDefault();
+      try {
+        await authStore.logout();
+        setMessage('');
+        navigate('/');
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -33,17 +39,6 @@ function Header() {
           <h2 className={styles['header-title-online']}>ONLINE</h2>
         </div>
         <nav className={styles['header-nav']}>
-          <div className={styles['header-nav-profile']}>
-            <h4>{message}</h4>
-            <a href="/profile" style={{ textDecoration: 'none' }}>
-              <img
-                src="./assets/images/user.png"
-                alt=""
-                style={{ width: '25px', height: '25px' }}
-              />
-            </a>
-            <button onClick={() => logout()}>Выход</button>
-          </div>
           <ul className={styles['header-nav-list']}>
             <li className={styles['header-nav-item']}>
               <a href="/appointment" className={styles['header-nav-link']}>
@@ -51,15 +46,44 @@ function Header() {
               </a>
             </li>
             <li className={styles['header-nav-item']}>
-              <a href="#" className={styles['header-nav-link']}>
+              <a href="/" className={styles['header-nav-link']}>
                 Список врачей
               </a>
             </li>
             <li className={styles['header-nav-item']}>
-              <a href="#" className={styles['header-nav-link']}>
+              <a href="/" className={styles['header-nav-link']}>
                 Контакты
               </a>
             </li>
+            {message ? (
+              <>
+                <li className={styles['header-nav-item']}>
+                  <a href="/profile/" className={styles['header-nav-link']}>
+                    <img
+                      style={{ width: '25px', height: 'auto' }}
+                      src="./assets/images/user-logo.svg"
+                      alt=""
+                    />
+                  </a>
+                </li>
+                <li>{message}</li>
+                <li className={styles['header-nav-item']}>
+                  <a
+                    href="/"
+                    className={styles['header-nav-link']}
+                    onClick={(e) => logout(e)}
+                  >
+                    <img
+                      style={{ width: '25px', height: 'auto' }}
+                      src="./assets/images/user-logout.svg"
+                      alt=""
+                    />
+                  </a>
+                </li>
+              </>
+            ) : (
+              ''
+            )}
           </ul>
           <div className={styles['header-burger-menu']}></div>
         </nav>
@@ -69,4 +93,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default observer(Header);

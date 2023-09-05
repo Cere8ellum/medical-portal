@@ -1,44 +1,49 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsEnum, IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  ValidateIf,
+} from 'class-validator';
 import { Gender } from '../enum/gender.enum';
 import { Role } from '../enum/role.enum';
 import { CreateUserDto } from './create-user.dto';
 
-export class UpdateUserDto  {
-
+export class UpdateUserDto {
   @IsString()
   @ValidateIf((o) => o.firstname)
-  firstname: string
+  firstname: string;
 
   @IsString()
   @ValidateIf((o) => o.lastname)
-  lastname: string
+  lastname: string;
 
-  @IsEnum(Gender)
+  @IsString()
   @ValidateIf((o) => o.gender)
-  gender: Gender
+  gender: string;
 
   @IsString()
   @ValidateIf((o) => o.birthdate)
-  birthdate: string
+  birthdate: string;
 
   @IsString()
   @ValidateIf((o) => o.email)
-  email: string
+  email: string;
 
   @IsString()
   @ValidateIf((o) => o.address)
-  address: string
+  address: string;
 
   @IsString()
   @ValidateIf((o) => o.mobile)
-  mobile: string
+  mobile: string;
 
   @IsString()
   @ValidateIf((o) => o.password)
-  password: string
+  password: string;
 
   @IsEnum(Role)
   @ValidateIf((o) => o.role)
-  role: Role
+  role: Role;
 }

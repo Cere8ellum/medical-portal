@@ -217,30 +217,16 @@ const AppointmentForm = () => {
     try {
       setSubmitting(true);
 
-      const token = localStorage.getItem('refreshToken');
-
-      if (!token) {
-        alert('Вы не вошли в аккаунт. Попробуйте снова');
-        navigate('/login');
-        return;
-      }
-
       const [hour, minute] = appointmentTime!.label.split(':');
       const date = appointmentDate!
         .hour(Number(hour))
         .minute(Number(minute))
         .format('YYYY-MM-DD HH:mm:ss.SSS	');
 
-      await api.post(
-        `appointments/create`,
-        {
-          doctor_id: doctor!.value,
-          date_start: date,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await api.post(`appointments/create`, {
+        doctor_id: doctor!.value,
+        date_start: date,
+      });
 
       resetForm();
       alert(
