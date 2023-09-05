@@ -1,0 +1,400 @@
+/* Inter Regular 400 */
+
+
+* {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-family: 'Inter';
+    font-weight: 700;
+    color: #8095BD;
+    font-size: 42px;
+}
+
+h2 {
+    font-family: 'Inter';
+    font-weight: 700;
+    color: #8095BD;
+    font-size: 40px;
+}
+
+h3 {
+    font-family: 'Inter';
+    font-weight: 700;
+    color: #8095BD;
+    font-size: 24px;
+}
+
+p {
+    font-family: Inter;
+    font-weight: 300;
+    color: #3D537C;
+    font-size: 12px;
+}
+
+.header {
+    margin: 60px 0;
+}
+
+.header-wrap {
+    max-width: 1345px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 0 10px 0;
+}
+
+.header-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 0 20px;
+}
+
+.header-title-medical {
+    margin: 0 5px 0 0;
+}
+
+.header-title-online {
+    background-color: #8095BD;
+    color: #FFFFFF;
+    width: 160px;
+    border-radius: 9px;
+    padding: 0 0 0 10px;
+}
+
+.header-nav {
+    align-self: flex-end;
+}
+
+.header-menu-btn {
+    display: none;
+}
+
+.header-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.header-nav-item {
+    margin: 0 12px;
+}
+
+.header-nav-link {
+    text-decoration: none;
+    color: #0A1C3E;
+}
+
+.header-rectangle {
+    height: 14px;
+    background-color: #3D537C;
+}
+
+.content {
+    max-width: 1345px;
+    margin: 0 auto;
+}
+
+.contacts-info {
+    max-width: 1345px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contacts-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 44px;
+    color: #3D537C;
+    margin-bottom: 50px;
+}
+
+.contacts-info-container {
+    width: 1441px;
+    height: 511px;
+    background: #8095BD;
+    display: flex;
+    align-items: center;
+}
+
+.contacts-info-wrap {
+    width: 1007px;
+    height: 431px;
+    margin: 0 auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    background: #FFFFFF;
+}
+
+.contacts-info-list {
+    list-style: none;
+    width: 50%;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.contacts-info-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.contacts-info-icon {
+    width: 58px;
+}
+
+.contacts-info-text {
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19px;
+    color: #8095BD;
+}
+
+.contacts-legal-wrap {
+    width: 50%;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.contacts-legal-title-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.contacts-legal-title {
+    margin-left: 20px;
+}
+
+.contacts-legal-list {
+    list-style: none;
+    width: 50%;
+    margin-left: 75px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.contacts-legal-item {
+    margin: 5px 0 5px 0;
+}
+
+.contacts-legal-text {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    color: #8095BD;
+}
+
+.map {
+    margin: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.footer {
+    margin: 0 auto;
+    height: 155px;
+    background-color: #3D537C;
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-wrap {
+    width: 1345px;
+    padding: 25px 0 0 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-name-medical {
+    margin: 0 5px 0 0;
+}
+
+.footer-name-wrap {
+    display: flex;
+}
+
+.footer-name-wrap {
+    padding: 0 0 25px 0;
+}
+
+.footer-name-online {
+    background-color: #8095BD;
+    color: #FFFFFF;
+    width: 160px;
+    border-radius: 9px;
+    padding: 0 0 0 10px;
+}
+
+.footer-copy-wrap {
+    display: flex;
+}
+
+.footer-copy-icon,
+.footer-copy-year,
+.footer-copy-name {
+    color: #FFFFFF;
+    padding: 0 5px 0 0;
+    font-weight: 200;
+    font-size: 14px;
+}
+
+.footer-contact {
+    align-self: center;
+}
+
+.subscribe-btn {
+    width: 256px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    color: #3D537C;
+    margin: 0 15px 0 0;
+}
+
+.mail-btn {
+    width: 256px;
+    height: 30px;
+    border: 4px solid #FFFFFF;
+    border-radius: 10px;
+    background-color: #3D537C;
+    color: #FFFFFF;
+}
+
+@media (max-width: 835px) {
+    .header-wrap {
+        max-width: 834px;
+    }
+
+    .header-rectangle {
+        display: none;
+    }
+
+    .header-nav-link-record {
+        display: none;
+    }
+
+    .contacts-info-container {
+        width: 834px;
+        height: 929px;
+    }
+
+    .contacts-info-wrap {
+        width: 698px;
+        height: 800px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .contacts-info-list {
+        width: 600px;
+    }
+
+    .contacts-legal-wrap {
+        width: 600px;
+        margin-left: 70px;
+    }
+
+    .map {
+        width: 834px;
+        margin-left: 0;
+    }
+
+
+    .footer {
+        height: 412px;
+    }
+
+    .footer-wrap {
+        height: 312px;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .footer-left {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .footer-copy-wrap {
+        margin-bottom: 20px;
+    }
+
+    .subscribe-btn,
+    .mail-btn {
+        height: 56px;
+        margin-bottom: 15px;
+    }
+
+    .footer-contact {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 390px) {
+    .header-nav {
+        display: none;
+    }
+
+    .contacts-title {
+        font-size: 24px;
+    }
+
+    .contacts-legal-title {
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    .contacts-legal-list {
+        margin-left: 65px;
+    }
+
+    .contacts-info-text,
+    .contacts-legal-text {
+        font-size: 14px;
+    }
+
+    .contacts-info-container {
+        width: 390px;
+    }
+
+    .contacts-info-wrap {
+        width: 336px;
+    }
+
+    .contacts-info-list,
+    .contacts-legal-wrap {
+        width: 336px;
+        height: 50%;
+        justify-content: space-evenly;
+    }
+
+    .contacts-info-icon {
+        width: 50px;
+    }
+
+    .map {
+        width: 390px;
+    }
+}
