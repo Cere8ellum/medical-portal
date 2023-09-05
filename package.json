@@ -47,6 +47,7 @@
     "pg": "^8.11.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-iframe": "^1.8.5",
     "react-router-dom": "6.11.2",
     "react-to-print": "^2.14.13",
     "reflect-metadata": "^0.1.13",

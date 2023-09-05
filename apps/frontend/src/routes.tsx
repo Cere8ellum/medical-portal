@@ -8,6 +8,7 @@ import DoctorListScreen from './pages/doctor_list/DoctorListScreen';
 import NotFoundPage from './pages/NotFoundPage';
 import OpinionDocument from './pages/opinion/opinion_doc';
 import OpinionForm from './pages/opinion/opinion_form';
+import Contacts from './pages/contactpage/Contacts';
 
 type Route = RouteObject & {
   isPublic: boolean;
@@ -32,6 +33,11 @@ export const routes: Route[] = [
   {
     path: '/doctors',
     element: <DoctorListScreen />,
+    isPublic: true,
+  },
+  {
+    path: '/contacts',
+    element: <Contacts />,
     isPublic: true,
   },
 ];
