@@ -67,8 +67,8 @@ const OpinionForm: React.FC = () => {
     return isValidate;
   };
 
-  const createOpinion = (formData: FormData) => {
-    api({
+  const createOpinion = async (formData: FormData) => {
+    await api({
       method: 'post',
       url: '/medical-history',
       data: {
@@ -78,9 +78,9 @@ const OpinionForm: React.FC = () => {
         time_start: date,
       },
     })
-      .then(function ({ data }) {
+      .then(async function ({ data }) {
         try {
-          api({
+          await api({
             method: 'patch',
             url: `/appointments/addOpinion/${appointmentId}?opinion_id=${data.id}`,
           })
