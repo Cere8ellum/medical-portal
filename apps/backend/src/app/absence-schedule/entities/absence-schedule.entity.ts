@@ -26,16 +26,9 @@ export class AbsenceScheduleEntity {
   @CreateDateColumn({ type: 'timestamp', nullable: false })
   @ApiProperty({
     type: Timestamp,
-    description: 'Start Date of Absence',
+    description: 'Date of Absence',
   })
-  date_start: Date;
-
-  @CreateDateColumn({ type: 'timestamp', nullable: false })
-  @ApiProperty({
-    type: Timestamp,
-    description: 'End Date of Absence',
-  })
-  date_end: Date;
+  date: Date;
 
   @Column('varchar', { nullable: false })
   @ApiProperty({

@@ -12,22 +12,33 @@ export class AbsenceScheduleService {
   ) {}
 
   async create(createScheduleDto: CreateAbsenceScheduleDto) {
-    const _existShedule = await this.scheduleRepository.findOne({
-      where: {
-        doctor_id: createScheduleDto.doctor_id,
-        date_start: createScheduleDto.date_start,
-      },
-    });
-    if (_existShedule)
-      throw new BadRequestException('This date is already busy');
+    // Get array of data according checking dates in db
+    const dataArr = [];
+    for (
+      let dateItem = new Date(createScheduleDto.date_start);
+      dateItem <= new Date(createScheduleDto.date_end);
+      dateItem.setDate(dateItem.getDate() + 1)
+    ) {
+      const _existShedule = await this.scheduleRepository.findOne({
+        where: {
+          doctor_id: createScheduleDto.doctor_id,
+          date: dateItem,
+        },
+      });
 
-    const schedule = await this.scheduleRepository.save({
-      doctor_id: createScheduleDto.doctor_id,
-      date_start: createScheduleDto.date_start,
-      date_end: createScheduleDto.date_end,
-      cause: createScheduleDto.cause,
-    });
-    return schedule;
+      // If date exists
+      if (_existShedule)
+        throw new BadRequestException(
+          'This date is already busy. Please remove it before creating new.'
+        );
+      // if date not exists
+      dataArr.push({
+        doctor_id: createScheduleDto.doctor_id,
+        date: new Date(dateItem),
+        cause: createScheduleDto.cause,
+      });
+    }
+    return await this.scheduleRepository.save(dataArr);
   }
 
   async deleteById(sheduleId: number) {
@@ -45,13 +56,30 @@ export class AbsenceScheduleService {
     }
   }
 
+  async deleteAllByDoctorId(doctorId: number) {
+    try {
+      const _schedule = await this.findAllByDoctorId(doctorId);
+
+      if (_schedule) {
+        await this.scheduleRepository.delete({ doctor_id: doctorId });
+        return true;
+      } else {
+        throw new BadRequestException(
+          `Schedule for the Doctor (ID ${doctorId}) does not exist.`
+        );
+      }
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   async findAllByDoctorId(doctorId: number): Promise<AbsenceScheduleEntity[]> {
     return await this.scheduleRepository.find({
       where: {
         doctor_id: doctorId,
       },
       order: {
-        date_start: 'ASC',
+        date: 'ASC',
       },
     });
   }
@@ -63,7 +91,7 @@ export class AbsenceScheduleService {
     return await this.scheduleRepository.findOne({
       where: {
         doctor_id: doctorId,
-        date_start: date,
+        date: date,
       },
     });
   }
