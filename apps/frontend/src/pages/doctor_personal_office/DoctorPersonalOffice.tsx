@@ -1,7 +1,14 @@
 import '../../pages/doctor_personal_office/styles/style.css';
+import DoctorOneList from './component/DoctorOneList';
+import DoctorTwoList from './component/DoctorTwoList';
 
 const DoctorPersonalOffice = () => {
-  return <div className="jkl">hhhh</div>;
+  return (
+    <div>
+      <DoctorOneList />
+      <DoctorTwoList />
+    </div>
+  );
 };
 
 export default DoctorPersonalOffice;
