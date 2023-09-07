@@ -3,6 +3,7 @@ import styles from './styles/profile.module.css';
 import TabsPersonalAccountPatient from './components/TabsPersonalAccountPatient';
 import PersonalDataField from './components/PersonalDataField';
 import PersonalDataButton from './components/PersonalDataButton';
+import { AppointmentInfo } from './components/AppointmentInfo';
 import api from '../../infrastructure/api';
 import { MyGlobalContext } from './MyGlobalContext';
 
@@ -45,7 +46,7 @@ function ProfileScreen() {
         </MyGlobalContext.Provider>
       );
     else if (idx === 2) {
-      return <div>информация о записи</div>;
+      return <AppointmentInfo></AppointmentInfo>;
     } else if (idx === 3) {
       return <div>медицинская история</div>;
     }
