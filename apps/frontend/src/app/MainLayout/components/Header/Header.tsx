@@ -22,14 +22,17 @@ function Header() {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await api.get(`/user`);
-        setMessage(`${data.email}`);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
+    const isAuth = localStorage.getItem('refreshToken');
+    if (isAuth !== '' && isAuth) {
+      (async () => {
+        try {
+          const { data } = await api.get(`/user`);
+          setMessage(`${data.email}`);
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    }
   }, [message]);
   return (
     <header className={styles['header']}>
