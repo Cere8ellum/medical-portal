@@ -22,14 +22,14 @@ export class AbsenceScheduleController {
   @Post()
   async create(
     @Body() absenceScheduleDto: CreateAbsenceScheduleDto
-  ): Promise<AbsenceScheduleEntity | Error> {
+  ): Promise<AbsenceScheduleEntity[] | Error> {
     try {
       const result = await this.absenceSheduleService.create(
         absenceScheduleDto
       );
       return result;
     } catch (error) {
-      throw new Error(error.message);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -57,6 +57,25 @@ export class AbsenceScheduleController {
   ): Promise<boolean | HttpException> {
     try {
       return await this.absenceSheduleService.deleteById(scheduleId);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  /**
+   *
+   * @param scheduleId
+   * @returns boolean | Error
+   */
+  @ApiOperation({
+    summary: 'Удалить все даты отсутствия из расписания врача по Doctor ID',
+  })
+  @Delete('/doctor')
+  async removeAllScheduleByDoctorId(
+    @Query('doctorId') doctorId: number
+  ): Promise<boolean | HttpException> {
+    try {
+      return await this.absenceSheduleService.deleteAllByDoctorId(doctorId);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
