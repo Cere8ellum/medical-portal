@@ -37,6 +37,7 @@
     "cookie-parser": "^1.4.6",
     "dayjs": "^1.11.9",
     "formik": "^2.4.3",
+    "grid-core": "^1.1.0",
     "handlebars": "^4.7.7",
     "js-cookie": "^3.0.5",
     "mobx": "^6.10.1",
