@@ -10,6 +10,9 @@ import OpinionDocument from './pages/opinion/opinion_doc';
 import OpinionForm from './pages/opinion/opinion_form';
 import Contacts from './pages/contactpage/Contacts';
 import DoctorPersonalOffice from './pages/doctor_personal_office/DoctorPersonalOffice';
+import DoctorOneList from './pages/doctor_personal_office/component/DoctorOneList';
+import DoctorTwoList from './pages/doctor_personal_office/component/DoctorTwoList';
+import DoctorThreeList from './pages/doctor_personal_office/component/DoctorThreeList';
 
 type Route = RouteObject & {
   isPublic: boolean;
@@ -44,6 +47,21 @@ export const routes: Route[] = [
   {
     path: '/doctor-personal-office',
     element: <DoctorPersonalOffice />,
+    isPublic: true,
+  },
+  {
+    path: '/doctorOneList',
+    element: <DoctorOneList />,
+    isPublic: true,
+  },
+  {
+    path: '/doctorTwoList',
+    element: <DoctorTwoList />,
+    isPublic: true,
+  },
+  {
+    path: '/doctorThreeList',
+    element: <DoctorThreeList />,
     isPublic: true,
   },
 ];
