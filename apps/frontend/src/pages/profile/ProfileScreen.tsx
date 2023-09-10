@@ -3,6 +3,7 @@ import styles from './styles/profile.module.css';
 import TabsPersonalAccountPatient from './components/TabsPersonalAccountPatient';
 import PersonalDataField from './components/PersonalDataField';
 import PersonalDataButton from './components/PersonalDataButton';
+import { AppointmentInfo } from './components/AppointmentInfo';
 import api from '../../infrastructure/api';
 import { MyGlobalContext } from './MyGlobalContext';
 
@@ -20,7 +21,7 @@ function ProfileScreen() {
   });
   useEffect(() => {
     getUser();
-  }, []);
+  }, [idx]);
   async function getUser() {
     try {
       const response = await api.get(`user/`);
@@ -45,9 +46,7 @@ function ProfileScreen() {
         </MyGlobalContext.Provider>
       );
     else if (idx === 2) {
-      return <div>информация о записи</div>;
-    } else if (idx === 3) {
-      return <div>медицинская история</div>;
+      return <AppointmentInfo></AppointmentInfo>;
     }
   }
 

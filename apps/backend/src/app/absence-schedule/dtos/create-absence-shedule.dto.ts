@@ -16,6 +16,7 @@ export class CreateAbsenceScheduleDto {
   @ApiProperty({
     type: Timestamp,
     description: 'Start Date of Absence',
+    example: new Date('2023-09-01T12:27:40.141Z'),
   })
   @IsNotEmpty()
   date_start: Date;
@@ -23,6 +24,7 @@ export class CreateAbsenceScheduleDto {
   @ApiProperty({
     type: Timestamp,
     description: 'End Date of Absence',
+    example: new Date('2023-09-10T12:27:40.141Z'),
   })
   @IsNotEmpty()
   date_end: Date;

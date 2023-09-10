@@ -45,7 +45,7 @@
 
 .header-title-medical {
   margin: 0 5px 0 0;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 700;
   color: #8095bd;
   font-size: 32px;
@@ -56,7 +56,7 @@
   color: #ffffff;
   border-radius: 9px;
   padding: 0 10px 0 10px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 700;
   font-size: 32px;
 }
@@ -136,13 +136,11 @@
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
-
 .doctor-info-list {
   list-style-type: none;
   text-align: end;
   margin-top: 70px;
 }
-
 .doctor-info-text-name {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -178,7 +176,6 @@
       -ms-flex-align: center;
           align-items: center;
 }
-
 .not-found img {
   width: -webkit-fill-available;
   width: -moz-available;
@@ -227,7 +224,6 @@
     margin-top: 50px;
   }
 }
-
 @media (max-width: 750px) {
   .consultative-report {
     width: 85%;
@@ -255,7 +251,6 @@
     text-align: center;
   }
 }
-
 @media (max-width: 390px) {
   .consultative-report {
     width: 90%;
@@ -277,13 +272,11 @@
     padding: 0 30px;
   }
 }
-
 @media all {
   .page-break {
     display: none;
   }
 }
-
 @media print {
   html,
   body {
@@ -292,7 +285,6 @@
     -webkit-print-color-adjust: exact;
   }
 }
-
 @media print {
   .page-break {
     margin-top: 1rem;
@@ -300,9 +292,7 @@
     page-break-before: auto;
   }
 }
-
 @page {
   size: auto;
   margin: 10mm;
-}
-/*# sourceMappingURL=opinionDoc.module.css.map */
+}/*# sourceMappingURL=opinionDoc.module.css.map */

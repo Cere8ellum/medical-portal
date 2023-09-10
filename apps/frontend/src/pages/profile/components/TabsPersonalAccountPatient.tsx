@@ -43,19 +43,6 @@ function TabsPersonalAccountPatient() {
               Информация о записи
             </button>
           </li>
-          <li
-            className={`${styles['content-nav-item']} ${checkActive(
-              3,
-              styles['active']
-            )}`}
-            onClick={() => handleClick(3)}
-          >
-            <button
-              className={`${styles['content-nav-btn']} ${styles['content-nav-btn-medicalhistory']}`}
-            >
-              Медицинская история
-            </button>
-          </li>
         </ul>
 
         <h3 className={styles['content-nav-title']}>Личный кабинет</h3>
