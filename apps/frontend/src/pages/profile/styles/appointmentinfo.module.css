@@ -1,0 +1,88 @@
+.container-header {
+  display: grid;
+  grid-template-columns: 25% repeat(5, 1fr);
+  row-gap: 10px;
+  padding: 10px;
+}
+
+.container-cell {
+  display: grid;
+  grid-template-columns: 25% repeat(5, 1fr);
+  row-gap: 10px;
+  padding: 5px 10px;
+}
+
+.title {
+  background-color: #3d537c;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  border-top: 3px solid white;
+  border-bottom: 3px solid white;
+  border-left: 3px solid white;
+  -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.title:last-of-type {
+  border-right: 3px solid white;
+}
+
+.cell,
+.cancelled-btn {
+  background-color: white;
+  border-top: 3px solid #3d537c;
+  border-left: 3px solid #3d537c;
+  border-bottom: 3px solid #3d537c;
+  padding: 20px;
+  text-align: center;
+  font-size: 20px;
+  -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.cell:last-of-type {
+  background-color: #3d537c;
+}
+
+.cancelled-btn {
+  background-color: #3d537c;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-result {
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+}/*# sourceMappingURL=appointmentinfo.module.css.map */

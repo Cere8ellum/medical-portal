@@ -21,7 +21,7 @@ function ProfileScreen() {
   });
   useEffect(() => {
     getUser();
-  }, []);
+  }, [idx]);
   async function getUser() {
     try {
       const response = await api.get(`user/`);
@@ -47,8 +47,6 @@ function ProfileScreen() {
       );
     else if (idx === 2) {
       return <AppointmentInfo></AppointmentInfo>;
-    } else if (idx === 3) {
-      return <div>медицинская история</div>;
     }
   }
 
