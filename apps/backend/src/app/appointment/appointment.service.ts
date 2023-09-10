@@ -17,6 +17,7 @@ import moment from 'moment';
 import { AbsenceScheduleService } from '../absence-schedule/absence-schedule.service';
 import { runInThisContext } from 'vm';
 import { MedicalHistoryService } from '../medical-history/medical-history.service';
+import { CreateMedicalHistoryDto } from '../medical-history/dtos/create-medical-history.dto';
 
 @Injectable()
 export class AppointmentsService {
@@ -42,7 +43,7 @@ export class AppointmentsService {
         throw new Error(`The patient doesn't exist.`);
       }
 
-      const _isBooked = await this.findByPatientOnDate(
+      const _isBooked = await this.PatientisBookedOnDate(
         +appointment.patient_id,
         new Date(appointment.date_start)
       );
@@ -99,7 +100,7 @@ export class AppointmentsService {
     });
   }
 
-  async findByPatientOnDate(patient_id: number, date: Date): Promise<boolean> {
+  async PatientisBookedOnDate(patient_id: number, date: Date): Promise<boolean> {
     try {
       const isBookedDate = await this.appointmentsRepository.findOne({
         relations: ['patient'],
@@ -193,93 +194,45 @@ export class AppointmentsService {
     status: Status
   ): Promise<AppointmentEntity> {
     try {
-      const _appointment = await this.findOne(id);
-      if (_appointment) {
-        const appointmentEntity = new AppointmentEntity();
-        appointmentEntity.id = _appointment.id;
-        // const _opinion = await this.medical_history.findOne(appointment.opinion_id);
-        // if(_opinion) {
-        //   appointmentEntity.opinion_id = _opinion;
-        //   appointmentEntity.status = Status.Completed;
-        // } else {
-          appointmentEntity.status = Status[status];
-        // }
-        await this.appointmentsRepository.save(appointmentEntity);
+        await this.appointmentsRepository.save({
+          id: id,
+          status: Status[status],
+        });
         return await this.findOne(id);
-      } else {
-        throw new BadRequestException(
-          `the appointment Id=${id} doesn't exist.`
-        );
-      }
     } catch (error) {
-      throw new BadRequestException(`Произошла ошибка: ${error}`);
+      throw new BadRequestException(`Произошла неизвестная ошибка при изменении статуса: ${error}`);
     }
   }
 
   async updateAddMedicalHistory(
     id: number,
-    opinion_id: number
+    opinion: CreateMedicalHistoryDto
   ): Promise<AppointmentEntity> {
     try {
-      const _appointment = await this.findOne(id);
-      if (_appointment) {
-        const appointmentEntity = new AppointmentEntity();
-        appointmentEntity.id = _appointment.id;
-        const _opinion = await this.medical_history.findOne(opinion_id);
-        if(_opinion) {
-          appointmentEntity.opinion = _opinion;
-          appointmentEntity.status = Status.Completed;
-        } else {
-          throw new Error(
-            `The medical history with Id=${opinion_id} doesn't exist.`
-          );
-        }
+      const _opinion = await this.medical_history.create(opinion);
+      if(_opinion) {
         await this.appointmentsRepository.save({
-          id: _appointment.id,
+          id: id,
           opinion: _opinion,
           status: Status.Completed
         });
-        return await this.findOne(id);
       } else {
-        throw new Error(
-          `the appointment Id=${id} doesn't exist.`
-        );
+          throw new Error(
+            `Failed to create and add conclusion`
+          );
       }
+        return await this.findOne(id);
     } catch (error) {
-      throw new BadRequestException(`Произошла ошибка: ${error.message}`);
+      throw new BadRequestException(`Произошла ошибка при создании или добавлении заключения: ${error.message}`);
     }
   }
 
-  async delete(id: number): Promise<boolean | Error> {
+  async delete(app: AppointmentEntity): Promise<boolean> {
     try {
-      const _appointment = await this.findOne(id);
-      if (_appointment) {
-        await this.appointmentsRepository.delete({ id });
-        const countAppAtDate = await this.countAppointmentByDoctorAtDate(
-          _appointment.doctor.id,
-          _appointment.date_start
-        );
-
-        if (countAppAtDate === 23) {
-          const _schedule =
-            await this.absence_sheduleService.findByDoctorIdAtDate(
-              _appointment.doctor.id,
-              new Date(_appointment.date_start)
-            );
-          await this.absence_sheduleService.deleteById(_schedule.id);
-        }
+        await this.appointmentsRepository.delete({ id: app.id });
         return true;
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.FORBIDDEN,
-            error: 'This appointment does not exist.',
-          },
-          HttpStatus.FORBIDDEN
-        );
-      }
     } catch (error) {
-      return new Error(error);
+      throw new BadRequestException(`Произошла ошибка при удалении записи: ${error.message}`);
     }
   }
 }

@@ -1,0 +1,137 @@
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  min-height: 500px;
+  max-width: 1340px;
+  margin: 100px auto;
+  border-radius: 0 65px 65px 0;
+  border: 5px solid #3d537c;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background: #3d537c;
+  width: 200px;
+}
+
+.nav_tag {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-family: 'Inter';
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  color: white;
+  padding: 10px 0 10px 10px;
+}
+
+.nav_tag img {
+  width: 32px;
+  margin-right: 10px;
+}
+
+.nav .pointer {
+  position: relative;
+}
+
+.nav .pointer::after {
+  content: '';
+  position: absolute;
+  right: 0px;
+  top: 15px;
+  border: 10px solid transparent;
+  border-right: 20px solid white;
+}
+
+.functional {
+  border: 5px solid green;
+  width: 100%;
+  min-height: 500px;
+}
+
+.doctors {
+  padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+}
+
+.doctors-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 15px;
+}
+
+.doctors-btn button {
+  border-radius: 10px;
+  background: #3d537c;
+  -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: white;
+  padding: 20px 15px;
+  width: 240px;
+  font-size: 14px;
+}
+
+.doctors-form {
+  width: 100%;
+  border: 1px solid red;
+}
+
+.doctors-form-update {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+}
+
+.doctors-speciality {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+}
+
+.doctors-select {
+  width: 160px;
+  padding: 10px;
+  color: #3d537c;
+  font-family: Inter;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 3px solid #3d537c;
+  background: #fff;
+  -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+/*# sourceMappingURL=adminka.module.css.map */

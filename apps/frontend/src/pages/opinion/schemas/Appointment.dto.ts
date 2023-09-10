@@ -8,14 +8,15 @@ export interface OpinionDto {
 
 export interface AppointmentDto {
   date: string;
-    doctor: string;
-    speciality: string;
-    patient: string;
-    bday: string;
-    category: string;
-    status: string;
-    id: number;
-    opinion: OpinionDto;
+  time: string;
+  doctor: string;
+  speciality: string;
+  patient: string;
+  bday: string;
+  category: string;
+  status: string;
+  id: number;
+  opinion: OpinionDto;
 }
 
 
