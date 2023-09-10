@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { SyntheticEvent, useEffect, useMemo, useReducer, useRef } from 'react';
+import { SyntheticEvent, useEffect, useReducer, useRef } from 'react';
 import { Button } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
@@ -61,22 +61,46 @@ const initialValues: FormikValues = {
   appointmentTime: null,
 };
 
+const createTimeSlotsOptions = (startTime: Dayjs, endTime: Dayjs): Option[] => {
+  const timeSlotsOptions = [];
+  let index = 0;
+
+  while (endTime.diff(startTime, 'minute') >= 30) {
+    timeSlotsOptions.push({
+      value: `${index++}`,
+      label: startTime.format('HH:mm'),
+    });
+
+    startTime = startTime.add(30, 'minute');
+  }
+
+  return timeSlotsOptions;
+};
+
+const getTimeSlotsOptions = (date: Dayjs): Option[] => {
+  let startTime = dayjs().startOf('minute');
+  const endTime = dayjs().set('hour', 20).startOf('hour');
+  const isToday = dayjs().isSame(date, 'day');
+
+  if ((isToday && startTime.hour() < 8) || !isToday) {
+    startTime = startTime.set('hour', 8).startOf('hour');
+
+    return createTimeSlotsOptions(startTime, endTime);
+  }
+
+  if (startTime.minute() >= 30) {
+    startTime = startTime.add(1, 'hour').set('minute', 0);
+  } else {
+    startTime = startTime.set('minute', 30);
+  }
+
+  return createTimeSlotsOptions(startTime, endTime);
+};
+
 const AppointmentForm = () => {
   const [state, dispatch] = useReducer(formReducer, initialState);
   const formikRef = useRef<FormikProps<FormikValues>>(null);
   const dateRef = useRef<Dayjs | null>(null);
-  const timeSlotsOptions = useMemo(
-    () =>
-      Array.from(new Array(24)).map((_, index) => {
-        return {
-          value: `${index}`,
-          label: `${index < 4 ? '0' : ''}${Math.floor((index + 16) / 2)}:${
-            index % 2 === 0 ? '00' : '30'
-          }`,
-        };
-      }),
-    []
-  );
 
   useEffect(() => {
     const fetchSpecialities = async () => {
@@ -189,13 +213,12 @@ const AppointmentForm = () => {
     try {
       dispatch({ type: 'FETCH' });
 
-      const { data }: { data: string[] } = await api.get(
+      const { data: bookedTimeSlots }: { data: string[] } = await api.get(
         `appointments/booked/doctor/${doctorId}?date=${date}`
       );
 
-      const bookedTimeSlots = data.map((el) =>
-        dayjs(new Date(el)).format('HH:mm')
-      );
+      const timeSlotsOptions = getTimeSlotsOptions(dayjs(date));
+
       const freeTimeSlotsOptions = timeSlotsOptions.filter((option) => {
         const isBooked = bookedTimeSlots.some((slot) => slot === option.label);
 
@@ -487,6 +510,11 @@ const AppointmentForm = () => {
                 setFieldValue('appointmentTime', time);
               }}
               onBlur={handleBlur}
+              noOptionsText={
+                state.timeSlots.length === 0
+                  ? 'Выберите другой день'
+                  : 'Ничего не найдено'
+              }
             />
             <Button
               color="primary"
