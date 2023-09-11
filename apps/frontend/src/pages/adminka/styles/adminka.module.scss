@@ -75,6 +75,9 @@
   &-form {
     width: 100%;
     border: 1px solid red;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 
     &-update {
       display: flex;

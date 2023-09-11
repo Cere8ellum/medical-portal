@@ -101,6 +101,14 @@
 .doctors-form {
   width: 100%;
   border: 1px solid red;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 20px;
 }
 
 .doctors-form-update {

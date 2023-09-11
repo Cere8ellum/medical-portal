@@ -1,0 +1,174 @@
+.content-nav-item {
+  width: 260px;
+  height: 74px;
+  background: #8095bd;
+  border: 5px solid #8095bd;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.persdata-btn {
+  width: 342px;
+  height: 80px;
+  border-radius: 10px;
+  border: 3px solid #3d537c;
+  background-color: #3d537c;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
+
+.persdata-btns-container {
+  width: 33.3%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: flex-start;
+  margin-top: 170px;
+}
+
+.hero-content__car-img {
+  table-layout: fixed;
+  border-collapse: collapse;
+  background-repeat: no-repeat;
+}
+
+.container-content-box {
+  display: flex;
+  justify-content: center;
+}
+
+.persdata-field {
+  display: flex;
+  gap: 15px;
+
+  &-fio,
+  &-date {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  & input {
+    width: 245px;
+    height: 43px;
+    border-radius: 10px;
+    border: 3px solid #3d537c;
+    padding: 7px;
+    font-size: 16px;
+    color: #3d537c;
+  }
+}
+
+.persdata-info {
+  width: 500px;
+  height: 133px;
+  border-radius: 10px;
+  border: 3px solid #3d537c;
+  font-size: 16px;
+  padding: 7px;
+  color: #3d537c;
+  overflow-y: scroll;
+}
+
+.active-modal {
+  opacity: 1 !important;
+  display: flex !important;
+}
+
+/* кнопка изменений и сохранений*/
+.container-content__box button {
+  width: 342px;
+  height: 60px;
+  border-radius: 10px;
+  border: 3px solid #3d537c;
+  background-color: #3d537c;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
+
+.container-content__box button:hover {
+  border: 3px solid #c3c5c8;
+  background-color: #a6a8ac;
+}
+
+.persdata-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3d537c;
+}
+.сategory,
+.age {
+  margin-bottom: 25px;
+}
+
+.persdata-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/*форма для заполнений*/
+
+.persdata-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.persdata-field-select {
+  width: 245px;
+  border-radius: 10px;
+  border: 3px solid #7183a5;
+  padding: 7px;
+  font-size: 16px;
+  color: #3d537c;
+  margin: 2px;
+}
+
+.persdata-photo {
+  & input {
+    width: 500px;
+    height: 43px;
+    border-radius: 10px;
+    border: 3px solid #3d537c;
+    padding: 7px;
+    font-size: 16px;
+    color: #3d537c;
+    box-sizing: border-box;
+  }
+}
+
+.persdata-field-info {
+  width: 420px;
+  border-radius: 10px;
+  border: 3px solid #3d537c;
+  padding: 25px;
+}
+
+.persdata-field-click {
+  width: 16px;
+  height: 16px;
+  margin-right: 15px;
+  border: none;
+  padding: 4.5px;
+  border-radius: 100%;
+}
+
+button:hover {
+  border: 3px solid #c3c5c8;
+  background-color: #a6a8ac;
+}
