@@ -1,15 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import {
   Table,
   TableHead,
   TableRow,
   TableCell,
-  makeStyles,
-  TablePagination,
   TableSortLabel,
-} from '@material-ui/core';
+} from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import TablePagination from '@mui/material/TablePagination';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: { spacing: (arg0: number) => any }) => ({
   table: {
     marginTop: theme.spacing(3),
     '& tbody td': {
@@ -18,7 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function useTable(records, headCells, filterFn) {
+export default function useTable(
+  records: string | any[],
+  headCells: any[],
+  filterFn: { fn: any }
+) {
   const classes = useStyles();
 
   const pages = [5];
@@ -27,14 +33,24 @@ export default function useTable(records, headCells, filterFn) {
   const [order, setOrder] = useState();
   const [orderBy, setOrderBy] = useState();
 
-  const TblContainer = (props) => (
+  const TblContainer = (props: {
+    children:
+      | string
+      | number
+      | boolean
+      | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+      | Iterable<React.ReactNode>
+      | React.ReactPortal
+      | null
+      | undefined;
+  }) => (
     <Table className="persdata-field-wrap-three-list persdata-field-three-date">
       {props.children}
     </Table>
   );
 
-  const TblHead = (props) => {
-    const handleSortRequest = (cellId) => {
+  const TblHead = () => {
+    const handleSortRequest = (cellId: React.SetStateAction<undefined>) => {
       const isAsc = orderBy === cellId && order === 'asc';
       setOrder(isAsc ? 'desc' : 'asc');
       setOrderBy(cellId);
@@ -68,18 +84,20 @@ export default function useTable(records, headCells, filterFn) {
     );
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (
+    event: any,
+    newPage: React.SetStateAction<number>
+  ) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: { target: { value: string } }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
   const TblPagination = () => (
-    <TablePagination
-      component="div"
+    <div
       page={page}
       rowsPerPageOptions={pages}
       rowsPerPage={rowsPerPage}
@@ -89,23 +107,30 @@ export default function useTable(records, headCells, filterFn) {
     />
   );
 
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
+  function stableSort(
+    array: any[],
+    comparator: { (a: any, b: any): number; (arg0: any, arg1: any): any }
+  ) {
+    const stabilizedThis = array.map((el: any, index: any) => [el, index]);
+    stabilizedThis.sort((a: number[], b: number[]) => {
       const order = comparator(a[0], b[0]);
       if (order !== 0) return order;
       return a[1] - b[1];
     });
-    return stabilizedThis.map((el) => el[0]);
+    return stabilizedThis.map((el: any[]) => el[0]);
   }
 
-  function getComparator(order, orderBy) {
+  function getComparator(order: string | undefined, orderBy: undefined) {
     return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+      ? (a: any, b: any) => descendingComparator(a, b, orderBy)
+      : (a: any, b: any) => -descendingComparator(a, b, orderBy);
   }
 
-  function descendingComparator(a, b, orderBy) {
+  function descendingComparator(
+    a: { [x: string]: number },
+    b: { [x: string]: number },
+    orderBy: string | number
+  ) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
     }

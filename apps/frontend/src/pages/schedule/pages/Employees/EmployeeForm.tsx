@@ -1,39 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { Grid } from '@material-ui/core';
-import Controls from './components/controls/Controls';
-import { useForm, Form } from './components/useForm';
-import * as employeeService from './employeesService';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Grid, TextField, makeStyles } from '@mui/material';
+import { DatePicker, dateTimePickerTabsClasses } from '@mui/x-date-pickers';
+import Controls from '../../components/controls/Controls';
+import { useForm, Form } from '../../components/useForm';
+import * as employeeService from '../../services/employeeService';
 
 const initialFValues = {
   id: 0,
   departmentId: '',
   startDate: new Date(),
-  endDate: new Date(),
+  hireDate: new Date(),
   isPermanent: false,
 };
 
-export default function EmployeeForm(props) {
+export default function EmployeeForm(props: {
+  addOrEdit: any;
+  recordForEdit: any;
+}) {
   const { addOrEdit, recordForEdit } = props;
 
-  const [dateRange, setDateRange] = useState([null, null]);
-  const [startDate, endDate] = dateRange;
+  const { values, errors, setErrors, handleInputChange, resetForm } = useForm(
+    initialFValues,
+    true,
+    validate
+  );
 
-  const validate = (fieldValues = values) => {
-    let temp = { ...errors };
-    if ('departmentId' in fieldValues)
-      temp.departmentId =
-        fieldValues.departmentId.length != 0 ? '' : 'Необходимо заполнить.';
-    setErrors({
-      ...temp,
-    });
-
-    if (fieldValues == values) return Object.values(temp).every((x) => x == '');
-  };
-
-  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
-    useForm(initialFValues, true, validate);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (validate()) {
       addOrEdit(values, resetForm);
@@ -53,9 +46,9 @@ export default function EmployeeForm(props) {
         </Grid>
         <Grid item xs={6}>
           <Controls.DatePicker
-            name="endDate"
-            label="даты начало"
-            value={values.startDate}
+            name="hireDate"
+            label="даты окончания"
+            value={values.hireDate}
             onChange={handleInputChange}
           />
         </Grid>
@@ -66,7 +59,6 @@ export default function EmployeeForm(props) {
             value={values.departmentId}
             onChange={handleInputChange}
             options={employeeService.getDepartmentCollection()}
-            error={errors.departmentId}
           />
         </Grid>
         <Grid item xs={6}>
@@ -79,4 +71,7 @@ export default function EmployeeForm(props) {
       </Grid>
     </Form>
   );
+}
+function validate(fieldValues?: any): boolean | undefined {
+  throw new Error('Function not implemented.');
 }
