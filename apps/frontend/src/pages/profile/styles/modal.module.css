@@ -1,3 +1,25 @@
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 5px;
+  -webkit-box-shadow: 24px;
+          box-shadow: 24px;
+  padding: 30px 60px;
+  max-height: 95vh;
+  overflow-x: auto;
+  width: 100%;
+  max-width: 50%;
+}
+@media (max-width: 1024px) {
+  .modal {
+    max-width: 80%;
+  }
+}
+
 .header-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -140,4 +162,68 @@ ul li {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.report-btn-print {
+  padding: 0 30px;
+  line-height: 40px;
+  background-color: #3d537c;
+  border-radius: 10px;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  float: right;
+  margin-top: 16px;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media print {
+  html,
+  body {
+    height: 100vh;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .modal {
+    max-width: 100%;
+    top: 0;
+    left: 0;
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  .modal button {
+    display: none;
+  }
+  .modal .consult-title,
+  .modal .consult-date-list,
+  .modal .consult-date-text {
+    color: rgba(0, 0, 0, 0.8);
+  }
+  .modal .header-title-online {
+    color: #ffffff;
+  }
+  .modal .fio,
+  .modal .complaint,
+  .modal .treatment,
+  .modal .disease {
+    font-family: Inter;
+    font-size: 14px;
+  }
+  .modal .fio-title,
+  .modal .complaint-title,
+  .modal .treatment-title,
+  .modal .disease-title {
+    color: rgba(0, 0, 0, 0.8);
+  }
+  .modal .fio-text,
+  .modal .complaint-text,
+  .modal .treatment-text,
+  .modal .disease-text {
+    color: rgba(0, 0, 0, 0.8);
+  }
+  .modal .doctor-title, .modal .doctor-fio, .modal .doctor-spec {
+    color: rgba(0, 0, 0, 0.8);
+  }
 }/*# sourceMappingURL=modal.module.css.map */

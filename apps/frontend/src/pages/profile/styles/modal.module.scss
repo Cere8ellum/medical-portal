@@ -1,3 +1,20 @@
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 24px;
+  padding: 30px 60px;
+  max-height: 95vh;
+  overflow-x: auto;
+  width: 100%;
+  max-width: 50%;
+  @media (max-width: 1024px) {
+    max-width: 80%;
+  }
+}
 .header-wrapper {
   display: flex;
   justify-content: space-between;
@@ -102,4 +119,71 @@ ul li {
 
 .d-flex {
   display: flex;
+}
+
+.report-btn-print {
+  padding: 0 30px;
+  line-height: 40px;
+  background-color: #3d537c;
+  border-radius: 10px;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  float: right;
+  margin-top: 16px;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media print {
+  html,
+  body {
+    height: 100vh;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .modal {
+    max-width: 100%;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+
+    & button {
+      display: none;
+    }
+
+    .consult-title,
+    .consult-date-list,
+    .consult-date-text {
+      color: rgba(0, 0, 0, 0.8);
+    }
+
+    .header-title-online {
+      color: #ffffff;
+    }
+
+    .fio,
+    .complaint,
+    .treatment,
+    .disease {
+      font-family: Inter;
+      font-size: 14px;
+      &-title {
+        color: rgba(0, 0, 0, 0.8);
+      }
+      &-text {
+        color: rgba(0, 0, 0, 0.8);
+      }
+    }
+
+    .doctor {
+      &-title,
+      &-fio,
+      &-spec {
+        color: rgba(0, 0, 0, 0.8);
+      }
+    }
+  }
 }

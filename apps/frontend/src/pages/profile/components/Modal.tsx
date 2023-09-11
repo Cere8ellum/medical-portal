@@ -1,21 +1,16 @@
 import * as React from 'react';
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+  useRef,
+} from 'react';
 import Box from '@mui/material/Box';
 import dayjs from 'dayjs';
 import Modal from '@mui/material/Modal';
+import { useReactToPrint } from 'react-to-print';
 import styles from '../styles/modal.module.css';
-
-const style = {
-  position: 'absolute' as const,
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  // width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: '30px 60px',
-};
 
 export interface PropsType {
   props: any;
@@ -25,6 +20,7 @@ export interface RefType {
 }
 
 function BasicModal(props: any, ref: React.Ref<RefType>) {
+  const printRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({ ...props });
   const handleOpen = () => setOpen(true);
@@ -39,6 +35,15 @@ function BasicModal(props: any, ref: React.Ref<RefType>) {
     getOpinion,
   }));
 
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+    // bodyClass: '.modal',
+    // pageStyle: `modal {
+    //   max-width: 100%;
+    //   background-color: red;
+    // }`,
+  });
+
   return (
     <div>
       <Modal
@@ -47,7 +52,7 @@ function BasicModal(props: any, ref: React.Ref<RefType>) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box className={styles['modal']} ref={printRef}>
           <header className={styles['header']}>
             <div className={styles['header-wrapper']}>
               <div className={styles['header-title']}>
@@ -109,6 +114,9 @@ function BasicModal(props: any, ref: React.Ref<RefType>) {
               Врач-{data.props?.speciality}
             </div>
           </div>
+          <button className={styles['report-btn-print']} onClick={handlePrint}>
+            ПЕЧАТЬ
+          </button>
         </Box>
       </Modal>
     </div>
