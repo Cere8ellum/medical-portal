@@ -9,6 +9,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import OpinionDocument from './pages/opinion/opinion_doc';
 import OpinionForm from './pages/opinion/opinion_form';
 import Contacts from './pages/contactpage/Contacts';
+import DoctorEmployees from './pages/schedule/DoctorEmployees';
 
 type Route = RouteObject & {
   isPublic: boolean;
@@ -66,6 +67,11 @@ export const routesWithoutLayout: Route[] = [
   {
     path: '/opinionform/:appointmentId',
     element: <OpinionForm />,
+    isPublic: true,
+  },
+  {
+    path: '/doctorEmployees',
+    element: <DoctorEmployees />,
     isPublic: true,
   },
 ];
