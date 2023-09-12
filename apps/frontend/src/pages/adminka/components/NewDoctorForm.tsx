@@ -7,7 +7,11 @@ import { DoctorType } from '../enum/type.enum';
 import { DoctorDto } from '../interfaces/Doctor.dto';
 import styles from '../styles/adminka.doctors.module.css';
 
-const NewDoctorForm: React.FC = () => {
+interface DoctorFormProps {
+  doctor: DoctorDto | undefined;
+}
+
+const DoctorForm: React.FC<DoctorFormProps> = ({ doctor }: DoctorFormProps) => {
   return (
     <section id="content-section" className="">
       {}
@@ -18,7 +22,11 @@ const NewDoctorForm: React.FC = () => {
               className={`${styles['persdata-wrap']} ${styles['persdata-text']}`}
             >
               <label className={''}>Login/email</label>
-              <input type="email" name="email"></input>
+              <input
+                type="email"
+                name="email"
+                value={doctor?.user?.email}
+              ></input>
             </div>
             <div
               className={`${styles['persdata-wrap']} ${styles['persdata-text']}`}
@@ -32,7 +40,11 @@ const NewDoctorForm: React.FC = () => {
               className={`${styles['persdata-wrap']} ${styles['persdata-text']}`}
             >
               <label className={''}>Фамилия</label>
-              <input type="persdata-surname" name="lastname"></input>
+              <input
+                type="persdata-surname"
+                name="lastname"
+                value={doctor?.user?.lastname}
+              ></input>
             </div>
             <div
               className={`${styles['persdata-wrap']} ${styles['persdata-text']}`}
@@ -40,7 +52,11 @@ const NewDoctorForm: React.FC = () => {
               <label>
                 <i className=""></i> &nbsp; Имя{' '}
               </label>
-              <input type="text" name="firstname"></input>
+              <input
+                type="text"
+                name="firstname"
+                value={doctor?.user?.firstname}
+              ></input>
             </div>
           </div>
 
@@ -52,16 +68,28 @@ const NewDoctorForm: React.FC = () => {
           </div>
 
           <div
+            className={`${styles['persdata-photo']} ${styles['persdata-wrap']} ${styles['persdata-text']}`}
+          >
+            <label className={''}>Адресс</label>
+            <input
+              type="text"
+              name="address"
+              className={styles['photo']}
+              value={doctor?.user?.address}
+            ></input>
+          </div>
+
+          <div
             className={`${styles['persdata-wrap']} ${styles['info']} ${styles['persdata-text']}`}
           >
             <label>
               <i></i> &nbsp; Информация
             </label>
-            <input
-              type="text"
+            <textarea
               name="info"
               className={styles['persdata-info']}
-            ></input>
+              value={doctor?.info}
+            ></textarea>
           </div>
 
           <div className={`${styles['persdata-field']}`}>
@@ -69,13 +97,21 @@ const NewDoctorForm: React.FC = () => {
               className={`${styles['persdata-wrap']} ${styles['persdata-text']}`}
             >
               <label className={''}>Телефон</label>
-              <input type="tel" name="mobile"></input>
+              <input
+                type="tel"
+                name="mobile"
+                value={doctor?.user?.mobile}
+              ></input>
             </div>
             <div
               className={`${styles['persdata-wrap']} ${styles['persdata-text']}`}
             >
               <label>&nbsp; Дата рождения</label>
-              <input type="date" name="firstname"></input>
+              <input
+                type="date"
+                name="firstname"
+                value={doctor?.user?.birthdate}
+              ></input>
             </div>
           </div>
 
@@ -90,6 +126,7 @@ const NewDoctorForm: React.FC = () => {
                 type="text"
                 name="price"
                 className={`${styles['persdata-field']} ${styles['persdata-surname']}`}
+                value={doctor?.price}
               ></input>
             </div>
 
@@ -103,6 +140,7 @@ const NewDoctorForm: React.FC = () => {
                 type="text"
                 name="startWorking"
                 className={`${styles['persdata-field']} ${styles['persdata-surname']}`}
+                value={doctor?.startWorking}
               ></input>
             </div>
           </div>
@@ -115,7 +153,14 @@ const NewDoctorForm: React.FC = () => {
             >
               <option value="speciality">Специализация</option>
               {Object.entries(Speciality).map((value) => {
-                return <option value={`${value[0]}`}>{value[1]}</option>;
+                return (
+                  <option
+                    value={`${value[0]}`}
+                    selected={value[1] === doctor?.speciality ? true : false}
+                  >
+                    {value[1]}
+                  </option>
+                );
               })}
             </select>
 
@@ -126,7 +171,14 @@ const NewDoctorForm: React.FC = () => {
             >
               <option value="category">Категория</option>
               {Object.entries(QualificationCategory).map((value) => {
-                return <option value={`${value[0]}`}>{value[1]}</option>;
+                return (
+                  <option
+                    value={`${value[0]}`}
+                    selected={value[1] === doctor?.category ? true : false}
+                  >
+                    {value[1]}
+                  </option>
+                );
               })}
             </select>
           </div>
@@ -138,7 +190,14 @@ const NewDoctorForm: React.FC = () => {
             >
               <option value="gender">Пол</option>
               {Object.entries(Gender).map((value) => {
-                return <option value={`${value[0]}`}>{value[1]}</option>;
+                return (
+                  <option
+                    value={`${value[0]}`}
+                    selected={value[1] === doctor?.user?.gender ? true : false}
+                  >
+                    {value[1]}
+                  </option>
+                );
               })}
             </select>
 
@@ -149,7 +208,14 @@ const NewDoctorForm: React.FC = () => {
             >
               <option value="type">Тип</option>
               {Object.entries(DoctorType).map((value) => {
-                return <option value={`${value[0]}`}>{value[1]}</option>;
+                return (
+                  <option
+                    value={`${value[0]}`}
+                    selected={value[1] === doctor?.type ? true : false}
+                  >
+                    {value[1]}
+                  </option>
+                );
               })}
             </select>
           </div>
@@ -165,4 +231,4 @@ const NewDoctorForm: React.FC = () => {
   );
 };
 
-export default NewDoctorForm;
+export default DoctorForm;

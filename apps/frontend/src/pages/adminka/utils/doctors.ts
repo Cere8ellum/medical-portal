@@ -42,6 +42,20 @@ export const getDoctors = async (speciality: string) : Promise<DoctorDto[]> => {
   return doctorList
 }
 
+export async function getDoctorById (doctor_id: number): Promise<DoctorDto | undefined> {
+  let doctor:DoctorDto | undefined;
+  console.log(`/doctors/${doctor_id}`)
+  await api(`/doctors/${doctor_id}`)
+    .then(({data}:{data:DoctorDto})=> {
+       doctor = data;
+    })
+    .catch((error: Error)=> {
+      console.log(error);
+      doctor = undefined;
+    })
+  return doctor
+}
+
 export const getDocId = (value: string): number | null =>{
   const match = value.match(/\d+/);
   if (match) {

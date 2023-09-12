@@ -2,12 +2,11 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
 // import { IntegerType } from 'typeorm'
 
 export class CreateUserDto {
-    id: number
-    uuid: string
     firstname: string
     lastname: string
     gender: string
     birthdate: string
+    role: string
     @IsEmail()
     email: string
     address: string
@@ -15,7 +14,4 @@ export class CreateUserDto {
     @IsNotEmpty()
     @IsString()
     password: string
-    status: string
-    created: string
-    updated: string
 }
