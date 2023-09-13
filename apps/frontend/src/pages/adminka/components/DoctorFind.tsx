@@ -17,6 +17,7 @@ const DoctorFind: React.FC<DoctorFindProps> = ({
   const handleSpeciality = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSpeciality = event.target.value;
     setSpeciality(selectedSpeciality);
+    document.getElementById('family')?.setAttribute('selectedIndex', '0');
   };
 
   useEffect(() => {

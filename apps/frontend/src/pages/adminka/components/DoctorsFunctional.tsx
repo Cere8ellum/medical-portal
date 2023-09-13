@@ -13,40 +13,43 @@ import DoctorForm from './NewDoctorForm';
 const DoctorsFunctional: React.FC = () => {
   const [doctor, setDoctor] = useState<DoctorDto | undefined>(undefined);
   const [doctorId, setDoctorId] = useState<number | null>(null);
+  const [isCreate, setIsCreate] = useState<boolean | null>(false);
 
   const handleDoctorId = (
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
     const selectedDoctorId = getDocId(event.target.value);
-    setDoctorId(selectedDoctorId);
-    console.log('id doctor *', selectedDoctorId, '*');
-  };
-
-  useEffect(() => {
-    if (doctorId !== null) {
-      getDoctorById(doctorId)
+    if (selectedDoctorId !== null) {
+      getDoctorById(selectedDoctorId)
         .then((data) => {
           setDoctor(data);
-          console.log('doctor', data);
         })
         .catch((error: Error) => {
           console.log(error);
           setDoctor(undefined);
         });
+    } else {
+      setDoctor(undefined);
     }
-  }, [doctorId]);
+  };
 
   return (
     <div className={styles['doctors']}>
       <div className={styles['doctors-btn']}>
-        <button>Добавить нового</button>
-        <button>Изменить</button>
+        <button onClick={() => setIsCreate(true)}>Добавить нового</button>
+        <button
+          onClick={() => {
+            setIsCreate(false), setDoctorId(null);
+          }}
+        >
+          Изменить
+        </button>
       </div>
       <div className={styles['doctors-form']}>
         <div className={styles['doctors-form-update']}>
           <DoctorFind handleSetId={handleDoctorId} />
         </div>
-        <DoctorForm doctor={doctor} />
+        <DoctorForm doctor={doctor} isCreate={isCreate} />
       </div>
     </div>
   );
