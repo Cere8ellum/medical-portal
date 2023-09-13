@@ -11,11 +11,16 @@ import {
   yupToFormErrors,
 } from 'formik';
 import { isAxiosError } from 'axios';
-import api from '../../../infrastructure/api';
-import { snackbarStore } from '../../../stores';
-import { Form, Snackbar } from '../../../components';
-import { Field, formReducer, FormState, Status } from '../reducers/formReducer';
-import appointmentSchema from '../schemas/appointmentSchema';
+import api from 'apps/frontend/src/infrastructure/api';
+import { snackbarStore } from 'apps/frontend/src/stores';
+import { Form, Snackbar } from 'apps/frontend/src/components';
+import {
+  Field,
+  formReducer,
+  FormState,
+  Status,
+} from '../../reducers/formReducer';
+import appointmentSchema from '../../schemas/appointmentSchema';
 import WrappedAutoComplete from './Autocomplete';
 
 export type Option = {
@@ -23,9 +28,11 @@ export type Option = {
   label: string;
 };
 
-interface User {
+export interface User {
+  id: number;
   firstname: string;
   lastname: string;
+  birthdate: string;
 }
 
 interface Doctor {
@@ -60,6 +67,11 @@ const initialValues: FormikValues = {
   appointmentDate: null,
   appointmentTime: null,
 };
+
+interface Props {
+  userId: number;
+  onSuccess: () => void;
+}
 
 const createTimeSlotsOptions = (startTime: Dayjs, endTime: Dayjs): Option[] => {
   const timeSlotsOptions = [];
@@ -97,7 +109,7 @@ const getTimeSlotsOptions = (date: Dayjs): Option[] => {
   return createTimeSlotsOptions(startTime, endTime);
 };
 
-const AppointmentForm = () => {
+const AppointmentForm: React.FC<Props> = ({ userId, onSuccess }) => {
   const [state, dispatch] = useReducer(formReducer, initialState);
   const formikRef = useRef<FormikProps<FormikValues>>(null);
   const dateRef = useRef<Dayjs | null>(null);
@@ -119,12 +131,11 @@ const AppointmentForm = () => {
         dispatch({ type: 'REJECT' });
 
         if (isAxiosError(error)) {
-          snackbarStore.setContent({
-            severity: 'error',
-            message: error.request.data.message,
-          });
-
-          snackbarStore.handleOpen();
+          // snackbarStore.setContent({
+          //   severity: 'error',
+          //   message: error.request.data.message,
+          // });
+          // snackbarStore.handleOpen();
         } else {
           console.error(error);
         }
@@ -158,12 +169,11 @@ const AppointmentForm = () => {
         error.response !== null &&
         error.response !== undefined
       ) {
-        snackbarStore.setContent({
-          severity: 'error',
-          message: error.request.data.message,
-        });
-
-        snackbarStore.handleOpen();
+        // snackbarStore.setContent({
+        //   severity: 'error',
+        //   message: error.request.data.message,
+        // });
+        // snackbarStore.handleOpen();
       } else {
         console.error(error);
       }
@@ -194,12 +204,11 @@ const AppointmentForm = () => {
         error.response !== null &&
         error.response !== undefined
       ) {
-        snackbarStore.setContent({
-          severity: 'error',
-          message: error.request.data.message,
-        });
-
-        snackbarStore.handleOpen();
+        // snackbarStore.setContent({
+        //   severity: 'error',
+        //   message: error.request.data.message,
+        // });
+        // snackbarStore.handleOpen();
       } else {
         console.error(error);
       }
@@ -240,12 +249,11 @@ const AppointmentForm = () => {
         error.response !== null &&
         error.response !== undefined
       ) {
-        snackbarStore.setContent({
-          severity: 'error',
-          message: error.request.data.message,
-        });
-
-        snackbarStore.handleOpen();
+        // snackbarStore.setContent({
+        //   severity: 'error',
+        //   message: error.request.data.message,
+        // });
+        // snackbarStore.handleOpen();
       } else {
         console.error(error);
       }
@@ -268,17 +276,19 @@ const AppointmentForm = () => {
       await api.post(`appointments/create`, {
         doctor_id: doctor!.value,
         date_start: date,
+        patient_id: String(userId),
       });
 
       resetForm();
+      onSuccess();
 
-      snackbarStore.setContent({
-        severity: 'success',
-        message:
-          'Вы успешно записались на прием. Ожидайте письмо на электронную почту',
-      });
+      // snackbarStore.setContent({
+      //   severity: 'success',
+      //   message:
+      //     'Вы успешно записались на прием. Ожидайте письмо на электронную почту',
+      // });
 
-      snackbarStore.handleOpen();
+      // snackbarStore.handleOpen();
     } catch (err) {
       if (
         isAxiosError(err) &&
@@ -288,22 +298,20 @@ const AppointmentForm = () => {
         const { message } = err.response.data;
 
         if (Array.isArray(message)) {
-          snackbarStore.setContent({
-            severity: 'error',
-            message: message.join('. '),
-          });
-
-          snackbarStore.handleOpen();
-          return;
+          //   snackbarStore.setContent({
+          //     severity: 'error',
+          //     message: message.join('. '),
+          //   });
+          //   snackbarStore.handleOpen();
+          //   return;
         }
 
         if (typeof message === 'string') {
-          snackbarStore.setContent({
-            severity: 'error',
-            message: message,
-          });
-
-          snackbarStore.handleOpen();
+          //   snackbarStore.setContent({
+          //     severity: 'error',
+          //     message: message,
+          //   });
+          //   snackbarStore.handleOpen();
         }
       } else {
         console.error(err);
@@ -473,7 +481,6 @@ const AppointmentForm = () => {
               }}
               sx={{
                 '& .MuiInputBase-root': {
-                  width: '100%',
                   backgroundColor: ({ palette }) => palette.common.white,
                   borderRadius: '10px',
                 },
@@ -482,7 +489,6 @@ const AppointmentForm = () => {
                   borderColor: ({ palette }) => palette.primary.main,
                   borderWidth: '2px',
                   borderRadius: '10px',
-                  boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                 },
 
                 '& .MuiSvgIcon-root ': {
@@ -517,6 +523,7 @@ const AppointmentForm = () => {
               }
             />
             <Button
+              type="submit"
               color="primary"
               variant="contained"
               sx={{
@@ -526,15 +533,14 @@ const AppointmentForm = () => {
                 fontWeight: '600',
                 lineHeight: 'normal',
               }}
-              type="submit"
               disabled={!(isValid && dirty) || isSubmitting}
             >
-              Записаться на прием
+              Создать запись
             </Button>
           </Form>
         )}
       </Formik>
-      <Snackbar />
+      {/* <Snackbar /> */}
     </>
   );
 };
