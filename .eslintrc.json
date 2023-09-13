@@ -19,7 +19,9 @@
           "error",
           {
             "enforceBuildableLibDependency": true,
-            "allow": [],
+            "allow": [
+              "apps/frontend"
+            ],
             "depConstraints": [
               {
                 "sourceTag": "*",

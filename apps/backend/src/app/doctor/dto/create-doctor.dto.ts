@@ -7,14 +7,6 @@ import { DoctorType } from '../enum/type.enum'
 
 export class CreateDoctorDto {
 
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    type: 'number',
-    description: 'id user',
-  })
-  userId: string;
-
   @IsNotEmpty()
   @IsString()
   @ApiProperty({

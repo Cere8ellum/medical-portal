@@ -7,13 +7,14 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { UserEntity, UserRole } from './entities/user.entity';
 import * as argon2 from 'argon2';
 import { Role } from './enum/role.enum';
 import { DoctorService } from '../doctor/doctor.service';
 import { v4 as uuid } from 'uuid';
 import { MailService } from '../mail/mail.service';
+import { Gender } from './enum/gender.enum';
 
 @Injectable()
 export class UserService {
@@ -26,7 +27,7 @@ export class UserService {
   ) {}
 
   // create user
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const existUser = await this.userRepository.findOne({
       where: {
         email: createUserDto.email,
@@ -39,12 +40,19 @@ export class UserService {
       email: createUserDto.email,
       password: await argon2.hash(createUserDto.password),
       status: UserRole.disabled,
+      role: createUserDto.role || Role.Patient,
+      gender: createUserDto.gender || Gender.Male,
+      mobile: createUserDto.mobile || '',
+      birthdate: createUserDto.birthdate || new Date().toString(),
+      address: createUserDto.address || '',
+      firstname: createUserDto.firstname || '',
+      lastname: createUserDto.lastname || '',
       created: new Date(),
     });
 
     await this.mailServise.sendUserConfirmation(user, user.uuid);
 
-    return { user };
+    return user ;
   }
 
   async findAll() {
@@ -83,6 +91,22 @@ export class UserService {
   async findByEmail(email: string): Promise<UserEntity> {
     const tlc = email.toLowerCase();
     return this.userRepository.findOne({ where: { email: tlc } });
+  }
+
+  async findPatientByNameAndBday (firstname:string, lastname:string,bday: string):Promise<UserEntity> {
+    try {
+      const _user = await this.userRepository.findOne({
+        where: {
+          firstname: Like(`%${firstname}%`),
+          lastname: Like(`%${lastname}%`),
+          birthdate: bday,
+          role: Role.Patient
+        }
+      });
+      return _user
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {

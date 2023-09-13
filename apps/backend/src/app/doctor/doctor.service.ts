@@ -28,32 +28,28 @@ export class DoctorService {
    */
   async create(doctor: CreateDoctorDto): Promise<DoctorEntity> {
     try {
-      const _user = await this.userService.findOne(+doctor.userId);
 
-      if (!_user){
-        throw new Error(`User with Id = ${doctor.userId} doesn't exist`);
-      }
-        const userUpdate = await this.userService.update(+doctor.userId,{
+        const userCreate = await this.userService.create({
           lastname: doctor.lastname,
           firstname: doctor.firstname,
           email: doctor.email,
-          gender: Gender[doctor.gender],
+          gender: doctor.gender,
           address: doctor.address,
           mobile: doctor.mobile,
           birthdate: doctor.birthdate,
           role: Role.Doctor,
-          password: doctor.password
-        })
+          password: doctor.password,
+        });
 
         const doctorEntity = new DoctorEntity();
         doctorEntity.speciality = doctor.speciality;
         doctorEntity.category = doctor.category || QualificationCategory.Second;
         doctorEntity.type = doctor.type || DoctorType.Adult;
-        doctorEntity.startWorking = doctor.startWorking;
-        doctorEntity.price = doctor.price || '0';
-        doctorEntity.info = doctor.info;
+        doctorEntity.startWorking = doctor.startWorking || new Date().toString();
+        doctorEntity.price = doctor.price || '1000';
+        doctorEntity.info = doctor.info || '';
         doctorEntity.photo = doctor.photo;
-        doctorEntity.user = userUpdate;
+        doctorEntity.user = userCreate;
         const _doctor = await this.doctorRepository.save(doctorEntity);
       return _doctor
     } catch (error) {

@@ -13,6 +13,10 @@ import { AuthGuard } from '../user/auth.guard';
 import { DoctorService } from '../doctor/doctor.service';
 import moment from 'moment';
 import { Status } from './enum/status.enum';
+import { CreateMedicalHistoryDto } from '../medical-history/dtos/create-medical-history.dto';
+import { MedicalHistoryService } from '../medical-history/medical-history.service';
+import { AbsenceScheduleController } from '../absence-schedule/absence-schedule.controller';
+import { AbsenceScheduleService } from '../absence-schedule/absence-schedule.service';
 
 
 @ApiTags('appointments')
@@ -21,7 +25,8 @@ export class AppointmentsController {
   constructor(
     private readonly appointmentsService: AppointmentsService,
     private readonly userService: UserService,
-    private readonly doctorService: DoctorService
+    private readonly doctorService: DoctorService,
+    private readonly scheduleService: AbsenceScheduleService,
     ) { }
 
   /**
@@ -159,7 +164,7 @@ export class AppointmentsController {
     @Param('idPatient', ParseIntPipe) idPatient: number,
     @Query('date')date: string):Promise<boolean>{
       try {
-        return await this.appointmentsService.findByPatientOnDate(idPatient, new Date(date))
+        return await this.appointmentsService.PatientisBookedOnDate(idPatient, new Date(date))
       } catch (error) {
         throw new BadRequestException(`err: ${error}`);
       }
@@ -304,14 +309,23 @@ export class AppointmentsController {
     @Res() res: Response
     ) {
     try {
-      await this.appointmentsService.updateStatus(id,status);
-      res.status(HttpStatus.OK).send('Изменение произошло успешно');
+      const _app = await this.appointmentsService.findOne(id);
+      if(!_app) {
+        res.status(HttpStatus.NOT_FOUND).send(`The appointment with id=${id} doesn't exist.`)
+      }
+      if(status = Status.Cancelled) {
+        await this.appointmentsService.delete(_app);
+        res.status(HttpStatus.OK).send('Удаление записи произошло успешно');
+      } else {
+        await this.appointmentsService.updateStatus(id,status);
+        res.status(HttpStatus.OK).send('Изменение произошло успешно');
+      }
     } catch (error) {
       throw new BadRequestException(`err: ${error}`);
     }
   }
 
-  @Patch('addOpinion/:id')
+  @Patch('/:id/addOpinion')
   @ApiOperation({ summary: 'Изменение записи к врачу' })
   @ApiResponse({ status: 200, description: 'The record has been successfully updated.' })
   @ApiResponse({ status: 400, description: 'Forbidden.' })
@@ -321,32 +335,31 @@ export class AppointmentsController {
     type: String,
     description: 'appointment id'
   })
-  @ApiQuery({
-    description: 'id medical history',
-    name: 'opinion_id',
-    type: String
+  @ApiBody({
+    type: CreateMedicalHistoryDto
   })
   async addOpinion(
     @Param('id', ParseIntPipe) id: number,
-    @Query('opinion_id',ParseIntPipe) opinion_id: number,
+    @Body() createMedHistory: CreateMedicalHistoryDto,
     @Res() res: Response
     ) {
     try {
-      const _appointment = await this.appointmentsService.updateAddMedicalHistory(id,opinion_id);
-      if(!_appointment) {
-        res.status(HttpStatus.FORBIDDEN).send('The appointmnent with this id doesn`t exist');
+      const _app = await this.appointmentsService.findOne(id);
+      if(!_app) {
+        res.status(HttpStatus.NOT_FOUND).send('The appointmnent with this id doesn`t exist');
       }
-      console.log('_appointment',_appointment);
+      const appointment = await this.appointmentsService.updateAddMedicalHistory(id,createMedHistory);
       res.status(HttpStatus.OK).json({
-        date: moment(_appointment.date_start).format('YYYY-MM-DD HH:mm'),
-        doctor: `${_appointment.doctor.user.firstname} ${_appointment.doctor.user.lastname}`,
-        speciality: _appointment.doctor.speciality,
-        patient: `${_appointment.patient.firstname} ${_appointment.patient.lastname}`,
-        bday: _appointment.patient.birthdate,
-        status: _appointment.status,
-        category: _appointment.doctor.category,
-        id: _appointment.id,
-        opinion: _appointment.opinion
+        date: moment(appointment.date_start).format('YYYY-MM-DD'),
+        time: moment(appointment.date_start).format('HH:mm'),
+        doctor: `${appointment.doctor.user.firstname} ${appointment.doctor.user.lastname}`,
+        speciality: appointment.doctor.speciality,
+        patient: `${appointment.patient.firstname} ${appointment.patient.lastname}`,
+        bday: appointment.patient.birthdate,
+        status: appointment.status,
+        category: appointment.doctor.category,
+        id: appointment.id,
+        opinion: appointment.opinion
       });
     } catch (error) {
       throw new BadRequestException(`err: ${error}`);
@@ -373,8 +386,25 @@ export class AppointmentsController {
     @Res() res: Response
     ) {
       try {
-        const _del = await this.appointmentsService.delete(id);
+        const _app = await this.appointmentsService.findOne(id);
+      if(!_app) {
+        res.status(HttpStatus.NOT_FOUND).send('The appointmnent with this id doesn`t exist');
+      }
+        const _del = await this.appointmentsService.delete(_app);
         if(_del === true){
+          const countAppAtDate = await this.appointmentsService.countAppointmentByDoctorAtDate(
+            _app.doctor.id,
+            _app.date_start
+          );
+
+          if (countAppAtDate === 23) {
+            const _schedule =
+              await this.scheduleService.findByDoctorIdAtDate(
+                _app.doctor.id,
+                new Date(_app.date_start)
+              );
+            await this.scheduleService.deleteById(_schedule.id);
+          }
           res.status(HttpStatus.OK).send('Запись успешно отменена');
         } else { res.status(HttpStatus.FORBIDDEN).send('Произошла ошибка,удаление не возможно')}
       } catch (error) {

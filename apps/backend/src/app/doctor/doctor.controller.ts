@@ -176,9 +176,8 @@ export class DoctorController {
         if(!_doctor) {
             res.status(HttpStatus.BAD_REQUEST).send('The doctor doesn`t exist');
         }
-        const {user, ...doctor} = _doctor;
-        const {password, ...userData} = user;
-        res.status(HttpStatus.OK).json({doctor,userData});
+       _doctor.user.password=''
+        res.status(HttpStatus.OK).json(_doctor);
       } catch (error) {
         throw new BadRequestException(`err: ${error}`);
       }
