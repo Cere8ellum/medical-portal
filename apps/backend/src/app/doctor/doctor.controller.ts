@@ -29,6 +29,8 @@ import { diskStorage } from 'multer'
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { Speciality } from './enum/speciality.enum';
 import { Response } from 'express';
+import { UserService } from '../user/user.service';
+import { Role } from '../user/enum/role.enum';
 
 const helperFileLoader = new HelperFileLoader();
 const PATH_NEWS = '/doctor_photos';
@@ -37,7 +39,9 @@ helperFileLoader.path = PATH_NEWS;
 @ApiTags('doctors')
 @Controller('doctors')
 export class DoctorController {
-  constructor(private readonly doctorService: DoctorService) {}
+  constructor(
+    private readonly doctorService: DoctorService,
+    private readonly userService: UserService) {}
 
   /**
    * Creates a doctor
@@ -203,6 +207,48 @@ export class DoctorController {
     }
 
   }
+
+
+@ApiOperation({ summary: 'Возвращает доктора по user Id.Если user.role = doctor' })
+@ApiParam({
+  name:'userId',
+  description: 'id user',
+  type: Number
+})
+@ApiResponse({
+  status: HttpStatus.OK,
+  description: 'Success',
+  type: DoctorEntity
+})
+@ApiResponse({
+  status: HttpStatus.NOT_FOUND,
+  description: 'The user doesn`t exist.',
+  type: String
+})
+@ApiResponse({
+  status: HttpStatus.FORBIDDEN,
+  description: 'Access denied. Insufficient role.',
+  type: String
+})
+  @Get('find/:userId')
+  async findDoctorByUserId(
+  @Param('userId',ParseIntPipe) userId: number,
+  @Res() res: Response
+  ) {
+    try {
+      const _user = await this.userService.findOne(userId);
+      if(!_user){
+        res.status(HttpStatus.NOT_FOUND).send(`The user with id=${userId} doesn't exist.`)
+      }
+      if(_user.role !== Role.Doctor) {
+        res.status(HttpStatus.FORBIDDEN).send('Access denied. Insufficient role.');
+      }
+      res.status(HttpStatus.OK).json(await this.doctorService.findByUserId(userId));
+    } catch (error) {
+      throw new BadRequestException(`err: ${error}`);
+    }
+  }
+
 
   /**
    *

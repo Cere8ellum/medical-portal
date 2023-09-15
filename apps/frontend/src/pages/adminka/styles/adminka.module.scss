@@ -46,9 +46,12 @@
 }
 
 .functional {
-  border: 5px solid green;
+  // border: 5px solid green;
   width: 100%;
   min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .doctors {
@@ -74,7 +77,7 @@
 
   &-form {
     width: 100%;
-    border: 1px solid red;
+    position: relative;
     display: flex;
     flex-direction: row;
     gap: 20px;
@@ -83,6 +86,22 @@
       display: flex;
       gap: 20px;
       padding: 10px;
+    }
+
+    &-back {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      left: -50px;
+      cursor: pointer;
+
+      &:hover {
+        height: 35px;
+        width: 35px;
+      }
     }
   }
 

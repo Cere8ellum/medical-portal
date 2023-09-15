@@ -1,11 +1,12 @@
+import dayjs from 'dayjs';
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { QualificationCategory } from '../enum/category.enum';
-import { Gender } from '../enum/gender.enum';
-import { Speciality } from '../enum/speciality.enum';
-import { DoctorType } from '../enum/type.enum';
-import { DoctorDto } from '../interfaces/Doctor.dto';
-import styles from '../styles/adminka.doctors.module.css';
+import { QualificationCategory } from '../../enum/category.enum';
+import { Gender } from '../../enum/gender.enum';
+import { Speciality } from '../../enum/speciality.enum';
+import { DoctorType } from '../../enum/type.enum';
+import { DoctorDto } from '../../interfaces/Doctor.dto';
+import styles from '../../styles/adminka.doctors.module.css';
 
 interface DoctorFormProps {
   doctor: DoctorDto | undefined;
@@ -16,35 +17,25 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
   doctor,
   isCreate,
 }: DoctorFormProps) => {
-  console.log('doc', doctor);
-
   const initialState = {
-    firstname: doctor?.user.firstname || '',
-    lastname: doctor?.user.lastname || '',
-    email: doctor?.user.email || '',
-    address: doctor?.user.address || '',
-    mobile: doctor?.user.mobile || '',
-    gender: doctor?.user.gender || '',
-    price: doctor?.price || '',
-    photo: doctor?.photo || '',
-    info: doctor?.info || '',
-    category: doctor?.category || '',
-    speciality: doctor?.speciality || '',
-    startWorking: doctor?.startWorking || '',
-    type: doctor?.type || '',
-    birthdate: doctor?.user.birthdate || '',
+    firstname: '',
+    lastname: '',
+    email: '',
+    address: '',
+    mobile: '',
+    gender: '',
+    price: '',
+    photo: '',
+    info: '',
+    category: '',
+    speciality: '',
+    startWorking: '',
+    type: '',
+    birthdate: '',
     password: '',
   };
 
-  console.log('is', initialState);
   const [formData, setFormData] = useState(initialState);
-  console.log('formData', formData);
-
-  useEffect(() => {
-    setFormData(initialState);
-  }, []);
-
-  console.log('formData 2', formData);
 
   const handleChange = (
     event: ChangeEvent<
@@ -54,6 +45,29 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  useEffect(() => {
+    if (doctor) {
+      const updatedFormData = {
+        firstname: doctor?.user.firstname || '',
+        lastname: doctor?.user.lastname || '',
+        email: doctor?.user.email || '',
+        address: doctor?.user.address || '',
+        mobile: doctor?.user.mobile || '',
+        gender: doctor?.user.gender || '',
+        price: doctor?.price || '',
+        photo: doctor?.photo || '',
+        info: doctor?.info || '',
+        category: doctor?.category || '',
+        speciality: doctor?.speciality || '',
+        startWorking: doctor?.startWorking || '',
+        type: doctor?.type || '',
+        birthdate: dayjs(doctor?.user.birthdate).format('YYYY-MM-DD') || '',
+        password: '',
+      };
+      setFormData(updatedFormData);
+    }
+  }, [doctor]);
 
   return (
     <section id="content-section" className="">
@@ -71,7 +85,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-              ></input>
+              />
             </div>
             <div
               className={`${styles['persdata-wrap']} ${styles['persdata-text']}
@@ -83,7 +97,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-              ></input>
+              />
             </div>
           </div>
           <div className={`${styles['persdata-field']}`}>
@@ -96,7 +110,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                 name="lastname"
                 value={formData.lastname}
                 onChange={handleChange}
-              ></input>
+              />
             </div>
             <div
               className={`${styles['persdata-wrap']} ${styles['persdata-text']}`}
@@ -122,10 +136,10 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
               <input
                 type="file"
                 name="photo"
-                value={formData.photo}
+                //value={formData.photo}
                 onChange={handleChange}
                 className={styles['photo']}
-              ></input>
+              />
             </div>
             <div
               className={
@@ -146,7 +160,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
               className={styles['photo']}
               value={formData.address}
               onChange={handleChange}
-            ></input>
+            />
           </div>
 
           <div
@@ -160,7 +174,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
               className={styles['persdata-info']}
               value={formData.info}
               onChange={handleChange}
-            ></textarea>
+            />
           </div>
 
           <div className={`${styles['persdata-field']}`}>
@@ -173,7 +187,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                 name="mobile"
                 value={formData.mobile}
                 onChange={handleChange}
-              ></input>
+              />
             </div>
             <div
               className={`${styles['persdata-wrap']} ${styles['persdata-text']}`}
@@ -184,7 +198,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                 name="birthdate"
                 value={formData.birthdate}
                 onChange={handleChange}
-              ></input>
+              />
             </div>
           </div>
 
@@ -201,7 +215,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                 className={`${styles['persdata-field']} ${styles['persdata-surname']}`}
                 value={formData.price}
                 onChange={handleChange}
-              ></input>
+              />
             </div>
 
             <div
@@ -216,7 +230,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                 className={`${styles['persdata-field']} ${styles['persdata-surname']}`}
                 value={formData.startWorking}
                 onChange={handleChange}
-              ></input>
+              />
             </div>
           </div>
           <div className={`${styles['persdata-field']}`}>
@@ -230,11 +244,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
               <option value="speciality">Специализация</option>
               {Object.entries(Speciality).map(([key, value]) => {
                 return (
-                  <option
-                    key={key}
-                    value={key}
-                    selected={value[1] === doctor?.speciality ? true : false}
-                  >
+                  <option key={key} value={value}>
                     {value}
                   </option>
                 );
@@ -251,11 +261,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
               <option value="category">Категория</option>
               {Object.entries(QualificationCategory).map(([key, value]) => {
                 return (
-                  <option
-                    key={key}
-                    value={key}
-                    selected={value[1] === doctor?.category ? true : false}
-                  >
+                  <option key={key} value={value}>
                     {value}
                   </option>
                 );
@@ -273,11 +279,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
               <option value="gender">Пол</option>
               {Object.entries(Gender).map(([key, value]) => {
                 return (
-                  <option
-                    key={key}
-                    value={key}
-                    selected={value[1] === doctor?.user?.gender ? true : false}
-                  >
+                  <option key={key} value={value}>
                     {value}
                   </option>
                 );
@@ -296,8 +298,8 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                 return (
                   <option
                     key={key}
-                    value={key}
-                    // selected={value === doctor?.type ? true : false}
+                    value={value}
+                    selected={value === doctor?.type ? true : false}
                   >
                     {value}
                   </option>
@@ -307,9 +309,23 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
           </div>
           <button
             type="submit"
-            className={`${styles['persdata-btn']} ${styles['persdata-btn-changedata']}`}
+            className={
+              !isCreate
+                ? `${styles['persdata-btn']} ${styles['persdata-btn-changedata']}`
+                : styles['persdata-update']
+            }
           >
-            ИЗМЕНИТЬ ДАННЫЕ
+            Изменить
+          </button>
+          <button
+            type="submit"
+            className={
+              isCreate
+                ? `${styles['persdata-btn']} ${styles['persdata-btn-changedata']}`
+                : styles['persdata-update']
+            }
+          >
+            Добавить
           </button>
         </form>
       </div>

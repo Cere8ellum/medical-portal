@@ -1,23 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DoctorDto } from '../interfaces/Doctor.dto';
-import styles from '../styles/adminka.module.css';
-import { getDoctors, getSpeciality } from '../utils/doctors';
+import { DoctorDto } from '../../interfaces/Doctor.dto';
+import styles from '../../styles/adminka.module.css';
+import { getDocId, getDoctors, getSpeciality } from '../../utils/doctors';
 
 interface DoctorFindProps {
-  handleSetId: React.ChangeEventHandler<HTMLSelectElement>;
+  getDoctor: (doctor: DoctorDto | undefined) => void;
 }
 
 const DoctorFind: React.FC<DoctorFindProps> = ({
-  handleSetId,
+  getDoctor,
 }: DoctorFindProps) => {
+  const initialState = {
+    speciality: 'all',
+    family: 'all',
+  };
+
   const [specialities, setSpecialities] = useState<Array<string>>([]);
   const [doctors, setDoctors] = useState<Array<DoctorDto>>([]);
-  const [speciality, setSpeciality] = useState<string>('all');
+  const [selects, setSelects] = useState(initialState);
 
-  const handleSpeciality = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedSpeciality = event.target.value;
-    setSpeciality(selectedSpeciality);
-    document.getElementById('family')?.setAttribute('selectedIndex', '0');
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    if (name === 'speciality') {
+      setSelects({ ...selects, [name]: value, ['family']: 'all' });
+    } else {
+      setSelects({ ...selects, [name]: value });
+      doctors.map((doc: DoctorDto) => {
+        if (doc.id === getDocId(value)) {
+          getDoctor(doc);
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -29,10 +42,7 @@ const DoctorFind: React.FC<DoctorFindProps> = ({
         console.log(error);
         setSpecialities([]);
       });
-  }, []);
-
-  useEffect(() => {
-    getDoctors(speciality)
+    getDoctors(selects.speciality)
       .then((data: DoctorDto[]) => {
         setDoctors(data);
       })
@@ -40,7 +50,7 @@ const DoctorFind: React.FC<DoctorFindProps> = ({
         setDoctors([]);
         console.log(error);
       });
-  }, [speciality]);
+  }, []);
 
   return (
     <div className={styles['doctors-speciality']}>
@@ -48,11 +58,12 @@ const DoctorFind: React.FC<DoctorFindProps> = ({
         name="speciality"
         id="speciality"
         className={styles['doctors-select']}
-        onChange={handleSpeciality}
+        value={selects.speciality}
+        onChange={handleChange}
       >
         <option value="all">Специальность</option>
         {specialities
-          ? specialities.map((spec: string, index: number) => {
+          ? specialities.map((spec: string) => {
               return <option value={`${spec}`}>{spec}</option>;
             })
           : ''}
@@ -61,12 +72,19 @@ const DoctorFind: React.FC<DoctorFindProps> = ({
         name="family"
         id="family"
         className={styles['doctors-select']}
-        onChange={handleSetId}
+        value={selects.family}
+        onChange={handleChange}
       >
         <option value="0">ФИО ВРАЧА</option>
         {doctors.map((doc: DoctorDto) => {
           const FIO = `${doc?.user?.firstname} ${doc?.user?.lastname}`;
-          return <option value={`docId-${doc.id}`}>{FIO}</option>;
+          if (selects.speciality === 'all') {
+            return <option value={`docId-${doc.id}`}>{FIO}</option>;
+          } else {
+            if (selects.speciality === doc?.speciality) {
+              return <option value={`docId-${doc.id}`}>{FIO}</option>;
+            }
+          }
         })}
       </select>
     </div>

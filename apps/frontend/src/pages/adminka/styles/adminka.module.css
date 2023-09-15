@@ -63,12 +63,17 @@
 }
 
 .functional {
-  padding: 20px;
   width: 100%;
   min-height: 500px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .doctors {
@@ -103,7 +108,7 @@
 
 .doctors-form {
   width: 100%;
-  border: 1px solid red;
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -120,6 +125,22 @@
   display: flex;
   gap: 20px;
   padding: 10px;
+}
+
+.doctors-form-back {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: -50px;
+  cursor: pointer;
+}
+
+.doctors-form-back:hover {
+  height: 35px;
+  width: 35px;
 }
 
 .doctors-speciality {
