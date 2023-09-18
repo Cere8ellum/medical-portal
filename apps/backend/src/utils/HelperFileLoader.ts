@@ -10,6 +10,7 @@ export class HelperFileLoader {
   }
 
   public customFileName(req: any, file: any, cb: (error: Error | null, filename: string) => void) {
+    console.log('path',file.originalname)
     const originalName = file.originalname.split('.');
     const fileExtension = originalName[originalName.length - 1];
     cb(null, `${uuidv4()}.${fileExtension}`);

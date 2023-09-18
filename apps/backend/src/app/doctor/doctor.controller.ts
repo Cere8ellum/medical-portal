@@ -292,6 +292,7 @@ export class DoctorController {
     ): Promise<DoctorEntity> {
       try {
         if (photo?.filename) {
+          console.log('photo',photo.filename)
           updateDoctorDto.photo = PATH_NEWS + '/' + photo.filename;
         }
         const _doctor = await this.doctorService.update(id,updateDoctorDto);
@@ -312,7 +313,14 @@ export class DoctorController {
   description: 'Запись успешно удалена',
   type: String,
 })
-@ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+@ApiResponse({
+  status: HttpStatus.FORBIDDEN,
+  description: 'Произошла ошибка, удаление не возможно',
+type: String })
+@ApiResponse({
+  status: HttpStatus.NOT_FOUND,
+  description: 'Доктор не найден',
+type: String })
 @ApiParam({
   name:'id',
   type: String,
@@ -320,10 +328,16 @@ export class DoctorController {
 })
   @Delete(':id')
   @ApiOperation({ summary: 'Удаление doctor' })
-  async delete(@Param('id', ParseIntPipe) id : number) {
+  async delete(
+    @Param('id', ParseIntPipe) id : number,
+    @Res() res: Response) {
+    const _doc= await this.doctorService.findById(id)
+    if(!_doc) {
+      res.status(HttpStatus.NOT_FOUND).send('Доктор не найден');
+    }
     const _del = await this.doctorService.delete(id);
     if(_del === true){
-      return 'Запись успешно удалена'
-    } else { return `Произошла ошибка,запись удалить не удалось` }
+     res.status(HttpStatus.OK).send('Доктор успешно удален');
+    } else {res.status(HttpStatus.FORBIDDEN).send(`Произошла ошибка, удаление не возможно`); }
   }
 }

@@ -35,6 +35,7 @@ export class UserService {
     });
     if (existUser) throw new BadRequestException('This email already exist');
 
+  try {
     const user = await this.userRepository.save({
       uuid: uuid(),
       email: createUserDto.email,
@@ -53,6 +54,9 @@ export class UserService {
     await this.mailServise.sendUserConfirmation(user, user.uuid);
 
     return user ;
+  } catch (error) {
+    if (existUser) throw new BadRequestException('This email already exist');
+  }
   }
 
   async findAll() {
@@ -143,10 +147,6 @@ export class UserService {
       const _user = await this.findOne(id);
       if (!_user) {
         throw new BadRequestException('User with this id doesn`t exist');
-      }
-      if (_user && _user.role === Role.Doctor) {
-        const _doctor = await this.doctorServise.findByUserId(id);
-        await this.doctorServise.delete(_doctor.id);
       }
       await this.userRepository.delete(id);
       return true;

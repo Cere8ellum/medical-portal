@@ -72,6 +72,11 @@
       padding: 20px 15px;
       width: 240px;
       font-size: 14px;
+
+      &:hover {
+        border: 3px solid #c3c5c8;
+        background-color: #a6a8ac;
+      }
     }
   }
 

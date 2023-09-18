@@ -7,14 +7,6 @@ import { DoctorType } from '../enum/type.enum'
 
 export class UpdateDoctorDto {
 
-  // @IsString()
-  // @IsNotEmpty()
-  // @ApiProperty({
-  //   type: 'number',
-  //   description: 'id user',
-  // })
-  // userId: string;
-
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
@@ -119,7 +111,7 @@ export class UpdateDoctorDto {
     description: 'Год начала практики',
     default: null
   })
-  @IsNumber()
+  @IsString()
   @ValidateIf((o) => o.startWorking)
   startWorking: string
 
@@ -134,7 +126,7 @@ export class UpdateDoctorDto {
   @ValidateIf((o) => o.info)
   info: string
 
-  @IsNumber()
+  @IsString()
   @ApiProperty({
     type: 'string',
     description: 'Цена за 1 прием',

@@ -64,7 +64,8 @@ export class AppointmentsController {
             patient: `${appointment.patient.firstname} ${appointment.patient.lastname}`,
             status: appointment.status,
             id: appointment.id,
-            opinion: appointment.opinion
+            opinion: appointment.opinion,
+            doctorId: appointment.doctor.id
           });
         });
         res.status(HttpStatus.OK).json(_appList);
@@ -202,7 +203,8 @@ export class AppointmentsController {
           status: _appointment.status,
           category: _appointment.doctor.category,
           id: _appointment.id,
-          opinion: _appointment.opinion
+          opinion: _appointment.opinion,
+          doctorId: _appointment.doctor.id
         });
       } catch (error) {
         throw new BadRequestException(`err: ${error}`);
@@ -254,7 +256,8 @@ export class AppointmentsController {
             status: appointment.status,
             category: appointment.doctor.category,
             id: appointment.id,
-            opinion: appointment.opinion
+            opinion: appointment.opinion,
+            doctorId: appointment.doctor.id
           });
         });
         res.status(HttpStatus.OK).json(_appList);
@@ -359,7 +362,8 @@ export class AppointmentsController {
         status: appointment.status,
         category: appointment.doctor.category,
         id: appointment.id,
-        opinion: appointment.opinion
+        opinion: appointment.opinion,
+        doctorId: appointment.doctor.id,
       });
     } catch (error) {
       throw new BadRequestException(`err: ${error}`);

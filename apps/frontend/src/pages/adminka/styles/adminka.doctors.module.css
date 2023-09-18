@@ -20,24 +20,31 @@
   width: 245px;
   padding: 20px;
   border-radius: 10px;
-  border: 3px solid #3d537c;
+  border: none;
   background-color: #3d537c;
   font-size: 14px;
   font-weight: 600;
   color: #ffffff;
-  margin: 15px;
+  margin-top: 15px;
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
+  cursor: pointer;
 }
 
-.container-content-box {
+.persdata-btn:hover {
+  background-color: #182947e8;
+}
+
+.btn-wrap {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 20px;
 }
 
 .persdata-field {
@@ -48,6 +55,7 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  position: relative;
 }
 
 .persdata-info {
@@ -159,6 +167,18 @@
   width: 80px;
 }
 
+.persdata-photo-note {
+  text-align: center;
+}
+
+.persdata-photo-note p {
+  font-size: 20px;
+}
+
+.persdata-photo-note img {
+  height: 50px;
+}
+
 .persdata-field-info {
   width: 420px;
   border-radius: 10px;
@@ -175,8 +195,52 @@
   border-radius: 100%;
 }
 
-button:hover {
-  border: 3px solid #c3c5c8;
-  background-color: #a6a8ac;
+.error {
+  color: red;
+}
+
+.error input,
+.error textarea,
+.error select {
+  border-color: red;
+}
+
+.error-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 5px;
+}
+
+.error-email {
+  color: red;
+  position: absolute;
+  top: 54px;
+  font-size: 11px;
+  left: 29px;
+  background-color: white;
+  width: 200px;
+  text-align: center;
+}
+
+.error-password {
+  color: red;
+  position: absolute;
+  top: 54px;
+  font-size: 11px;
+  background-color: white;
+  right: 45px;
+  width: 200px;
+  text-align: center;
+}
+
+.persdata-form-note {
+  color: #3d537c;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 /*# sourceMappingURL=adminka.doctors.module.css.map */

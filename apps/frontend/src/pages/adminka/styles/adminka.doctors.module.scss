@@ -13,24 +13,32 @@
   width: 245px;
   padding: 20px;
   border-radius: 10px;
-  border: 3px solid #3d537c;
+  border: none;
   background-color: #3d537c;
   font-size: 14px;
   font-weight: 600;
   color: #ffffff;
-  margin: 15px;
+  margin-top: 15px;
   align-self: center;
+  cursor: pointer;
+
+  &:hover {
+    //border: 3px solid #c3c5c8;
+    background-color: #182947e8;
+  }
 }
 
-.container-content-box {
+.btn-wrap {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  gap: 20px;
 }
 
 .persdata-field {
   display: flex;
   gap: 15px;
   align-items: center;
+  position: relative;
 }
 
 .persdata-info {
@@ -119,6 +127,17 @@
     object-fit: cover;
     width: 80px;
   }
+
+  &-note {
+    text-align: center;
+    & p {
+      font-size: 20px;
+    }
+
+    & img {
+      height: 50px;
+    }
+  }
 }
 
 .persdata-field-info {
@@ -137,7 +156,45 @@
   border-radius: 100%;
 }
 
-button:hover {
-  border: 3px solid #c3c5c8;
-  background-color: #a6a8ac;
+.error {
+  color: red;
+
+  & input,
+  & textarea,
+  & select {
+    border-color: red;
+  }
+
+  &-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &-email {
+    color: red;
+    position: absolute;
+    top: 54px;
+    font-size: 11px;
+    left: 29px;
+    background-color: white;
+    width: 200px;
+    text-align: center;
+  }
+  &-password {
+    color: red;
+    position: absolute;
+    top: 54px;
+    font-size: 11px;
+    background-color: white;
+    right: 45px;
+    width: 200px;
+    text-align: center;
+  }
+}
+
+.persdata-form-note {
+  color: #3d537c;
+  font-size: 14px;
+  margin-bottom: 20px;
 }

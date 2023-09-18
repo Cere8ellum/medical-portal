@@ -1,5 +1,5 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { AppointmentEntity } from '../appointment/entities/appointment.entity';
 import { UserEntity } from '../user/entities/user.entity';
 
@@ -25,7 +25,8 @@ export class MailService {
   }
 
   async sendNewAppointment(appointment: AppointmentEntity) {
-    await this.mailerService
+    try {
+      await this.mailerService
       .sendMail({
         to: appointment.patient.email,
         subject: `Новая запись к врачу`,
@@ -44,5 +45,9 @@ export class MailService {
       .catch((err) => {
         throw Error(err);
       });
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+
   }
 }

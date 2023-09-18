@@ -34,11 +34,11 @@ export class CreateDoctorDto {
 
 
   @IsEmail()
+  @IsNotEmpty()
   @ApiProperty({
     type: 'string',
     description: 'email'
   })
-  @ValidateIf((o) => o.email)
   email: string
 
   @IsNotEmpty()
@@ -47,7 +47,6 @@ export class CreateDoctorDto {
     type: 'string',
     description: 'mobile',
   })
-  @ValidateIf((o) => o.mobile)
   mobile: string
 
   @IsString()
@@ -61,9 +60,9 @@ export class CreateDoctorDto {
   @IsString()
   @ApiProperty({
     type: 'string',
-    description: 'birthdate',
+    description: 'password',
   })
-  @ValidateIf((o) => o.password)
+  @IsNotEmpty()
   password: string
 
   @IsString()
@@ -84,13 +83,13 @@ export class CreateDoctorDto {
   speciality: Speciality
 
   @IsEnum(QualificationCategory)
+  @IsNotEmpty()
   @ApiProperty({
     type: 'string',
     enum: ['Second','First','Highest'],
     description: 'вторая, первая или высшая категории',
     default: 'Second'
   })
-  @ValidateIf((o) => o.category)
   category: QualificationCategory
 
 
@@ -128,7 +127,7 @@ export class CreateDoctorDto {
   @ApiProperty({
     type: 'string',
     description: 'Цена за 1 прием',
-    default: 0
+    default: 2000
   })
   @ValidateIf((o) => o.price)
   price: string

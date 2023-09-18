@@ -231,14 +231,14 @@ export class DoctorService {
 
       if(_doctor && _user){
         await this.doctorRepository.delete(id)
-       // await this.userService.remove(_user.id)
+        await this.userService.remove(_user.id)
         return true
       } else {
           throw new HttpException(
             {
-                status: HttpStatus.FORBIDDEN,
+                status: HttpStatus.NOT_FOUND,
                 error: 'This doctor or user does not exist.',
-            }, HttpStatus.FORBIDDEN
+            }, HttpStatus.NOT_FOUND
           )
       }
     } catch (error) {

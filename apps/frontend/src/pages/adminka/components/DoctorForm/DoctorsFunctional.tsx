@@ -10,61 +10,63 @@ import {
 } from '../../utils/doctors';
 import DoctorFind from './DoctorFind';
 import DoctorForm from './NewDoctorForm';
+import { snackbarStore } from '../../../../stores';
+import { Form, Snackbar } from './../../../../components';
 
 const DoctorsFunctional: React.FC = () => {
-  const [doctor, setDoctor] = useState<DoctorDto | undefined>(undefined);
   const [isCreate, setIsCreate] = useState<boolean>(true);
   const [isForm, setIsForm] = useState<boolean>(false);
 
-  const getDoctor = (doctor: DoctorDto | undefined): void => {
-    setDoctor(doctor);
+  const getIsForm = (isForm: boolean): void => {
+    setIsForm(isForm);
   };
 
   return (
-    <div className={styles['doctors']}>
-      <div
-        className={styles['doctors-btn']}
-        style={{ display: isForm ? 'none' : 'flex' }}
-      >
-        <button
-          onClick={() => {
-            setIsCreate(true);
-            setIsForm(true);
-          }}
+    <>
+      <div className={styles['doctors']}>
+        <div
+          className={styles['doctors-btn']}
+          style={{ display: isForm ? 'none' : 'flex' }}
         >
-          Добавить нового
-        </button>
-        <button
-          onClick={() => {
-            setIsCreate(false);
-            setIsForm(true);
-          }}
-        >
-          Изменить
-        </button>
-      </div>
-      <div
-        className={styles['doctors-form']}
-        style={{ display: isForm ? 'flex' : 'none' }}
-      >
-        <img
-          src="../../../assets/images/adminka/back.png"
-          alt="back"
-          className={styles['doctors-form-back']}
-          onClick={() => {
-            setIsForm(false);
-          }}
-          style={{}}
-        />
-        <div className={styles['doctors-form-update']}>
-          {!isCreate ? <DoctorFind getDoctor={getDoctor} /> : ''}
+          <button
+            onClick={() => {
+              setIsCreate(true);
+              setIsForm(true);
+            }}
+          >
+            Добавить нового
+          </button>
+          <button
+            onClick={() => {
+              setIsCreate(false);
+              setIsForm(true);
+            }}
+          >
+            Изменить
+          </button>
         </div>
-        <DoctorForm
-          doctor={isCreate ? undefined : doctor}
-          isCreate={isCreate}
-        />
+        {isForm ? (
+          <div
+            className={styles['doctors-form']}
+            //style={{ display: isForm ? 'flex' : 'none' }}
+          >
+            <img
+              src="../../../assets/images/adminka/back.png"
+              alt="back"
+              className={styles['doctors-form-back']}
+              onClick={() => {
+                setIsForm(false);
+              }}
+              style={{}}
+            />
+            <DoctorForm isCreate={isCreate} getIsForm={getIsForm} />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
-    </div>
+      <Snackbar />
+    </>
   );
 };
 
