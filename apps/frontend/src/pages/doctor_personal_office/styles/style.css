@@ -297,9 +297,9 @@
     width: 16px;
     height: 16px;
     margin-right: 15px;
-    border: none;
     padding: 4.5px;
     border-radius: 100%;
+    cursor: pointer;
   }
   
   .persdata-field input {
@@ -447,4 +447,15 @@
   button:hover {
     border: 3px solid #c3c5c8;
     background-color: #a6a8ac;
+  }
+
+  .whitable{
+    background: #fff;
+  height: 79px;
+  border-top: 10px solid #fff;
+  display: block;
+  position: relative;
+  top: -10px;
+  left: -3px;
+  cursor: auto;
   }

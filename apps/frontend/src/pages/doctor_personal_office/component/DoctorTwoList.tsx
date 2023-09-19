@@ -25,8 +25,8 @@ function Body() {
               </Link>
 
               <Link
-                className="content-nav-item content-nav-btn header-nav-link timetable"
-                to="/doctorThreeList"
+                className="content-nav-item content-nav-btn header-nav-link timetable whitable"
+                to=""
               >
                 График отсутствия
               </Link>
