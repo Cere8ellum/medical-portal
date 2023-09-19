@@ -3,6 +3,7 @@ import DoctorsFunctional from './components/DoctorsFunctional';
 import NavTag from './components/nav-tag';
 import styles from './styles/adminka.module.css';
 import AppointmentTab from './AppointmentTab';
+import UserBlock from './UserBlock';
 
 interface AdminkaTab {
   title: string;
@@ -17,16 +18,16 @@ const MessageFunctional: React.FC = () => {
   return <div>В планах реализовать позже.</div>;
 };
 
-const UsersFunctional: React.FC = () => {
-  return <div>В планах реализовать позже.</div>;
-};
+// const UsersFunctional: React.FC = () => {
+//   return <div>В планах реализовать позже.</div>;
+// };
 
 const TabList: Array<AdminkaTab> = [
   { title: 'Appointments', block: AppointmentTab },
   { title: 'Schedule', block: ScheduleFunctional },
   { title: 'Doctors', block: DoctorsFunctional },
   { title: 'Messages', block: MessageFunctional },
-  { title: 'Users', block: UsersFunctional },
+  { title: 'Users', block: UserBlock },
 ];
 
 const AdminkaScreen: React.FC = () => {

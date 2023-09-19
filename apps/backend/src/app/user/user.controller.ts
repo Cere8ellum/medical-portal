@@ -45,7 +45,7 @@ export class UserController {
   async create(@Body() createUserDto: CreateUserDto) {
     const newUser = await this.userService.create(createUserDto);
     newUser.password = '';
-    return newUser
+    return newUser;
   }
 
   // логин пользователя
@@ -136,43 +136,53 @@ export class UserController {
   @Get('admin/search')
   @ApiOperation({ summary: 'Поиск пациента по фио и рождении' })
   @ApiQuery({
-    name:'firstname',
+    name: 'firstname',
     description: 'firstname',
-    type:String
+    type: String,
   })
   @ApiQuery({
-    name:'lastname',
+    name: 'lastname',
     description: 'lastname',
-    type:String
+    type: String,
   })
   @ApiQuery({
-    name:'bday',
+    name: 'bday',
     description: 'bday',
-    type:String
+    type: String,
   })
-  @ApiResponse({ status: 200, description: 'Пациента',type: UserEntity})
-  @ApiResponse({ status: 404, description: 'Not found'})
+  @ApiResponse({ status: 200, description: 'Пациента', type: UserEntity })
+  @ApiResponse({ status: 404, description: 'Not found' })
   async findPatient(
-    @Query('firstname') firstname : string,
+    @Query('firstname') firstname: string,
     @Query('lastname') lastname: string,
     @Query('bday') bday: string,
     @Res() res: Response
   ) {
     try {
-      let _patient = await this.userService.findPatientByNameAndBday(firstname,lastname,bday);
-      if(!_patient) {
+      const _patient = await this.userService.findPatientByNameAndBday(
+        firstname,
+        lastname,
+        bday
+      );
+      if (!_patient) {
         res.status(HttpStatus.NOT_FOUND).send('Пациент не найден');
       }
       _patient.password = '';
       res.status(HttpStatus.OK).json(_patient);
     } catch (error) {
-      throw new BadRequestException(`Message: ${error}`)
+      throw new BadRequestException(`Message: ${error}`);
     }
   }
 
   @Get('/confirm/:uuid')
   findUuid(@Param('uuid') uuid: string) {
     return this.userService.findUuid(uuid);
+  }
+
+  // get all users by admin
+  @Get('/admin/users')
+  findAll() {
+    return this.userService.findAll();
   }
 
   @Patch(':id')

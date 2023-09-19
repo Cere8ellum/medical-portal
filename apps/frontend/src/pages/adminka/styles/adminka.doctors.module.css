@@ -77,7 +77,6 @@
   display: flex;
   gap: 15px;
 }
-
 .persdata-field-fio, .persdata-field-date {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -88,7 +87,6 @@
           flex-direction: column;
   gap: 2px;
 }
-
 .persdata-field input {
   width: 245px;
   height: 43px;
@@ -215,10 +213,4 @@
   border: none;
   padding: 4.5px;
   border-radius: 100%;
-}
-
-button:hover {
-  border: 3px solid #c3c5c8;
-  background-color: #a6a8ac;
-}
-/*# sourceMappingURL=adminka.doctors.module.css.map */
+}/*# sourceMappingURL=adminka.doctors.module.css.map */
