@@ -36,6 +36,10 @@ const defaultTheme = createTheme({
       dark: alpha('#ffffff', 0.8),
       contrastText: '#3d537c',
     },
+    error: {
+      main: '#b71c1c',
+      contrastText: '#ffffff',
+    },
   },
   typography: {
     fontFamily: [`'Inter', sanf-serif`].join(','),

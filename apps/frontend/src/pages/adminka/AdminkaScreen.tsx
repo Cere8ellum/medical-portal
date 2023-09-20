@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DoctorsFunctional from './components/DoctorForm/DoctorsFunctional';
 import NavTag from './components/nav-tag';
 import styles from './styles/adminka.module.css';
-import AppointmentTab from './AppointmentTab';
+import AppointmentTab from './components/AppointmentTab/AppointmentTab';
 
 interface AdminkaTab {
   title: string;

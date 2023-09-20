@@ -1,11 +1,12 @@
 import { Box, BoxProps, IconButton, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { User } from './AppointmentForm/AppointmentForm';
+import { User } from './PatientSearchForm';
 
 interface Props {
   user: User;
   hide: () => void;
 }
+
 const PatientInfo: React.FC<Props & BoxProps> = ({
   user: { firstname, lastname, birthdate },
   hide,
