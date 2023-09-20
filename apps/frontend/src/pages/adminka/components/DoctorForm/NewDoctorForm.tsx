@@ -1,4 +1,3 @@
-import { changeSectionValueFormat } from '@mui/x-date-pickers/internals/hooks/useField/useField.utils';
 import api from 'apps/frontend/src/infrastructure/api';
 import dayjs from 'dayjs';
 import React, { useState, ChangeEvent, useEffect, useRef } from 'react';
@@ -93,19 +92,13 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
     return isFormErrors;
   };
 
-  const image = document.getElementById('image') as HTMLImageElement;
-  const file: HTMLInputElement | null = document.getElementById(
-    'file'
-  ) as HTMLInputElement;
   const FReader = new FileReader();
 
   FReader.onload = function (e: ProgressEvent<FileReader>) {
-    console.dir(e.target?.result);
     setFormData({ ...formData, ['photo']: e.target?.result as string });
-    //image.setAttribute('src', e.target?.result as string);
   };
 
-  const handleChange = (
+  const handleChange = async (
     event: ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
@@ -113,9 +106,13 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
     let { name, value } = event.target;
 
     if (name === 'photo') {
+      const file: HTMLInputElement | null = document.getElementById(
+        'file'
+      ) as HTMLInputElement;
       if (file !== null) {
         const photo = file.files;
         if (photo && photo.length > 0) {
+          console.log();
           FReader.readAsDataURL(photo[0]);
           setFormData({ ...formData, [name]: value });
         }

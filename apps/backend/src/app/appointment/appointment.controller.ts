@@ -370,6 +370,45 @@ export class AppointmentsController {
     }
   }
 
+
+@Patch('update/:id/newvisit')
+@ApiOperation({ summary: 'Изменение записи.  Новый визит к врачу' })
+  @ApiResponse({ status: 200, description: 'The record has been successfully updated.' })
+  @ApiResponse({ status: 400, description: 'Forbidden.' })
+  @ApiParam({
+    name: 'id',
+    required: false,
+    type: String,
+    description: 'appointment id'
+  })
+  @ApiBody({
+    type: UpdateAppointmentDto
+  })
+  async updateAppNewVisit(
+    @Param('id',ParseIntPipe)id:number,
+    @Body() newApp: UpdateAppointmentDto,
+    @Res() res: Response
+  ) {
+    try {
+      const _appOld = await this.appointmentsService.findOne(id);
+      if(!_appOld){
+        res.status(HttpStatus.NOT_FOUND).send(`The appointment with id=${id} doesn't exist`)
+      }
+      const _doctor = await this.doctorService.findById(Number(newApp.doctor_id));
+      if(!_doctor) {
+        res.status(HttpStatus.NOT_FOUND).send(`The doctor with id=${newApp.doctor_id} doesn't exist`)
+      }
+      if(newApp.status !== undefined && newApp.date_start !== undefined) {
+        const _new = await this.appointmentsService.updateAppointmnent(_appOld ,newApp,_doctor);
+        res.status(HttpStatus.OK).json(_new)
+      } else {
+        res.status(HttpStatus.BAD_REQUEST).send('Запрос содержит некорректные данные или неправильный формат данных')}
+    } catch (error) {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(`Произошла ошибка: ${error}`)
+    }
+  }
+
+
   /**
    *
    * @param id

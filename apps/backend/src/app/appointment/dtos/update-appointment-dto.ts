@@ -13,6 +13,23 @@ export class UpdateAppointmentDto {
   })
   status: Status
 
+  @ApiProperty({
+    type: String,
+    description: 'user_id врача  ',
+    example: 1
+  })
+  @IsString()
+  @ValidateIf((o) => o.doctor_id)
+  doctor_id: string;
+
+  @ApiProperty({
+    type: String,
+    description: 'Дата и время начала приема'
+  })
+  @IsString()
+  @ValidateIf((o) => o.date_start)
+  date_start: string;
+
   @IsNumber()
   @ApiProperty({
     type: Number,

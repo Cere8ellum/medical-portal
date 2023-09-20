@@ -1,0 +1,227 @@
+.schedule {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 40px;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+  min-width: 680px;
+}
+
+.schedule-doctor {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 50px;
+}
+
+.schedule-doctor-find {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 20px;
+}
+
+.schedule-doctor-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 30px;
+}
+
+.new-leave {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.new-leave-create {
+  border-radius: 10px;
+  background: #3d537c;
+  -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 321px;
+  height: 38px;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+}
+
+.new-leave-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 30px;
+}
+
+.new-leave-calendar {
+  width: 260px;
+  height: 38px;
+  padding: 5px 10px;
+  border: 3px solid #8095bd;
+  -webkit-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.new-leave-cause {
+  width: 345px;
+  height: 38px;
+  border-radius: 10px;
+  border: 3px solid #8095bd;
+  background: #fff;
+  -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #8095bd;
+  font-size: 14px;
+  padding: 5px 10px;
+  font-weight: bold;
+}
+
+.new-leave-add {
+  border-radius: 10px;
+  background: #3d537c;
+  -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 5px 30px;
+  color: #fff;
+}
+
+.schedule-list {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 25px;
+  max-height: 450px;
+  overflow-y: scroll;
+}
+
+.schedule-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 15px;
+}
+
+.schedule-row-range {
+  width: 260px;
+  height: 38px;
+  padding: 5px 10px;
+  border: 3px solid #8095bd;
+  -webkit-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  color: #8095bd;
+  font-size: 14px;
+  text-align: center;
+}
+
+.schedule-row-cause {
+  width: 345px;
+  height: 38px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  border-radius: 10px;
+  border: 3px solid #8095bd;
+  background: #fff;
+  -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #8095bd;
+  font-size: 14px;
+  padding: 5px 15px;
+}
+
+.schedule-row-remove {
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 10px;
+  background: #3d537c;
+  -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 5px 15px;
+}
+
+.doctor {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 30px;
+  position: relative;
+}
+
+.doctor-back {
+  width: 40px;
+  position: absolute;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  left: -55px;
+}
+
+.doctor-photo {
+  display: block;
+  width: 70px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.doctor-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 20px;
+  color: #3d537c;
+}
+
+.doctor-info-name {
+  font-size: 24px;
+}
+
+.doctor-info-speciality {
+  font-size: 18px;
+}
+/*# sourceMappingURL=scheduledatepicker.module.css.map */

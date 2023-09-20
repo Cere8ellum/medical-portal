@@ -66,7 +66,9 @@ const DoctorFind = forwardRef<HTMLSelectElement, DoctorFindProps>(
         });
     }, []);
 
-    useEffect(() => {});
+    useEffect(() => {
+      setSelects(initialState);
+    }, [getDoctor]);
 
     return (
       <div className={styles['doctors-speciality']}>

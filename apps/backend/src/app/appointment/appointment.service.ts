@@ -18,6 +18,7 @@ import { AbsenceScheduleService } from '../absence-schedule/absence-schedule.ser
 import { runInThisContext } from 'vm';
 import { MedicalHistoryService } from '../medical-history/medical-history.service';
 import { CreateMedicalHistoryDto } from '../medical-history/dtos/create-medical-history.dto';
+import { DoctorEntity } from '../doctor/entities/doctor.entity';
 
 @Injectable()
 export class AppointmentsService {
@@ -227,9 +228,77 @@ export class AppointmentsService {
     }
   }
 
+  async updateAppointmnent(oldApp : AppointmentEntity,newApp: UpdateAppointmentDto, doctor: DoctorEntity):Promise<AppointmentEntity> {
+    try {
+      const _isBooked = await this.PatientisBookedOnDate(
+        oldApp.patient.id,
+        new Date(newApp.date_start)
+      );
+      if (_isBooked) {
+        throw new Error(
+          `The patient has already booked an appointment for this date and time`
+        );
+      }
+
+      const _app = await this.appointmentsRepository.save({
+        id: oldApp.id,
+        doctor: doctor,
+        patient: oldApp.patient,
+        status: Status.Waiting,
+        date_start: new Date(newApp.date_start),
+      });
+
+      await this.mailServise.sendNewAppointment(_app);
+
+      const countAppAtDate = await this.countAppointmentByDoctorAtDate(
+        doctor.id,
+        new Date(newApp.date_start)
+      );
+
+      if(countAppAtDate === 24) {
+        await this.absence_sheduleService.create({
+          id: null,
+          doctor_id: doctor.id,
+          date_start: new Date(newApp.date_start),
+          date_end: new Date(newApp.date_start),
+          cause: 'full day'
+        })
+      }
+
+      const countOld = await this.countAppointmentByDoctorAtDate(
+        oldApp.doctor.id,
+        new Date(oldApp.date_start)
+      );
+
+      if(countOld === 23) {
+        const _sch = await this.absence_sheduleService.findByDoctorIdAtDate(oldApp.doctor.id,new Date(oldApp.date_start));
+        await this.absence_sheduleService.deleteById(_sch.id);
+      }
+      _app.patient.password="";
+      _app.doctor.user.password='';
+      return _app;
+
+    } catch (error) {
+      throw new BadRequestException(`Can't update appointment: ${error}`);
+    }
+  }
+
+
+
   async delete(app: AppointmentEntity): Promise<boolean> {
     try {
         await this.appointmentsRepository.delete({ id: app.id });
+
+        const countAppAtDate = await this.countAppointmentByDoctorAtDate(
+          app.doctor.id,
+          new Date(app.date_start)
+        );
+
+        if(countAppAtDate === 23) {
+          const _sch = await this.absence_sheduleService.findByDoctorIdAtDate(app.doctor.id,new Date(app.date_start));
+          await this.absence_sheduleService.deleteById(_sch.id);
+        }
+
         return true;
     } catch (error) {
       throw new BadRequestException(`Произошла ошибка при удалении записи: ${error.message}`);
