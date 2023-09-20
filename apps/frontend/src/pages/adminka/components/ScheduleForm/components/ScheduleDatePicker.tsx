@@ -20,11 +20,13 @@ interface NewNewScheduleProps {
     end: Date | null,
     cause: string
   ) => Promise<void>;
+  excludeDays: Date[];
 }
 
 export default function NewSchedule({
   doctorId,
   handleSchedule,
+  excludeDays,
 }: NewNewScheduleProps) {
   const [dateRange, setDateRange] = useState<Array<Date | null>>([null, null]);
   const [start, end] = dateRange;
@@ -35,6 +37,10 @@ export default function NewSchedule({
     const [start, end] = dates;
     setDateRange(dates);
   };
+
+  React.useEffect(() => {
+    setIsForm(false);
+  }, [doctorId]);
 
   const isValidForm = (): boolean => {
     if (start !== null && end !== null && cause !== '') {
@@ -65,47 +71,56 @@ export default function NewSchedule({
 
   return (
     <div className={styles['new-leave']}>
-      <h3>График отсутствия врача</h3>
-      <button
-        style={{ display: !isForm ? 'block' : 'none' }}
-        className={styles['new-leave-create']}
-        onClick={() => setIsForm(true)}
-      >
-        + ДОБАВИТЬ
-      </button>
-      <div
-        className={styles['new-leave-form']}
-        style={{ display: isForm ? 'flex' : 'none' }}
-      >
-        <DatePicker
-          selectsRange={true}
-          startDate={start}
-          endDate={end}
-          onChange={onChange}
-          isClearable={true}
-          locale="ru"
-          className={styles['new-leave-calendar']}
-        />
-        <select
-          name="cause"
-          id="cause"
-          value={cause}
-          onChange={handleCause}
-          className={styles['new-leave-cause']}
+      <h3 className={styles['new-leave-title']}>График отсутствия врача</h3>
+      {!isForm ? (
+        <button
+          className={styles['new-leave-create']}
+          onClick={() => setIsForm(true)}
         >
-          <option value="">* Причина отсутствия</option>
-          {Object.entries(Cause).map(([key, value]) => {
-            return (
-              <option key={key} value={value}>
-                {value}
-              </option>
-            );
-          })}
-        </select>
-        <button className={styles['new-leave-add']} onClick={handleClick}>
-          ДОБАВИТЬ
+          + ДОБАВИТЬ
         </button>
-      </div>
+      ) : (
+        <div className={styles['new-leave-form']}>
+          <img
+            className={styles['leave']}
+            src="../../../../assets/images/close.png"
+            alt="close"
+            onClick={() => {
+              setIsForm(false);
+            }}
+          />
+          <DatePicker
+            selectsRange={true}
+            startDate={start}
+            endDate={end}
+            onChange={onChange}
+            excludeDates={[...excludeDays]}
+            isClearable={true}
+            //selectsDisabledDaysInRange={true}
+            locale="ru"
+            className={styles['new-leave-calendar']}
+          />
+          <select
+            name="cause"
+            id="cause"
+            value={cause}
+            onChange={handleCause}
+            className={styles['new-leave-cause']}
+          >
+            <option value="">* Причина отсутствия</option>
+            {Object.entries(Cause).map(([key, value]) => {
+              return (
+                <option key={key} value={value}>
+                  {value}
+                </option>
+              );
+            })}
+          </select>
+          <button className={styles['new-leave-add']} onClick={handleClick}>
+            ДОБАВИТЬ
+          </button>
+        </div>
+      )}
       <Snackbar />
     </div>
   );

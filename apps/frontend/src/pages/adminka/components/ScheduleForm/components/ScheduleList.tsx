@@ -115,7 +115,9 @@ const ScheduleList: React.FC<ListProps> = ({ schedules }: ListProps) => {
             );
           })
         ) : (
-          <h3>График не сформирован</h3>
+          <h5 className={styles['schedule-list-note']}>
+            * График не сформирован *
+          </h5>
         )}
       </div>
       <Snackbar />

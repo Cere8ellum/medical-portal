@@ -1,21 +1,7 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-  RefObject,
-  Ref,
-  MutableRefObject,
-  ForwardRefRenderFunction,
-  ForwardRefExoticComponent,
-  RefAttributes,
-} from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { DoctorDto } from '../../interfaces/Doctor.dto';
 import styles from '../../styles/adminka.module.css';
 import { getDocId, getDoctors, getSpeciality } from '../../utils/doctors';
-import { snackbarStore } from '../../../../stores';
-import { Form, Snackbar } from './../../../../components';
-import { set } from 'mobx';
 
 interface DoctorFindProps {
   getDoctor: (doctor: DoctorDto | undefined) => void;
@@ -98,7 +84,7 @@ const DoctorFind = forwardRef<HTMLSelectElement, DoctorFindProps>(
           value={selects.family}
           onChange={handleChange}
         >
-          <option value="0">ФИО ВРАЧА</option>
+          <option value="0">Выберите врача</option>
           {doctors.map((doc: DoctorDto) => {
             const FIO = `${doc?.user?.firstname} ${doc?.user?.lastname}`;
             if (selects.speciality === 'all') {

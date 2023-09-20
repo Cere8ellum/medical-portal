@@ -10,6 +10,8 @@ import styles from '../../styles/adminka.doctors.module.css';
 import { snackbarStore } from '../../../../stores';
 import { Snackbar } from './../../../../components';
 import DoctorFind from './DoctorFind';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface DoctorFormProps {
   isCreate: boolean | null;
@@ -556,8 +558,9 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                   <i className=""></i> &nbsp; Стоимость за прием{' '}
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   name="price"
+                  step={100}
                   className={`${styles['persdata-field']} ${styles['persdata-surname']}`}
                   value={formData.price}
                   onChange={handleChange}
@@ -570,13 +573,26 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                 <label>
                   <i className=""></i> &nbsp; Год начала практики
                 </label>
-                <input
+                <DatePicker
+                  selected={new Date(formData.startWorking) || new Date()}
+                  onChange={(date) =>
+                    setFormData({
+                      ...formData,
+                      ['startWorking']: dayjs(date).format('YYYY'),
+                    })
+                  }
+                  name="startWorking"
+                  showYearPicker
+                  dateFormat="yyyy"
+                  value={formData.startWorking}
+                />
+                {/* <input
                   type="text"
                   name="startWorking"
                   className={`${styles['persdata-field']} ${styles['persdata-surname']}`}
                   value={formData.startWorking}
                   onChange={handleChange}
-                />
+                /> */}
               </div>
             </div>
             <div className={`${styles['persdata-field']}`}>
