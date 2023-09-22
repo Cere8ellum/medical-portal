@@ -2,10 +2,11 @@ import React, { MouseEventHandler, useEffect, useState } from 'react';
 import DoctorsFunctional from './components/DoctorForm/DoctorsFunctional';
 import NavTag from './components/nav-tag';
 import styles from './styles/adminka.module.css';
-import AppointmentTab from './AppointmentTab';
+//import AppointmentTab from './AppointmentTab';
 import ScheduleScreen from './components/ScheduleForm/ScheduleScreen';
 import { authStore } from '../../stores';
 import { useNavigate } from 'react-router-dom';
+import AppointmentTab from './components/AppointmentTab/AppointmentTab';
 
 interface AdminkaTab {
   title: string;

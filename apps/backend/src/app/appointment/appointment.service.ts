@@ -29,7 +29,7 @@ export class AppointmentsService {
     private doctorService: DoctorService,
     private mailServise: MailService,
     private absence_sheduleService: AbsenceScheduleService,
-    private medical_history: MedicalHistoryService,
+    private medical_history: MedicalHistoryService
   ) {}
 
   async create(appointment: CreateAppointmentDto): Promise<AppointmentEntity> {
@@ -67,14 +67,14 @@ export class AppointmentsService {
         new Date(appointment.date_start)
       );
 
-      if(countAppAtDate === 24) {
+      if (countAppAtDate === 24) {
         await this.absence_sheduleService.create({
           id: null,
           doctor_id: +appointment.doctor_id,
           date_start: new Date(appointment.date_start),
           date_end: new Date(appointment.date_start),
-          cause: 'full day'
-        })
+          cause: 'full day',
+        });
       }
       return _app;
     } catch (error) {
@@ -84,14 +84,14 @@ export class AppointmentsService {
 
   async findOne(id: number): Promise<AppointmentEntity> {
     return await this.appointmentsRepository.findOne({
-      relations: ['doctor', 'patient', 'doctor.user','opinion'],
+      relations: ['doctor', 'patient', 'doctor.user', 'opinion'],
       where: { id: id },
     });
   }
 
   async findAllByPatient(patient_id: number): Promise<AppointmentEntity[]> {
     return await this.appointmentsRepository.find({
-      relations: ['patient', 'doctor', 'doctor.user','opinion'],
+      relations: ['patient', 'doctor', 'doctor.user', 'opinion'],
       where: {
         patient: { id: patient_id },
       },
@@ -101,7 +101,10 @@ export class AppointmentsService {
     });
   }
 
-  async PatientisBookedOnDate(patient_id: number, date: Date): Promise<boolean> {
+  async PatientisBookedOnDate(
+    patient_id: number,
+    date: Date
+  ): Promise<boolean> {
     try {
       const isBookedDate = await this.appointmentsRepository.findOne({
         relations: ['patient'],
@@ -125,7 +128,7 @@ export class AppointmentsService {
     finish: Date
   ): Promise<AppointmentEntity[]> {
     return await this.appointmentsRepository.find({
-      relations: ['patient', 'doctor', 'doctor.user','opinion'],
+      relations: ['patient', 'doctor', 'doctor.user', 'opinion'],
       where: {
         patient: { id: patient_id },
         date_start: Between(start, finish),
@@ -190,18 +193,17 @@ export class AppointmentsService {
     return _appointments.length;
   }
 
-  async updateStatus(
-    id: number,
-    status: Status
-  ): Promise<AppointmentEntity> {
+  async updateStatus(id: number, status: Status): Promise<AppointmentEntity> {
     try {
-        await this.appointmentsRepository.save({
-          id: id,
-          status: Status[status],
-        });
-        return await this.findOne(id);
+      await this.appointmentsRepository.save({
+        id: id,
+        status: Status[status],
+      });
+      return await this.findOne(id);
     } catch (error) {
-      throw new BadRequestException(`Произошла неизвестная ошибка при изменении статуса: ${error}`);
+      throw new BadRequestException(
+        `Произошла неизвестная ошибка при изменении статуса: ${error}`
+      );
     }
   }
 
@@ -211,24 +213,28 @@ export class AppointmentsService {
   ): Promise<AppointmentEntity> {
     try {
       const _opinion = await this.medical_history.create(opinion);
-      if(_opinion) {
+      if (_opinion) {
         await this.appointmentsRepository.save({
           id: id,
           opinion: _opinion,
-          status: Status.Completed
+          status: Status.Completed,
         });
       } else {
-          throw new Error(
-            `Failed to create and add conclusion`
-          );
+        throw new Error(`Failed to create and add conclusion`);
       }
-        return await this.findOne(id);
+      return await this.findOne(id);
     } catch (error) {
-      throw new BadRequestException(`Произошла ошибка при создании или добавлении заключения: ${error.message}`);
+      throw new BadRequestException(
+        `Произошла ошибка при создании или добавлении заключения: ${error.message}`
+      );
     }
   }
 
-  async updateAppointmnent(oldApp : AppointmentEntity,newApp: UpdateAppointmentDto, doctor: DoctorEntity):Promise<AppointmentEntity> {
+  async updateAppointmnent(
+    oldApp: AppointmentEntity,
+    newApp: UpdateAppointmentDto,
+    doctor: DoctorEntity
+  ): Promise<AppointmentEntity> {
     try {
       const _isBooked = await this.PatientisBookedOnDate(
         oldApp.patient.id,
@@ -255,14 +261,14 @@ export class AppointmentsService {
         new Date(newApp.date_start)
       );
 
-      if(countAppAtDate === 24) {
+      if (countAppAtDate === 24) {
         await this.absence_sheduleService.create({
           id: null,
           doctor_id: doctor.id,
           date_start: new Date(newApp.date_start),
           date_end: new Date(newApp.date_start),
-          cause: 'full day'
-        })
+          cause: 'full day',
+        });
       }
 
       const countOld = await this.countAppointmentByDoctorAtDate(
@@ -270,38 +276,48 @@ export class AppointmentsService {
         new Date(oldApp.date_start)
       );
 
-      if(countOld === 23) {
-        const _sch = await this.absence_sheduleService.findByDoctorIdAtDate(oldApp.doctor.id,new Date(oldApp.date_start));
+      if (countOld === 23) {
+        const _sch = await this.absence_sheduleService.findByDoctorIdAtDate(
+          oldApp.doctor.id,
+          new Date(oldApp.date_start)
+        );
         await this.absence_sheduleService.deleteById(_sch.id);
       }
-      _app.patient.password="";
-      _app.doctor.user.password='';
+      _app.patient.password = '';
+      _app.doctor.user.password = '';
       return _app;
-
     } catch (error) {
       throw new BadRequestException(`Can't update appointment: ${error}`);
     }
   }
 
-
-
+/**
+ *
+ * @param app
+ * @returns
+ */
   async delete(app: AppointmentEntity): Promise<boolean> {
     try {
-        await this.appointmentsRepository.delete({ id: app.id });
+      await this.appointmentsRepository.delete({ id: app.id });
 
-        const countAppAtDate = await this.countAppointmentByDoctorAtDate(
+      const countAppAtDate = await this.countAppointmentByDoctorAtDate(
+        app.doctor.id,
+        new Date(app.date_start)
+      );
+
+      if (countAppAtDate === 23) {
+        const _sch = await this.absence_sheduleService.findByDoctorIdAtDate(
           app.doctor.id,
           new Date(app.date_start)
         );
+        await this.absence_sheduleService.deleteById(_sch.id);
+      }
 
-        if(countAppAtDate === 23) {
-          const _sch = await this.absence_sheduleService.findByDoctorIdAtDate(app.doctor.id,new Date(app.date_start));
-          await this.absence_sheduleService.deleteById(_sch.id);
-        }
-
-        return true;
+      return true;
     } catch (error) {
-      throw new BadRequestException(`Произошла ошибка при удалении записи: ${error.message}`);
+      throw new BadRequestException(
+        `Произошла ошибка при удалении записи: ${error.message}`
+      );
     }
   }
 }

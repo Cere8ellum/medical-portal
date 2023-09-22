@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import { Option } from '../components/AppointmentForm/AppointmentForm';
+import { Option } from 'apps/frontend/src/types';
 
 export enum Field {
   Specialities = 'specialities',
@@ -29,7 +29,7 @@ type FormAction = {
   payload?: Option[] | Dayjs[] | string[];
 };
 
-export const formReducer = (state: FormState, action: FormAction) => {
+export const appointmentReducer = <S>(state: S, action: FormAction) => {
   switch (action.type) {
     case 'SET_DATA': {
       if (!action.field) return state;
