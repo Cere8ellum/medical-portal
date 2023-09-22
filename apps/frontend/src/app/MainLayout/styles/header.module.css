@@ -1,19 +1,19 @@
 h1 {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 700;
   color: #8095bd;
   font-size: 42px;
 }
 
 h2 {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 700;
   color: #8095bd;
   font-size: 40px;
 }
 
 h3 {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 700;
   color: #8095bd;
   font-size: 24px;
@@ -58,6 +58,7 @@ p {
       -ms-flex-pack: end;
           justify-content: flex-end;
   margin: 0 20px;
+  cursor: pointer;
 }
 
 .header-title-medical {
@@ -83,6 +84,7 @@ p {
       -ms-flex-direction: column;
           flex-direction: column;
 }
+
 .header-nav-profile {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -124,4 +126,5 @@ p {
 .header-rectangle {
   height: 14px;
   background-color: #3d537c;
-}/*# sourceMappingURL=header.module.css.map */
+}
+/*# sourceMappingURL=header.module.css.map */

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useState } from 'react';
 import DoctorsFunctional from './components/DoctorForm/DoctorsFunctional';
 import NavTag from './components/nav-tag';
 import styles from './styles/adminka.module.css';
 import AppointmentTab from './AppointmentTab';
 import ScheduleScreen from './components/ScheduleForm/ScheduleScreen';
+import { authStore } from '../../stores';
+import { useNavigate } from 'react-router-dom';
 
 interface AdminkaTab {
   title: string;
@@ -31,7 +33,17 @@ const TabList: Array<AdminkaTab> = [
 ];
 
 const AdminkaScreen: React.FC = () => {
+  const navigate = useNavigate();
   const [value, setValue] = useState<number | null>(1);
+
+  const logout = async () => {
+    try {
+      await authStore.logout();
+      navigate('/');
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     const nav: HTMLElement | null = document.getElementById('nav');
@@ -65,6 +77,12 @@ const AdminkaScreen: React.FC = () => {
             />
           );
         })}
+        <img
+          className={styles['logout']}
+          src="./assets/images/adminka/logout.png"
+          alt="logout"
+          onClick={logout}
+        />
       </div>
       <div className={styles['functional']}>
         {TabList.map((tab: AdminkaTab, index: number) => {

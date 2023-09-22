@@ -7,34 +7,27 @@ import styles from '../../styles/header.module.css';
 
 function Header() {
   const navigate = useNavigate();
-  const [message, setMessage] = useState('');
-  const logout = async (e: MouseEvent) => {
-    if (e !== undefined) {
-      e.preventDefault();
-      try {
-        await authStore.logout();
-        setMessage('');
-        navigate('/');
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await api.get(`/user`);
-        setMessage(`${data.email}`);
-      } catch (err) {
-        console.log(err);
-      }
+        const isAuth = authStore.isAuthorized;
+        console.log(isAuth);
+        setIsAuthorized(isAuth);
+      } catch (error) {}
     })();
-  }, [message]);
+  });
+
   return (
     <header className={styles['header']}>
       <div className={styles['header-wrap']}>
-        <div className={styles['header-title']}>
+        <div
+          className={styles['header-title']}
+          onClick={() => {
+            navigate('/');
+          }}
+        >
           <h2 className={styles['header-title-medical']}>Medical</h2>
           <h2 className={styles['header-title-online']}>ONLINE</h2>
         </div>
@@ -46,40 +39,24 @@ function Header() {
               </a>
             </li>
             <li className={styles['header-nav-item']}>
-              <a href="/" className={styles['header-nav-link']}>
+              <a href="/doctors" className={styles['header-nav-link']}>
                 Список врачей
               </a>
             </li>
             <li className={styles['header-nav-item']}>
-              <a href="/" className={styles['header-nav-link']}>
+              <a href="/contacts" className={styles['header-nav-link']}>
                 Контакты
               </a>
             </li>
-            {message ? (
+            {isAuthorized ? (
               <>
-                <li className={styles['header-nav-item']}>
-                  <a href="/profile/" className={styles['header-nav-link']}>
-                    <img
-                      style={{ width: '25px', height: 'auto' }}
-                      src="./assets/images/user-logo.svg"
-                      alt=""
-                    />
-                  </a>
-                </li>
-                <li>{message}</li>
-                <li className={styles['header-nav-item']}>
-                  <a
-                    href="/"
-                    className={styles['header-nav-link']}
-                    onClick={(e) => logout(e)}
-                  >
-                    <img
-                      style={{ width: '25px', height: 'auto' }}
-                      src="./assets/images/user-logout.svg"
-                      alt=""
-                    />
-                  </a>
-                </li>
+                <a href="/profile/" className={styles['header-nav-link']}>
+                  <img
+                    style={{ width: '25px', height: 'auto' }}
+                    src="./assets/images/user-logo.svg"
+                    alt=""
+                  />
+                </a>
               </>
             ) : (
               ''

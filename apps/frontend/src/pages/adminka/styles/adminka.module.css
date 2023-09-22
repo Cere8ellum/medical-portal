@@ -62,6 +62,13 @@
   border-right: 20px solid white;
 }
 
+.nav .logout {
+  width: 35px;
+  height: auto;
+  display: block;
+  margin: 15px 5px;
+}
+
 .functional {
   width: 100%;
   min-height: 500px;

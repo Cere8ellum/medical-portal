@@ -1,26 +1,27 @@
 @font-face {
-  font-family: "Inter";
+  font-family: 'Inter';
   src: local("Inter"), url("../../../assets/fonts/Inter-Regular.woff2") format("woff2"), url("../../../assets/fonts/Inter-Regular.woff") format("woff"), url("../../../assets/fonts/Inter-Regular.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
+
 h1 {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 700;
   color: #8095bd;
   font-size: 42px;
 }
 
 h2 {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 700;
   color: #8095bd;
   font-size: 40px;
 }
 
 h3 {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 700;
   color: #8095bd;
   font-size: 24px;
@@ -117,6 +118,11 @@ p {
   font-size: 14px;
   width: 345px;
   height: 58px;
+  cursor: pointer;
+}
+
+.entry-btn a {
+  color: #ffffff;
 }
 
 .content-bottom {
@@ -135,6 +141,17 @@ p {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+.content-menu-item a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 15px;
 }
 
 .content-menu-text {
@@ -172,4 +189,5 @@ p {
   .entry-btn {
     margin-bottom: 50px;
   }
-}/*# sourceMappingURL=content.module.css.map */
+}
+/*# sourceMappingURL=content.module.css.map */

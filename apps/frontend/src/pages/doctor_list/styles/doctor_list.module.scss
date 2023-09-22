@@ -91,7 +91,7 @@
   overflow: hidden;
 
   &_photo {
-    width: 260px!;
+    width: 260px;
     height: 260px;
   }
 
@@ -225,6 +225,16 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+  }
+
+  &_study {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    height: 40px;
+    overflow-y: scroll;
   }
 
   @media (max-width: 1020px) and (min-width: 730px) {

@@ -18,11 +18,25 @@ const DoctorCard = (props: DoctorProps) => {
   return (
     <div className={styles['card']}>
       <div className={styles['card_photo']}>
-        <img
-          className={styles['photo']}
-          src={`http://localhost:3000${props.doctor.photo}`}
-          alt=""
-        />
+        {props.doctor.photo ? (
+          <img
+            className={styles['photo']}
+            src={`http://localhost:3000${props.doctor.photo}`}
+            alt=""
+          />
+        ) : props.doctor.user.gender === 'Женщина' ? (
+          <img
+            className={styles['photo']}
+            src="./assets/images/doctors/femalenophoto.png"
+            alt="no photo"
+          />
+        ) : (
+          <img
+            className={styles['photo']}
+            src="./assets/images/doctors/malenophoto.jpeg"
+            alt=""
+          />
+        )}
       </div>
       <div className={`${styles['card_info']} ${styles['info']}`}>
         <div>
@@ -48,7 +62,7 @@ const DoctorCard = (props: DoctorProps) => {
         </div>
         <div>
           <p className={styles['info_title']}>Образование</p>
-          <p className={styles['info_about']}>{props.doctor.info}</p>
+          <p className={styles['info_study']}>{props.doctor.info}</p>
         </div>
       </div>
     </div>

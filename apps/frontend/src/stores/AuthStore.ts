@@ -105,8 +105,12 @@ export default class AuthStore {
   };
 
   public logout = async (): Promise<void> => {
-    await authService.logout();
-    this.unAuthorizeUser();
+    try {
+      await authService.logout();
+      this.unAuthorizeUser();
+    } catch (error) {
+      console.log('error');
+    }
   };
 
   public get userIsAuthorized(): boolean {

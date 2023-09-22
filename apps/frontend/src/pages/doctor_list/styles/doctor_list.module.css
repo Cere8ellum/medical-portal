@@ -262,6 +262,16 @@
   line-height: normal;
 }
 
+.info_study {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  height: 40px;
+  overflow-y: scroll;
+}
+
 @media (max-width: 1020px) and (min-width: 730px) {
   .info_name {
     font-size: 36px;

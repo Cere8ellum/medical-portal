@@ -44,7 +44,7 @@ export const routes: Route[] = [
   {
     path: '/adminka',
     element: <AdminkaScreen />,
-    isPublic: true,
+    isPublic: false,
   },
 ];
 
@@ -67,11 +67,11 @@ export const routesWithoutLayout: Route[] = [
   {
     path: '/opinion/:appointmentId',
     element: <OpinionDocument />,
-    isPublic: true,
+    isPublic: false,
   },
   {
     path: '/opinionform/:appointmentId',
     element: <OpinionForm />,
-    isPublic: true,
+    isPublic: false,
   },
 ];

@@ -110,6 +110,11 @@ p {
   font-size: 14px;
   width: 345px;
   height: 58px;
+  cursor: pointer;
+
+  & a {
+    color: #ffffff;
+  }
 }
 
 .content-bottom {
@@ -121,6 +126,14 @@ p {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.content-menu-item {
+  & a {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
 }
 
 .content-menu-text {

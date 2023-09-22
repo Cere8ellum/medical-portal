@@ -19,10 +19,10 @@ function Footer() {
           </div>
         </div>
 
-        <div className={styles['footer-contact']}>
+        {/* <div className={styles['footer-contact']}>
           <button className={styles['subscribe-btn']}>ПОДПИСАТЬСЯ</button>
           <button className={styles['mail-btn']}>e-mail</button>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

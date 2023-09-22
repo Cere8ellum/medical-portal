@@ -27,7 +27,7 @@ function MainPageContent() {
                 </button>
               </div>
               <button className={styles['entry-btn']}>
-                ЗАПИСАТЬСЯ НА ПРИЕМ
+                <Link to="/appointment/">ЗАПИСАТЬСЯ НА ПРИЕМ</Link>
               </button>
             </div>
           </div>
@@ -43,39 +43,36 @@ function MainPageContent() {
       <div className={styles['content-bottom']}>
         <ul className={styles['content-menu-list']}>
           <li className={styles['content-menu-item']}>
-            <h3 className={styles['content-menu-title']}>НАШИ ВРАЧИ</h3>
-            <p className={styles['content-menu-text']}>
-              Специализация, опыт работы, образование
-            </p>
-            <img
-              src="../assets/images/main-doctor.png"
-              alt="Наши врачи"
-              className={styles['content-menu-img']}
-            />
+            <Link to="/doctors">
+              <h3 className={styles['content-menu-title']}>НАШИ ВРАЧИ</h3>
+              <img
+                src="../assets/images/main-doctor.png"
+                alt="Наши врачи"
+                className={styles['content-menu-img']}
+              />
+            </Link>
           </li>
           <li className={styles['content-menu-item']}>
-            <h3 className={styles['content-menu-title']}>ОТЗЫВЫ</h3>
-            <p className={styles['content-menu-text']}>
-              Рейтинг, отзывы, стоимость приема
-            </p>
-            <img
-              src="../assets/images/main-doctor-women.png"
-              alt="Наши врачи"
-              className={styles['content-menu-img']}
-            />
+            <Link to="/">
+              <h3 className={styles['content-menu-title']}>ОТЗЫВЫ</h3>
+              <img
+                src="../assets/images/main-doctor-women.png"
+                alt="Наши врачи"
+                className={styles['content-menu-img']}
+              />
+            </Link>
           </li>
           <li className={styles['content-menu-item']}>
-            <h3 className={styles['content-menu-title']}>
-              ИНФОРМАЦИЯ О КНИНИКЕ
-            </h3>
-            <p className={styles['content-menu-text']}>
-              Адрес клиники, фотографии, схема проезда
-            </p>
-            <img
-              src="../assets/images/main-flat.png"
-              alt="Наши врачи"
-              className={styles['content-menu-img']}
-            />
+            <Link to="/">
+              <h3 className={styles['content-menu-title']}>
+                ИНФОРМАЦИЯ О КНИНИКЕ
+              </h3>
+              <img
+                src="../assets/images/main-flat.png"
+                alt="Наши врачи"
+                className={styles['content-menu-img']}
+              />
+            </Link>
           </li>
         </ul>
       </div>
