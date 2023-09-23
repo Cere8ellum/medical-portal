@@ -63,7 +63,7 @@ function MainPageContent() {
             </Link>
           </li>
           <li className={styles['content-menu-item']}>
-            <Link to="/">
+            <Link to="/infoclinic/">
               <h3 className={styles['content-menu-title']}>
                 ИНФОРМАЦИЯ О КНИНИКЕ
               </h3>

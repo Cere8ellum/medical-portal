@@ -319,3 +319,9 @@
   size: auto;
   margin: 10mm;
 }
+
+.not-found img {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: fill;
+}

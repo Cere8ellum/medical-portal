@@ -78,6 +78,7 @@ export class UserController {
 
     return {
       token: refreshToken,
+      role: user.role,
     };
   }
 
@@ -104,7 +105,6 @@ export class UserController {
   ) {
     try {
       const refreshToken = request.cookies['refresh_token'];
-      console.log('refreshToken', refreshToken);
       const { id } = await this.jwtService.verifyAsync(refreshToken);
       const token = await this.jwtService.signAsync(
         { id },

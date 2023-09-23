@@ -10,6 +10,7 @@ import OpinionDocument from './pages/opinion/opinion_doc';
 import OpinionForm from './pages/opinion/opinion_form';
 import Contacts from './pages/contactpage/Contacts';
 import AdminkaScreen from './pages/adminka/AdminkaScreen';
+import InfoClinic from './pages/info_сlinic/info_clinic';
 
 type Route = RouteObject & {
   isPublic: boolean;
@@ -45,6 +46,11 @@ export const routes: Route[] = [
     path: '/adminka',
     element: <AdminkaScreen />,
     isPublic: false,
+  },
+  {
+    path: '/infoclinic',
+    element: <InfoClinic />,
+    isPublic: true,
   },
 ];
 

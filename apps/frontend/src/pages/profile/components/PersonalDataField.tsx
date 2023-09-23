@@ -45,7 +45,6 @@ function PersonalDataField(user: Users) {
 
   const handleChange = (e: any) => {
     e.preventDefault();
-    console.log('formValue', formValue);
     setformValue({
       ...formValue,
       [e.target.name]: e.target.value,
@@ -70,11 +69,10 @@ function PersonalDataField(user: Users) {
       } = await axios({
         method: 'patch',
         url: `http://localhost:3000/api/user/${user.data.id}`,
-        data: JSON.stringify(formDataObj),
+        data: formDataObj,
         withCredentials: true,
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
       });
-      console.log(statusText);
       if (statusText === 'OK') {
         setOpen(true);
         setisEditable(false);

@@ -2,6 +2,7 @@ import { useEffect, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { authStore } from '../../../../stores';
+import { userStore } from '../../../../stores';
 import api from '../../../../infrastructure/api';
 import styles from '../../styles/header.module.css';
 
