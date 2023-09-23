@@ -7,6 +7,7 @@ import ScheduleScreen from './components/ScheduleForm/ScheduleScreen';
 import { authStore } from '../../stores';
 import { useNavigate } from 'react-router-dom';
 import AppointmentTab from './components/AppointmentTab/AppointmentTab';
+import { ConfirmationDialog } from '../../components';
 
 interface AdminkaTab {
   title: string;
@@ -36,6 +37,7 @@ const TabList: Array<AdminkaTab> = [
 const AdminkaScreen: React.FC = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState<number | null>(1);
+  const [exit, setExit] = useState<boolean>(false);
 
   const logout = async () => {
     try {
@@ -82,7 +84,7 @@ const AdminkaScreen: React.FC = () => {
           className={styles['logout']}
           src="./assets/images/adminka/logout.png"
           alt="logout"
-          onClick={logout}
+          onClick={() => setExit(true)}
         />
       </div>
       <div className={styles['functional']}>
@@ -97,6 +99,12 @@ const AdminkaScreen: React.FC = () => {
           );
         })}
       </div>
+      <ConfirmationDialog
+        message="Вы действительно хотите выйти?"
+        open={exit}
+        onConfirm={logout}
+        onClose={() => setExit(false)}
+      />
     </main>
   );
 };

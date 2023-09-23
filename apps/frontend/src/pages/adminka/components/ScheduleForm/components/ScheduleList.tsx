@@ -6,6 +6,7 @@ import { AbsenceSchedule } from '../../../interfaces/AbsenceSchedule.dto';
 import { groupDatesByPeriod } from '../../../utils/daterange';
 import { Snackbar } from '@mui/material';
 import { snackbarStore } from 'apps/frontend/src/stores';
+import { ConfirmationDialog } from 'apps/frontend/src/components';
 
 interface ListProps {
   schedules: Array<{
@@ -22,10 +23,13 @@ interface RowProps {
 }
 
 const Row: React.FC<RowProps> = ({ range, ids, cause }: RowProps) => {
-  const [isDelete, setIsDelete] = useState(false);
+  const [isDelete, setIsDelete] = useState<boolean>(false);
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
 
-  const remove = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    const btn = event.target as HTMLButtonElement;
+  const remove = async () => {
+    const btn = document.querySelector(
+      'button[name="remove"]'
+    ) as HTMLButtonElement;
     const ids = btn.getAttribute('id')?.split('-');
     let statuses: number[] = [];
     if (ids && ids.length > 0) {
@@ -87,14 +91,22 @@ const Row: React.FC<RowProps> = ({ range, ids, cause }: RowProps) => {
           readOnly
         />
         <button
+          name="remove"
           id={ids.join('-')}
           className={styles['schedule-row-remove']}
-          onClick={remove}
+          // onClick={remove}
+          onClick={() => setDeleteOpen(true)}
         >
           удалить
         </button>
       </div>
       <Snackbar />
+      <ConfirmationDialog
+        message="Вы действительно хотите удалить это?"
+        open={deleteOpen}
+        onConfirm={remove}
+        onClose={() => setDeleteOpen(false)}
+      />
     </>
   );
 };

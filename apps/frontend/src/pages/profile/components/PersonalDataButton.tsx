@@ -25,7 +25,7 @@ function PersonalDataButton() {
         ИЗМЕНИТЬ ДАННЫЕ
       </button>
 
-      <button
+      {/* <button
         className={`${styles['persdata-btn']} ${styles['persdata-btn-addfamily']}`}
       >
         Добавить члена семьи
@@ -64,7 +64,7 @@ function PersonalDataButton() {
             strokeLinejoin="round"
           />
         </svg>
-      </button>
+      </button> */}
     </div>
   );
 }

@@ -99,6 +99,7 @@ export default function NewSchedule({
             //selectsDisabledDaysInRange={true}
             locale="ru"
             className={styles['new-leave-calendar']}
+            value="* Выберите даты"
           />
           <select
             name="cause"

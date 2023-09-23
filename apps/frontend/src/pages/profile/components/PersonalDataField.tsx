@@ -37,7 +37,6 @@ function PersonalDataField(user: Users) {
     }
     setOpen(false);
   };
-
   const { isEditable, setisEditable } = useGlobalContext();
   useEffect(() => {}, [user]);
 
@@ -144,7 +143,7 @@ function PersonalDataField(user: Users) {
             className={`${styles['persdata-field']} ${styles['persdata-field-phonenum']}`}
             type="text"
             name="mobile"
-            defaultValue={user.data.mobile}
+            defaultValue={user.data.mobile !== 'null' ? user.data.mobile : ''}
             readOnly={!isEditable}
             onChange={handleChange}
           />
@@ -174,7 +173,7 @@ function PersonalDataField(user: Users) {
             className={`${styles['persdata-field']} ${styles['persdata-field-address']}`}
             type="text"
             name="address"
-            defaultValue={user.data.address}
+            defaultValue={user.data.address !== 'null' ? user.data.address : ''}
             readOnly={!isEditable}
             onChange={handleChange}
           />
@@ -190,10 +189,10 @@ function PersonalDataField(user: Users) {
           <div className={styles['persdata-gender-wrap']}>
             <div className={styles['persdata-gender-wrap-woman']}>
               <input
-                defaultChecked={user.data.gender === 'female' ? true : false}
+                defaultChecked={user.data.gender === 'Женщина' ? true : false}
                 type="radio"
                 name="gender"
-                defaultValue="female"
+                defaultValue="Женщина"
                 id="female"
                 className={`${styles['persdata-field']} ${styles['persdata-field-gender']}`}
                 disabled={!isEditable}
@@ -205,10 +204,10 @@ function PersonalDataField(user: Users) {
             </div>
             <div className={styles['persdata-gender-wrap-man']}>
               <input
-                defaultChecked={user.data.gender === 'male' ? true : false}
+                defaultChecked={user.data.gender === 'Мужчина' ? true : false}
                 type="radio"
                 name="gender"
-                defaultValue="male"
+                defaultValue="Мужчина"
                 id="male"
                 className={`${styles['persdata-field']} ${styles['persdata-field-gender']}`}
                 disabled={!isEditable}

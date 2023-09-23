@@ -46,12 +46,9 @@ const DoctorsFunctional: React.FC = () => {
           </button>
         </div>
         {isForm ? (
-          <div
-            className={styles['doctors-form']}
-            //style={{ display: isForm ? 'flex' : 'none' }}
-          >
+          <div className={styles['doctors-form']}>
             <img
-              src="../../../assets/images/adminka/back.png"
+              src="./assets/images/adminka/back.png"
               alt="back"
               className={styles['doctors-form-back']}
               onClick={() => {

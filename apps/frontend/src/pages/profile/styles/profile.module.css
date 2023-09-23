@@ -7,21 +7,21 @@
 }
 
 h1 {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 700;
   color: #8095bd;
   font-size: 42px;
 }
 
 h2 {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 700;
   color: #8095bd;
   font-size: 40px;
 }
 
 h3 {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 700;
   color: #8095bd;
   font-size: 24px;
@@ -95,6 +95,22 @@ p {
   bottom: -5px;
 }
 
+.title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 40px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-right: 40px;
+}
+
+.title img {
+  width: 40px;
+  height: 40px;
+}
+
 .content-nav-item.active {
   border-top: 5px solid #3d537c;
   border-left: 5px solid #3d537c;
@@ -104,6 +120,7 @@ p {
   bottom: -5px;
   z-index: 2;
 }
+
 .content-nav-item.active button {
   color: #3d537c;
 }
@@ -202,10 +219,10 @@ p {
   padding: 7px;
 }
 
-input[type=text],
-input[type=email],
-input[type=date],
-input[type=number] {
+input[type='text'],
+input[type='email'],
+input[type='date'],
+input[type='number'] {
   font-family: Inter;
   font-weight: 600;
   color: #3d537c;
@@ -357,4 +374,5 @@ input:checked {
 
 .panel.active {
   display: block;
-}/*# sourceMappingURL=profile.module.css.map */
+}
+/*# sourceMappingURL=profile.module.css.map */

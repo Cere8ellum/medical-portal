@@ -8,7 +8,7 @@ import { DoctorType } from '../../enum/type.enum';
 import { DoctorDto } from '../../interfaces/Doctor.dto';
 import styles from '../../styles/adminka.doctors.module.css';
 import { snackbarStore } from '../../../../stores';
-import { Snackbar } from './../../../../components';
+import { ConfirmationDialog, Snackbar } from './../../../../components';
 import DoctorFind from './DoctorFind';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -45,7 +45,8 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
   const [formData, setFormData] = useState(initialState);
   const [doctor, setDoctor] = useState<DoctorDto | undefined>(undefined);
   const selectSpecialityRef = useRef<HTMLSelectElement | null>(null);
-  const [formCheck, setFormCheck] = useState(false);
+  const [formCheck, setFormCheck] = useState<boolean>(false);
+  const [deleteClose, setDeleteClose] = useState<boolean>(false);
 
   const isFormValid = (): boolean => {
     let isFormErrors = true;
@@ -142,6 +143,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
   };
 
   useEffect(() => {
+    console.log('rerere');
     if (doctor) {
       const updatedFormData = {
         firstname: doctor?.user.firstname || '',
@@ -152,7 +154,6 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
         gender: doctor?.user.gender || '',
         price: doctor?.price || '2000',
         photo: `http://localhost:3000/${doctor?.photo}` || '',
-        //photo: doctor?.photo || '',
         info: doctor?.info || '',
         category: doctor?.category || '',
         speciality: doctor?.speciality || '',
@@ -265,8 +266,8 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
     }
   };
 
-  const remove = async (event: React.FormEvent): Promise<void> => {
-    event.preventDefault();
+  const remove = async (): Promise<void> => {
+    //event.preventDefault();
 
     try {
       await api({
@@ -586,13 +587,6 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                   dateFormat="yyyy"
                   value={formData.startWorking}
                 />
-                {/* <input
-                  type="text"
-                  name="startWorking"
-                  className={`${styles['persdata-field']} ${styles['persdata-surname']}`}
-                  value={formData.startWorking}
-                  onChange={handleChange}
-                /> */}
               </div>
             </div>
             <div className={`${styles['persdata-field']}`}>
@@ -693,8 +687,9 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
                 Изменить
               </button>
               <button
+                type="button"
                 className={styles['persdata-btn']}
-                onClick={remove}
+                onClick={() => setDeleteClose(true)}
                 disabled={doctor ? false : true}
               >
                 Удалить
@@ -712,6 +707,12 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
         </div>
       </section>
       <Snackbar />
+      <ConfirmationDialog
+        message="Вы действительно хотите удалить данного врача?"
+        open={deleteClose}
+        onConfirm={remove}
+        onClose={() => setDeleteClose(false)}
+      />
     </>
   );
 };

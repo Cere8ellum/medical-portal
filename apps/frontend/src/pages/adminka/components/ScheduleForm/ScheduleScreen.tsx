@@ -63,7 +63,7 @@ export default function ScheduleScreen() {
                 ...schedules,
                 {
                   range: `${dayjs(start).format('MM/DD/YYYY')} -  ${dayjs(
-                    start
+                    end
                   ).format('MM/DD/YYYY')}`,
                   cause: cause,
                   ids: ids,

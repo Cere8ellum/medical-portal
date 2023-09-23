@@ -85,6 +85,18 @@ p {
   bottom: -5px;
 }
 
+.title {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  padding-right: 40px;
+
+  & img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .content-nav-item.active {
   border-top: 5px solid #3d537c;
   border-left: 5px solid #3d537c;
