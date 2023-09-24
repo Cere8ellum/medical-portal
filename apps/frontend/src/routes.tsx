@@ -10,6 +10,7 @@ import OpinionDocument from './pages/opinion/opinion_doc';
 import OpinionForm from './pages/opinion/opinion_form';
 import Contacts from './pages/contactpage/Contacts';
 import InfoClinic from './pages/info_сlinic/info_clinic';
+import Feedback from './pages/feedback/feedback';
 
 type Route = RouteObject & {
   isPublic: boolean;
@@ -44,6 +45,11 @@ export const routes: Route[] = [
   {
     path: '/infoclinic',
     element: <InfoClinic />,
+    isPublic: true,
+  },
+  {
+    path: '/feedback',
+    element: <Feedback />,
     isPublic: true,
   },
 ];

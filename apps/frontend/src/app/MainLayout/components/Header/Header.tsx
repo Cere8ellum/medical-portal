@@ -40,8 +40,12 @@ function Header() {
     <header className={styles['header']}>
       <div className={styles['header-wrap']}>
         <div className={styles['header-title']}>
-          <h2 className={styles['header-title-medical']}>Medical</h2>
-          <h2 className={styles['header-title-online']}>ONLINE</h2>
+          <a href="/" className={styles['header-title-medical']}>
+            Medical
+          </a>
+          <a href="/" className={styles['header-title-online']}>
+            ONLINE
+          </a>
         </div>
         <nav className={styles['header-nav']}>
           <ul className={styles['header-nav-list']}>
@@ -51,12 +55,12 @@ function Header() {
               </a>
             </li>
             <li className={styles['header-nav-item']}>
-              <a href="/" className={styles['header-nav-link']}>
+              <a href="/doctors" className={styles['header-nav-link']}>
                 Список врачей
               </a>
             </li>
             <li className={styles['header-nav-item']}>
-              <a href="/" className={styles['header-nav-link']}>
+              <a href="/contacts" className={styles['header-nav-link']}>
                 Контакты
               </a>
             </li>
