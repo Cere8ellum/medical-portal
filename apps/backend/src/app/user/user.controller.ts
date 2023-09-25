@@ -34,6 +34,7 @@ export class UserController {
     private jwtService: JwtService
   ) {}
 
+  // получение данных о пользователе по id
   @Get('/:id')
   async getByID(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findOne(id);
@@ -117,6 +118,7 @@ export class UserController {
     }
   }
 
+  // выход
   @Post('logout')
   async logout(
     @Req() request: Request,
@@ -179,19 +181,21 @@ export class UserController {
     return this.userService.findUuid(uuid);
   }
 
-  // get all users by admin
+  // получить всех пользователей для админа
   @Get('/admin/users')
   findAll() {
     return this.userService.findAll();
   }
 
+  // update пользователей админом
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
+  // удаление пользователя
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.userService.remove(+id);
   }
 }

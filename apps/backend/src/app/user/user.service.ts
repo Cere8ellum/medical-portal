@@ -146,7 +146,11 @@ export class UserService {
       }
       if (_user && _user.role === Role.Doctor) {
         const _doctor = await this.doctorServise.findByUserId(id);
-        await this.doctorServise.delete(_doctor.id);
+        try {
+          await this.doctorServise.delete(_doctor.id);
+        } catch(err) {
+          throw new BadRequestException(err);
+        }
       }
       await this.userRepository.delete(id);
       return true;
