@@ -24,9 +24,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { Response, Request } from 'express';
-import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiConsumes, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
 
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(
@@ -34,7 +35,19 @@ export class UserController {
     private jwtService: JwtService
   ) {}
 
+
   @Get('/:id')
+  @ApiOperation({ summary: 'Получить данные о пользователе' })
+  @ApiParam({
+    name: 'id',
+    description: 'user id',
+    type: String
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'данные о пользователе',
+    type: UserEntity
+  })
   async getByID(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findOne(id);
   }
@@ -88,9 +101,6 @@ export class UserController {
     try {
       const refreshToken = request.cookies['refresh_token'];
       const { id } = await this.jwtService.verifyAsync(refreshToken);
-      // const accessToken = request.headers.authorization.replace('Bearer ', '')
-      // const {id} = await this.jwtService.verifyAsync(accessToken)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...data } = await this.userService.findOne(id);
       return data;
     } catch (e) {
@@ -179,6 +189,75 @@ export class UserController {
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
+
+  //@Api
+  @Patch('change/password')
+  @ApiOperation({
+    summary: 'Смена пароля'
+  })
+  @ApiQuery({
+    name: 'oldpass',
+    description: 'старый пароль',
+    type: String
+  })
+  @ApiQuery({
+    name: ' email',
+    description: 'email пользлвателя',
+    type: String
+  })
+  @ApiQuery({
+    name:'newpass',
+    type: String,
+    description: 'новый пароль'
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Пароль успешно изменен',
+    type: String
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Указанный старый пароль неверен',
+    type: String
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Пользователь с таким email не обнаружен',
+    type: String
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Пользователь с таким email не обнаружен',
+    type: String
+  })
+
+  async changePassword(
+    @Query('oldpass')oldpass: string,
+    @Query('email') email: string,
+    @Query('newpass') newpass: string,
+    @Res()res:Response
+  ){
+    try {
+      console.log('query',oldpass,email,newpass)
+      const _user = await this.userService.findByEmail(email);
+      if(!_user) {
+        res.status(HttpStatus.NOT_FOUND).send('Пользователь с таким email не обнаружен')
+      }
+
+      if(! await argon2.verify(_user.password, oldpass)){
+        res.status(HttpStatus.BAD_REQUEST).send('Указанный старый пароль неверен')
+      }
+
+      const updateUserDto = new UpdateUserDto;
+      updateUserDto.password = newpass;
+
+      const _updateUser = await this.userService.update(_user.id,updateUserDto);
+      res.status(HttpStatus.OK).send('Пароль успешно изменен');
+    } catch (error) {
+      throw new BadRequestException(`${error}`)
+    }
+  }
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {

@@ -81,14 +81,14 @@ function BasicModal(props: any, ref: React.Ref<RefType>) {
           </header>
           <div className={styles['wrapper']}>
             <div className={styles['fio-title']}>ФИО:&nbsp;</div>
-            <div className={styles['fio-text']}>{data.props.patient} </div>
+            <div className={styles['fio-text']}>{data?.props?.patient} </div>
           </div>
           <div className={styles['wrapper-complaint']}>
             <div className={styles['complaint-title']}>
               Жалобы/протокол исследования:
             </div>
             <div className={styles['complaint-text']}>
-              {data.props?.opinion?.patient_complaint}
+              {data?.props?.opinion?.patient_complaint}
             </div>
           </div>
           <div className={styles['wrapper-disease']}>

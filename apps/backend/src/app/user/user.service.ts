@@ -44,7 +44,7 @@ export class UserService {
       role: createUserDto.role || Role.Patient,
       gender: createUserDto.gender || Gender.Male,
       mobile: createUserDto.mobile || '',
-      birthdate: createUserDto.birthdate || new Date().toString(),
+      birthdate: createUserDto.birthdate || '',
       address: createUserDto.address || '',
       firstname: createUserDto.firstname || '',
       lastname: createUserDto.lastname || '',
@@ -138,6 +138,7 @@ export class UserService {
       password: updateUserDto.password
         ? await argon2.hash(updateUserDto.password)
         : existUser.password,
+      updated: new Date(),
     });
     return user;
   }

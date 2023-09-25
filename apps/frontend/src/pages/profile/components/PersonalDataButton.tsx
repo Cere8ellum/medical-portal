@@ -3,7 +3,7 @@ import { useGlobalContext } from '../MyGlobalContext';
 import styles from '../styles/profile.module.css';
 
 function PersonalDataButton() {
-  const { setisEditable } = useGlobalContext();
+  const { setisEditable, setIsChangePass } = useGlobalContext();
   const editData = async (e: MouseEvent) => {
     if (e !== undefined) {
       e.preventDefault();
@@ -15,6 +15,7 @@ function PersonalDataButton() {
     <div className={styles['persdata-btns-container']}>
       <button
         className={`${styles['persdata-btn']} ${styles['persdata-btn-changepass']}`}
+        onClick={() => setIsChangePass(true)}
       >
         ИЗМЕНИТЬ ПАРОЛЬ
       </button>

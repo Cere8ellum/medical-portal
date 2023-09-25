@@ -11,6 +11,7 @@ import OpinionForm from './pages/opinion/opinion_form';
 import Contacts from './pages/contactpage/Contacts';
 import AdminkaScreen from './pages/adminka/AdminkaScreen';
 import InfoClinic from './pages/info_сlinic/info_clinic';
+import ChangePassword from './pages/changepassword/ChangePassword';
 
 type Route = RouteObject & {
   isPublic: boolean;
@@ -50,6 +51,11 @@ export const routes: Route[] = [
   {
     path: '/infoclinic',
     element: <InfoClinic />,
+    isPublic: true,
+  },
+  {
+    path: '/changepass',
+    element: <ChangePassword />,
     isPublic: true,
   },
 ];

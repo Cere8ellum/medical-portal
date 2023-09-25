@@ -76,10 +76,12 @@ export class DoctorService {
    */
   async findById(id: number): Promise<DoctorEntity> {
     try {
-      return await this.doctorRepository.findOne({
+      const doctor = await this.doctorRepository.findOne({
         relations: ['user'],
-        where: { id: id }
+        where: { id: id },
       });
+      doctor.user.password = '';
+      return doctor
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -92,12 +94,14 @@ export class DoctorService {
    */
   async findByUserId(user_id: number): Promise<DoctorEntity> {
     try {
-      return await this.doctorRepository.findOne({
+      const doctor = await this.doctorRepository.findOne({
         relations: ['user'],
         where: {user: {
           id: user_id
         }}
-      })
+      });
+      doctor.user.password = '';
+      return doctor
     } catch (error) {
       throw new BadRequestException(error)
     }
@@ -113,6 +117,9 @@ export class DoctorService {
       relations: ['user'],
       where: {
         speciality: speciality,
+      },
+      order: {
+        user: {lastname: 'ASC'}
       }
     })
   }
