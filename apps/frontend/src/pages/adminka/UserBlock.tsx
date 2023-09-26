@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import NativeSelect from '@mui/material/NativeSelect';
 import api from '../../infrastructure/api';
 import CircularIndeterminate from './../profile/components/CircularProgress';
 import { snackbarStore } from '../../stores';
@@ -130,6 +131,7 @@ export default function App() {
       usersNew(newEditData);
     } else usersNew(editData);
     newUsers[index] = newUser;
+    console.log('st', editData);
     setEditRow(0);
   };
   const usersNew = async (newUser: any) => {
@@ -377,17 +379,23 @@ export default function App() {
                         </TableCell>
                       )}
                       {item.id === editRow ? (
-                        <TableCell align="left" sx={{ padding: '0 5px' }}>
-                          <TextField
-                            className={styles['text-field']}
+                        <TableCell
+                          align="left"
+                          sx={{ padding: '0 5px', minWidth: '75px' }}
+                        >
+                          <NativeSelect
+                            defaultValue={editData.role}
                             onChange={(e) =>
                               setEditData({
                                 ...editData,
                                 role: e.target.value,
                               })
                             }
-                            value={editData.role}
-                          />
+                          >
+                            <option value={'patient'}>patient</option>
+                            <option value={'doctor'}>doctor</option>
+                            <option value={'admin'}>admin</option>
+                          </NativeSelect>
                         </TableCell>
                       ) : (
                         <TableCell align="left" sx={{ padding: '0 5px' }}>
@@ -395,8 +403,11 @@ export default function App() {
                         </TableCell>
                       )}
                       {item.id === editRow ? (
-                        <TableCell align="left" sx={{ padding: '0 5px' }}>
-                          <TextField
+                        <TableCell
+                          align="left"
+                          sx={{ padding: '0 5px', minWidth: '75px' }}
+                        >
+                          {/* <TextField
                             className={styles['text-field']}
                             onChange={(e) =>
                               setEditData({
@@ -405,7 +416,19 @@ export default function App() {
                               })
                             }
                             value={editData.status}
-                          />
+                          /> */}
+                          <NativeSelect
+                            defaultValue={editData.status}
+                            onChange={(e) =>
+                              setEditData({
+                                ...editData,
+                                status: e.target.value,
+                              })
+                            }
+                          >
+                            <option value={'enabled'}>enabled</option>
+                            <option value={'disabled'}>disabled</option>
+                          </NativeSelect>
                         </TableCell>
                       ) : (
                         <TableCell align="left" sx={{ padding: '0 5px' }}>
