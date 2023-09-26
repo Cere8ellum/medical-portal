@@ -53,7 +53,7 @@ function MainPageContent() {
             </Link>
           </li>
           <li className={styles['content-menu-item']}>
-            <Link to="/">
+            <Link to="/feedback/">
               <h3 className={styles['content-menu-title']}>ОТЗЫВЫ</h3>
               <img
                 src="../assets/images/main-doctor-women.png"

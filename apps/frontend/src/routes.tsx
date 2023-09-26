@@ -13,29 +13,36 @@ import AdminkaScreen from './pages/adminka/AdminkaScreen';
 import InfoClinic from './pages/info_сlinic/info_clinic';
 import ChangePassword from './pages/changepassword/ChangePassword';
 import { authStore } from './stores';
+import Feedback from './pages/feedback/feedback';
+import Profiles from './pages/Profiles';
 
 type Route = RouteObject & {
   isPublic: boolean;
 };
 
-// let jsx: JSX.Element = <MainScreen />;
+const getJSXComponent = (): JSX.Element => {
+  let jsx: JSX.Element = <MainScreen />;
 
-// if (authStore.currentAccount.role) {
-//   console.log(authStore.currentAccount.role);
-//   switch (authStore.currentAccount.role) {
-//     case 'patient':
-//       jsx = <ProfileScreen />;
-//       break;
-//     case 'admin':
-//       jsx = <AdminkaScreen />;
-//       break;
-//     case 'doctor':
-//       jsx = <></>;
-//       break;
-//     default:
-//       jsx = <></>;
-//   }
-// }
+  const user = authStore.userIsAuthorized;
+  console.log('serIsAuthorized', user);
+  if (user) {
+    console.log('role', authStore.currentAccount.role);
+    switch (authStore.currentAccount.role) {
+      case 'patient':
+        jsx = <ProfileScreen />;
+        break;
+      case 'admin':
+        jsx = <AdminkaScreen />;
+        break;
+      case 'doctor':
+        jsx = <></>;
+        break;
+      default:
+        jsx = <></>;
+    }
+  }
+  return jsx;
+};
 
 export const routes: Route[] = [
   {
@@ -45,7 +52,7 @@ export const routes: Route[] = [
   },
   {
     path: '/profile',
-    element: <ProfileScreen />,
+    element: <Profiles />,
     isPublic: false,
   },
   {
@@ -71,6 +78,11 @@ export const routes: Route[] = [
   {
     path: '/infoclinic',
     element: <InfoClinic />,
+    isPublic: true,
+  },
+  {
+    path: '/feedback',
+    element: <Feedback />,
     isPublic: true,
   },
 ];

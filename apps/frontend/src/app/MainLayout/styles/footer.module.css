@@ -17,6 +17,10 @@
 
 .footer-name-medical {
   margin: 0 5px 0 0;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 40px;
+  color: #8095BD;
 }
 
 .footer-name-wrap {
@@ -35,6 +39,9 @@
   width: 160px;
   border-radius: 9px;
   padding: 0 0 0 10px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 40px;
 }
 
 .footer-copy-wrap {

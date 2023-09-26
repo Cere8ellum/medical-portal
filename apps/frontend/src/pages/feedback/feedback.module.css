@@ -1,0 +1,115 @@
+.h1 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095BD;
+  font-size: 42px;
+}
+
+.h2 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095BD;
+  font-size: 40px;
+}
+
+.h3 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095BD;
+  font-size: 32px;
+}
+
+.h4 {
+  font-family: 'Inter';
+  font-weight: 600;
+  color: #3D537C;
+  font-size: 20px;
+}
+
+.p {
+  font-family: Inter;
+  font-weight: 300;
+  color: #3D537C;
+  font-size: 12px;
+}
+
+.content {
+  background-repeat: no-repeat;
+  background-position-x: left;
+  background-position-y: bottom;
+}
+
+.content-title {
+  margin: 50px auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.content-rewiews {
+  width: 70%;
+  margin: 70px auto;
+}
+
+.content-rewiews-list {
+  list-style: none;
+}
+
+.content-rewiews-item {
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 10px;
+  padding: 25px 70px;
+  margin: 20px 0;
+}
+
+.content-rewiews-doctor {
+  margin: 10px 0;
+}
+
+@media (max-width: 834px) {
+  h2 {
+      font-size: 34px;
+  }
+
+  .content-rewiews {
+      width: 80%;
+  }
+
+  .content-rewiews {
+      margin: 50px auto;
+  }
+}
+
+@media (max-width: 658px) {
+  .content-rewiews-item {
+      padding: 15px 50px;
+  }
+}
+
+@media (max-width: 390px) {
+  h2 {
+      font-size: 32px;
+  }
+
+  h3 {
+      font-size: 20px;
+  }
+
+  .header-wrap {
+      width: 90%;
+      margin: 20px auto;
+  }
+
+  .content-title {
+      margin: 20px auto;
+  }
+
+  .content-rewiews-item {
+      padding: 15px;
+  }
+
+  .content-rewiews {
+      margin: 20px auto;
+  }
+}

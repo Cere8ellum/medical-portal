@@ -13,6 +13,7 @@ export default class AuthStore {
   private isAuthorized = false;
   private token?: string | null;
   private account?: Account | null;
+  public authorizedUserLoaded = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -88,12 +89,14 @@ export default class AuthStore {
     this.token = token;
     this.isAuthorized = true;
     this.account = await accountRepository.get();
+    this.authorizedUserLoaded = true;
   };
 
   public unAuthorizeUser = (): void => {
     this.token = null;
     this.isAuthorized = false;
     this.account = null;
+    this.authorizedUserLoaded = false;
   };
 
   public login = async (login: string, password: string): Promise<void> => {
@@ -120,7 +123,7 @@ export default class AuthStore {
   };
 
   public get userIsAuthorized(): boolean {
-    return this.isAuthorized;
+    return this.isAuthorized && this.authorizedUserLoaded;
   }
 
   public get currentAccount(): Account {
