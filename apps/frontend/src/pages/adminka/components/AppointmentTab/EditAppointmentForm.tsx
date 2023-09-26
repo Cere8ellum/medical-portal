@@ -22,19 +22,16 @@ import api from 'apps/frontend/src/infrastructure/api';
 import { snackbarStore } from 'apps/frontend/src/stores';
 import { Absence, Option } from 'apps/frontend/src/types';
 import { Form } from 'apps/frontend/src/components';
-import {
-  createTimeSlotOptions,
-  getTimeInterval,
-} from 'apps/frontend/src/pages/adminka/utils/timeSlots';
-import {
-  appointmentReducer,
-  Field,
-  FormState,
-  Status,
-} from '../../reducers/appointmentReducer';
+import { createTimeSlotOptions } from 'apps/frontend/src/pages/appointment/utils/timeSlots';
 import editAppointmentSchema from '../../schemas/editAppointmentSchema';
 import { Appointment } from './AppointmentTab';
-import WrappedAutoComplete from './Autocomplete';
+import WrappedAutoComplete from '../../../../components/Autocomplete';
+import {
+  appointmentFormReducer,
+  Field,
+  FormState,
+} from '../../../appointment/reducers/appointmentFormReducer';
+import { FormStatus } from 'apps/frontend/src/utils/constants/form';
 
 type EditFormState = Pick<FormState, 'absences' | 'timeSlots' | 'status'>;
 
@@ -51,7 +48,7 @@ interface Props {
 const initialState: Pick<FormState, 'absences' | 'timeSlots' | 'status'> = {
   absences: [],
   timeSlots: [],
-  status: Status.Idle,
+  status: FormStatus.Idle,
 };
 
 const EditAppointmentForm: React.FC<Props> = ({
@@ -68,7 +65,7 @@ const EditAppointmentForm: React.FC<Props> = ({
   onSuccess,
 }) => {
   const [state, dispatch] = useReducer(
-    appointmentReducer<EditFormState>,
+    appointmentFormReducer<EditFormState>,
     initialState
   );
   const formikRef = useRef<FormikProps<FormikValues>>(null);
@@ -83,8 +80,7 @@ const EditAppointmentForm: React.FC<Props> = ({
           `appointments/booked/doctor/${doctorId}?date=${date}`
         );
 
-        const timeInterval = getTimeInterval(dayjs(date));
-        const timeSlotsOptions = createTimeSlotOptions(timeInterval);
+        const timeSlotsOptions = createTimeSlotOptions(dayjs(date));
 
         const freeTimeSlotsOptions = timeSlotsOptions.filter((option) => {
           const isBooked = bookedTimeSlots.some(
@@ -191,13 +187,13 @@ const EditAppointmentForm: React.FC<Props> = ({
       });
 
       snackbarStore.handleOpen();
-    } catch (err) {
+    } catch (error) {
       if (
-        isAxiosError(err) &&
-        err.response !== null &&
-        err.response !== undefined
+        isAxiosError(error) &&
+        error.response !== null &&
+        error.response !== undefined
       ) {
-        const { message } = err.response.data;
+        const { message } = error.response.data;
 
         if (Array.isArray(message)) {
           snackbarStore.setContent({
@@ -216,7 +212,7 @@ const EditAppointmentForm: React.FC<Props> = ({
           snackbarStore.handleOpen();
         }
       } else {
-        console.error(err);
+        console.error(error);
       }
     } finally {
       setSubmitting(false);
@@ -247,8 +243,8 @@ const EditAppointmentForm: React.FC<Props> = ({
           validateYupSchema<FormikValues>(values, validationSchema, true, {
             absences: state.absences,
           });
-        } catch (err) {
-          return yupToFormErrors(err);
+        } catch (error) {
+          return yupToFormErrors(error);
         }
 
         return {};
@@ -286,7 +282,8 @@ const EditAppointmentForm: React.FC<Props> = ({
             label="Выберите день записи"
             value={appointmentDate}
             disabled={
-              state.status === Status.Loading || state.status === Status.Error
+              state.status === FormStatus.Loading ||
+              state.status === FormStatus.Error
             }
             disablePast
             maxDate={dayjs().add(3, 'month')}
@@ -363,8 +360,8 @@ const EditAppointmentForm: React.FC<Props> = ({
             error={touched.appointmentTime && Boolean(errors.appointmentTime)}
             helperText={touched.appointmentTime && errors.appointmentTime}
             disabled={
-              state.status === Status.Loading ||
-              state.status === Status.Error ||
+              state.status === FormStatus.Loading ||
+              state.status === FormStatus.Error ||
               !appointmentDate ||
               Boolean(errors.appointmentDate)
             }

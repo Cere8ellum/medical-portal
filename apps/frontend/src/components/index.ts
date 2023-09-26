@@ -5,3 +5,4 @@ export { default as Form } from './Form';
 export { default as Alert } from './Alert';
 export { default as Snackbar } from './Snackbar';
 export { default as ConfirmationDialog } from './ConfirmationDialog';
+export { default as Autocomplete } from './Autocomplete';

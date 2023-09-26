@@ -1,5 +1,6 @@
 import { Dayjs } from 'dayjs';
-import { Option } from '../components/AppointmentForm';
+import { Option } from 'apps/frontend/src/types';
+import { FormStatus } from 'apps/frontend/src/utils/constants/form';
 
 export enum Field {
   Specialities = 'specialities',
@@ -8,19 +9,12 @@ export enum Field {
   TimeSlots = 'timeSlots',
 }
 
-export enum Status {
-  Loading,
-  Success,
-  Error,
-  Idle,
-}
-
 export type FormState = {
   specialities: string[];
   doctors: Option[];
   absences: Dayjs[];
   timeSlots: string[];
-  status: Status;
+  status: FormStatus;
 };
 
 type FormAction = {
@@ -29,7 +23,7 @@ type FormAction = {
   payload?: Option[] | Dayjs[] | string[];
 };
 
-export const formReducer = (state: FormState, action: FormAction) => {
+export const appointmentFormReducer = <S>(state: S, action: FormAction) => {
   switch (action.type) {
     case 'SET_DATA': {
       if (!action.field) return state;
@@ -42,19 +36,19 @@ export const formReducer = (state: FormState, action: FormAction) => {
     case 'FETCH': {
       return {
         ...state,
-        status: Status.Loading,
+        status: FormStatus.Loading,
       };
     }
     case 'RESOLVE': {
       return {
         ...state,
-        status: Status.Success,
+        status: FormStatus.Success,
       };
     }
     case 'REJECT': {
       return {
         ...state,
-        status: Status.Error,
+        status: FormStatus.Error,
       };
     }
     default: {

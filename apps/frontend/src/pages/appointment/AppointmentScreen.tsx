@@ -1,5 +1,5 @@
 import { Box, Container, styled, Typography } from '@mui/material';
-import AppointmentForm from './components/AppointmentForm';
+import CreateAppointmentForm from './components/CreateAppointmentForm';
 
 const BackGroundImg = styled('img')({
   position: 'absolute',
@@ -47,7 +47,7 @@ const AppointmentScreen = () => {
           >
             электронная регистрация
           </Typography>
-          <AppointmentForm />
+          <CreateAppointmentForm />
         </Box>
       </Box>
       <BackGroundImg src="../../assets/images/main-image.png" alt="doctors" />
