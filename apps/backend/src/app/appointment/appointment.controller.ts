@@ -97,7 +97,7 @@ export class AppointmentsController {
 
   @Get('doctor/:idDoctor')
   @ApiOperation({
-    summary: 'Все слоты к doctorid забронированные cо статусом waiting',
+    summary: 'Все слоты к doctorid забронированные в заданный день',
   })
   @ApiParam({
     name: 'idDoctor',
@@ -136,7 +136,7 @@ export class AppointmentsController {
       });
       res.status(HttpStatus.OK).json(_appList);
     } catch (error) {
-      throw new BadRequestException(`err: ${error}`);
+      throw new BadRequestException(`${error}`);
     }
   }
 

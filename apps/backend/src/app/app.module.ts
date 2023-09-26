@@ -4,16 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MailModule } from './mail/mail.module';
 import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppointmentsModule } from './appointment/appointment.module';
 import { DoctorModule } from './doctor/doctor.module';
-import { PatientModule } from './patient/patient.module';
 import { MedicalHistoryModule } from './medical-history/medical-history.module';
-import { DoctorEntity } from './doctor/entities/doctor.entity';
-import { PatientEntity } from './patient/entities/patient.entity';
-import { MedicalHistoryEntity } from './medical-history/entities/medical-history.entity';
-import { AppointmentEntity } from './appointment/entities/appointment.entity';
 import { AbsenceScheduleModule } from './absence-schedule/absence-schedule.module';
 
 @Module({
@@ -23,9 +16,7 @@ import { AbsenceScheduleModule } from './absence-schedule/absence-schedule.modul
       isGlobal: true, // no need to import into other modules
     }),
     UserModule,
-    AuthModule,
     DoctorModule,
-    PatientModule,
     MedicalHistoryModule,
     AbsenceScheduleModule,
     TypeOrmModule.forRootAsync({

@@ -24,7 +24,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { Response, Request } from 'express';
-import { ApiConsumes, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
 
 @ApiTags('user')
@@ -54,6 +54,15 @@ export class UserController {
 
   // регистрация пользователя
   @Post('register')
+  @ApiOperation({ summary: 'Регистрация пользователя' })
+  @ApiBody({
+    type: CreateUserDto,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Новый пользователь зарегистрировался',
+    type: UserEntity
+  })
   @UsePipes(new ValidationPipe())
   async create(@Body() createUserDto: CreateUserDto) {
     const newUser = await this.userService.create(createUserDto);
@@ -63,6 +72,22 @@ export class UserController {
 
   // логин пользователя
   @Post('login')
+  @ApiOperation({ summary: 'логин пользователя' })
+  @ApiBody({
+    type: CreateUserDto,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Новый пользователь авторизовался. Возвращает token и role',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'User not found',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Incorrect password',
+  })
   async login(
     @Body('email') email: string,
     @Body('password') password: string,
@@ -97,6 +122,15 @@ export class UserController {
 
   // проверка авторизации
   @Get()
+  @ApiOperation({ summary: 'проверка авторизации' })
+  @ApiResponse({
+    status: 200,
+    type: UserEntity
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized'
+  })
   async user(@Req() request: Request) {
     try {
       const refreshToken = request.cookies['refresh_token'];
@@ -108,7 +142,17 @@ export class UserController {
     }
   }
 
+
   @Post('refresh')
+  @ApiOperation({ summary: 'refresh' })
+  @ApiResponse({
+    status: 200,
+    description: 'return refresh token'
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized'
+  })
   async refresh(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response
@@ -127,7 +171,14 @@ export class UserController {
     }
   }
 
+
+
   @Post('logout')
+  @ApiOperation({ summary: 'logout' })
+  @ApiResponse({
+    status: 200,
+    description: 'logout successful'
+  })
   async logout(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response
@@ -143,8 +194,10 @@ export class UserController {
     }
   }
 
+
+
   @Get('admin/search')
-  @ApiOperation({ summary: 'Поиск пациента по фио и рождении' })
+  @ApiOperation({ summary: 'Поиск пациента по фио и дате рождения' })
   @ApiQuery({
     name:'firstname',
     description: 'firstname',
@@ -180,17 +233,40 @@ export class UserController {
     }
   }
 
+
+  @ApiOperation({ summary: 'confirm uuid' })
+  @ApiResponse({
+    status: 200,
+    description: 'uuid',
+    type: String
+  })
   @Get('/confirm/:uuid')
   findUuid(@Param('uuid') uuid: string) {
     return this.userService.findUuid(uuid);
   }
 
+
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @ApiOperation({ summary: 'update user' })
+  @ApiResponse({
+    status: 200,
+    description: 'Пользователь успешно изменен',
+    type: UserEntity
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'user id',
+    type: String
+  })
+  @ApiBody({
+    type:UpdateUserDto
+  })
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return await this.userService.update(+id, updateUserDto);
   }
 
-  //@Api
+
   @Patch('change/password')
   @ApiOperation({
     summary: 'Смена пароля'
@@ -230,7 +306,6 @@ export class UserController {
     description: 'Пользователь с таким email не обнаружен',
     type: String
   })
-
   async changePassword(
     @Query('oldpass')oldpass: string,
     @Query('email') email: string,
@@ -259,6 +334,17 @@ export class UserController {
   }
 
 
+  @ApiOperation({ summary: 'delte user' })
+  @ApiResponse({
+    status: 200,
+    description: 'Пользователь успешно удален',
+    type: Boolean
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'user id',
+    type: String
+  })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
