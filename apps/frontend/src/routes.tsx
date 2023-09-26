@@ -12,10 +12,30 @@ import Contacts from './pages/contactpage/Contacts';
 import AdminkaScreen from './pages/adminka/AdminkaScreen';
 import InfoClinic from './pages/info_сlinic/info_clinic';
 import ChangePassword from './pages/changepassword/ChangePassword';
+import { authStore } from './stores';
 
 type Route = RouteObject & {
   isPublic: boolean;
 };
+
+// let jsx: JSX.Element = <MainScreen />;
+
+// if (authStore.currentAccount.role) {
+//   console.log(authStore.currentAccount.role);
+//   switch (authStore.currentAccount.role) {
+//     case 'patient':
+//       jsx = <ProfileScreen />;
+//       break;
+//     case 'admin':
+//       jsx = <AdminkaScreen />;
+//       break;
+//     case 'doctor':
+//       jsx = <></>;
+//       break;
+//     default:
+//       jsx = <></>;
+//   }
+// }
 
 export const routes: Route[] = [
   {
@@ -43,19 +63,14 @@ export const routes: Route[] = [
     element: <Contacts />,
     isPublic: true,
   },
-  {
-    path: '/adminka',
-    element: <AdminkaScreen />,
-    isPublic: false,
-  },
+  // {
+  //   path: '/adminka',
+  //   element: <AdminkaScreen />,
+  //   isPublic: false,
+  // },
   {
     path: '/infoclinic',
     element: <InfoClinic />,
-    isPublic: true,
-  },
-  {
-    path: '/changepass',
-    element: <ChangePassword />,
     isPublic: true,
   },
 ];
