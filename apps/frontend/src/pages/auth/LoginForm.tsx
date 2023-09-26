@@ -1,6 +1,6 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { Box, Button, Link, styled, Typography } from '@mui/material';
+import { Box, Button, styled, Typography } from '@mui/material';
 import { isAxiosError } from 'axios';
 import { Formik, FormikHelpers, FormikValues } from 'formik';
 import { authStore } from '../../stores';
@@ -140,7 +140,7 @@ const LoginForm: React.FC = (props) => {
             >
               Войти
             </Button>
-            <Link href="/signup" underline="none">
+            <Link to="/signup">
               <Typography
                 variant="h5"
                 component="span"
