@@ -6,7 +6,7 @@ import { authStore } from '../stores';
 const PrivateRoute: React.FC<any> = ({ children }) => {
   const location = useLocation();
 
-  if (!authStore.isAuthorized) {
+  if (!authStore.userIsAuthorized) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 

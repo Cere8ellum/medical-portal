@@ -2,13 +2,17 @@
 import { makeAutoObservable } from 'mobx';
 import { AxiosError, AxiosResponse } from 'axios';
 import api from '../infrastructure/api';
-import { tokenPairRepository } from '../infrastructure/repositories';
+import { Account } from './../infrastructure/repositories/AccountRepository';
+import {
+  tokenPairRepository,
+  accountRepository,
+} from '../infrastructure/repositories';
 import { authService } from '../services';
 
 export default class AuthStore {
-  public isAuthorized = false;
-
+  private isAuthorized = false;
   private token?: string | null;
+  private account?: Account | null;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -83,11 +87,13 @@ export default class AuthStore {
   public authorizeUser = async (token: string): Promise<void> => {
     this.token = token;
     this.isAuthorized = true;
+    this.account = await accountRepository.get();
   };
 
   public unAuthorizeUser = (): void => {
     this.token = null;
     this.isAuthorized = false;
+    this.account = null;
   };
 
   public login = async (login: string, password: string): Promise<void> => {
@@ -115,5 +121,13 @@ export default class AuthStore {
 
   public get userIsAuthorized(): boolean {
     return this.isAuthorized;
+  }
+
+  public get currentAccount(): Account {
+    if (!this.userIsAuthorized) {
+      throw new Error('Account is not loaded.');
+    }
+
+    return this.account!;
   }
 }

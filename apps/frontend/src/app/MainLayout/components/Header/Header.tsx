@@ -1,24 +1,10 @@
-import { useEffect, useState, MouseEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { authStore } from '../../../../stores';
-import { userStore } from '../../../../stores';
-import api from '../../../../infrastructure/api';
+import { authStore } from 'apps/frontend/src/stores';
 import styles from '../../styles/header.module.css';
 
 function Header() {
   const navigate = useNavigate();
-  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const isAuth = authStore.isAuthorized;
-        console.log(isAuth);
-        setIsAuthorized(isAuth);
-      } catch (error) {}
-    })();
-  });
 
   return (
     <header className={styles['header']}>
@@ -35,30 +21,28 @@ function Header() {
         <nav className={styles['header-nav']}>
           <ul className={styles['header-nav-list']}>
             <li className={styles['header-nav-item']}>
-              <a href="/appointment" className={styles['header-nav-link']}>
+              <Link to="/appointment" className={styles['header-nav-link']}>
                 Запись на прием
-              </a>
+              </Link>
             </li>
             <li className={styles['header-nav-item']}>
-              <a href="/doctors" className={styles['header-nav-link']}>
+              <Link to="/doctors" className={styles['header-nav-link']}>
                 Список врачей
-              </a>
+              </Link>
             </li>
             <li className={styles['header-nav-item']}>
-              <a href="/contacts" className={styles['header-nav-link']}>
+              <Link to="/contacts" className={styles['header-nav-link']}>
                 Контакты
-              </a>
+              </Link>
             </li>
-            {isAuthorized ? (
-              <>
-                <a href="/profile/" className={styles['header-nav-link']}>
-                  <img
-                    style={{ width: '25px', height: 'auto' }}
-                    src="./assets/images/user-logo.svg"
-                    alt=""
-                  />
-                </a>
-              </>
+            {authStore.userIsAuthorized ? (
+              <Link to="/profile/" className={styles['header-nav-link']}>
+                <img
+                  style={{ width: '25px', height: 'auto' }}
+                  src="./assets/images/user-logo.svg"
+                  alt=""
+                />
+              </Link>
             ) : (
               ''
             )}
