@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import api from '../../infrastructure/api';
 import CircularIndeterminate from './../profile/components/CircularProgress';
 import { snackbarStore } from '../../stores';
@@ -16,8 +17,21 @@ import { Snackbar } from './../../components';
 import { IconButton, TextField } from '@mui/material';
 
 import styles from './styles/textField.module.css';
-import { Console } from 'console';
+
 export default function App() {
+  interface EditData {
+    id: number;
+    firstname: string;
+    lastname: string;
+    gender: string;
+    birthdate: string;
+    email: string;
+    password?: string;
+    mobile: string;
+    role: string;
+    status: string;
+  }
+
   type users = {
     id: number;
     firstname: string;
@@ -25,6 +39,7 @@ export default function App() {
     gender: string;
     birthdate: string;
     email: string;
+    password: string;
     mobile: string;
     role: string;
     status: string;
@@ -34,11 +49,13 @@ export default function App() {
   const [render, setRender] = useState(0);
   const [isFetching, setisFetching] = useState(false);
   const [editData, setEditData] = useState({
+    id: 0,
     firstname: '',
     lastname: '',
     gender: '',
     birthdate: '',
     email: '',
+    password: '',
     address: '',
     mobile: '',
     role: '',
@@ -79,6 +96,7 @@ export default function App() {
       gender,
       birthdate,
       email,
+      password,
       address,
       mobile,
       role,
@@ -86,11 +104,13 @@ export default function App() {
     }: any = users.find((item: { id: number }) => item.id === id);
     setEditData({
       ...editData,
+      id,
       firstname,
       lastname,
       gender,
       birthdate,
       email,
+      password,
       address,
       mobile,
       role,
@@ -104,11 +124,13 @@ export default function App() {
       (item: { id: number }) => item.id === editRow
     );
     const newUsers: any = [...users];
-    const newUser = { ...newUsers[index], ...editData };
-    console.log('editData', editData);
+    const newUser = { ...editData };
+    if (editData.password === newUsers[index].password) {
+      const { password: _, ...newEditData } = editData;
+      usersNew(newEditData);
+    } else usersNew(editData);
     newUsers[index] = newUser;
     setEditRow(0);
-    usersNew(newUser);
   };
   const usersNew = async (newUser: any) => {
     await api({
@@ -118,7 +140,6 @@ export default function App() {
     })
       .then(() => {
         setRender(render + 1);
-        console.log(render);
         snackbarStore.setContent({
           severity: 'success',
           message: 'Данные сохранены',
@@ -139,11 +160,14 @@ export default function App() {
   }, [render]);
 
   return (
-    <section>
+    <section style={{ maxWidth: 1115 }}>
       {!isFetching ? (
         <div className="App">
-          <TableContainer component={Paper}>
-            <Table sx={{ maxWidth: 650 }} aria-label="simple table">
+          <TableContainer
+            component={Paper}
+            sx={{ backgroundColor: 'transparent' }}
+          >
+            <Table sx={{ maxWidth: 450 }}>
               <TableHead>
                 <TableRow>
                   <TableCell align="left" sx={{ padding: '0 5px' }}>
@@ -166,6 +190,9 @@ export default function App() {
                   </TableCell>
                   <TableCell align="left" sx={{ padding: '0 5px' }}>
                     email
+                  </TableCell>
+                  <TableCell align="left" sx={{ padding: '0 5px' }}>
+                    пароль
                   </TableCell>
                   <TableCell align="left" sx={{ padding: '0 5px' }}>
                     Адрес
@@ -291,6 +318,29 @@ export default function App() {
                         </TableCell>
                       )}
                       {item.id === editRow ? (
+                        <TableCell
+                          align="left"
+                          sx={{ padding: '0 5px', minWidth: '120px' }}
+                        >
+                          <TextField
+                            className={styles['text-field']}
+                            onChange={(e) =>
+                              setEditData({
+                                ...editData,
+                                password: e.target.value,
+                              })
+                            }
+                          />
+                        </TableCell>
+                      ) : (
+                        <TableCell
+                          align="left"
+                          sx={{ padding: '0 5px', minWidth: '120px' }}
+                        >
+                          ********
+                        </TableCell>
+                      )}
+                      {item.id === editRow ? (
                         <TableCell align="left" sx={{ padding: '0 5px' }}>
                           <TextField
                             className={styles['text-field']}
@@ -363,13 +413,17 @@ export default function App() {
                         </TableCell>
                       )}
 
-                      <TableCell align="left" sx={{ padding: '0 5px' }}>
+                      <TableCell
+                        align="left"
+                        sx={{ padding: '0 5px', minWidth: '112px' }}
+                      >
                         <IconButton
                           onClick={() => deleteUser(item.id)}
                           size="small"
                         >
                           <DeleteIcon />
                         </IconButton>
+
                         {item.id === editRow ? (
                           <IconButton onClick={save} size="small">
                             <CheckIcon />
@@ -382,6 +436,9 @@ export default function App() {
                             <EditIcon />
                           </IconButton>
                         )}
+                        <IconButton onClick={() => setEditRow(0)} size="small">
+                          <CloseIcon />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   ))}
