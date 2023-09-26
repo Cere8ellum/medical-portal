@@ -8,9 +8,9 @@ import api from '../../infrastructure/api';
 import { MyGlobalContext } from './MyGlobalContext';
 import { userStore } from '../../stores';
 import ChangePassword from '../changepassword/ChangePassword';
-import Modal from './components/Modal';
 import FormWrapper from '../adminka/components/FormWrapper';
-// import { Box, Modal, Typography } from '@mui/material';
+import { Box, Modal, Typography } from '@mui/material';
+import { Snackbar } from '../../components';
 
 function ProfileScreen() {
   const [changeOpen, setChangeOpen] = useState<boolean>(false);
@@ -70,6 +70,7 @@ function ProfileScreen() {
           >
             <ChangePassword />
           </Modal>
+          <Snackbar />
         </MyGlobalContext.Provider>
       );
     else if (idx === 2) {

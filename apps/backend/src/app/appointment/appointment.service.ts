@@ -176,7 +176,7 @@ export class AppointmentsService {
       relations: ['patient', 'doctor'],
       where: {
         doctor: { id: doctor_id },
-        status: Status.Waiting,
+        //status: Status.Waiting,
         date_start: Between(startDate, finishDate),
       },
       order: {
