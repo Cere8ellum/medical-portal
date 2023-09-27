@@ -18,7 +18,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.5",
-    "@mui/icons-material": "^5.14.0",
+    "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.0",
     "@mui/x-date-pickers": "^6.10.2",
     "@nestjs-modules/mailer": "^1.9.1",

@@ -2,6 +2,8 @@ import React, { MouseEventHandler, useEffect, useState } from 'react';
 import DoctorsFunctional from './components/DoctorForm/DoctorsFunctional';
 import NavTag from './components/nav-tag';
 import styles from './styles/adminka.module.css';
+// import AppointmentTab from './AppointmentTab';
+import UserBlock from './UserBlock';
 //import AppointmentTab from './AppointmentTab';
 import ScheduleScreen from './components/ScheduleForm/ScheduleScreen';
 import { authStore } from '../../stores';
@@ -22,16 +24,16 @@ const MessageFunctional: React.FC = () => {
   return <div>В планах реализовать позже.</div>;
 };
 
-const UsersFunctional: React.FC = () => {
-  return <div>В планах реализовать позже.</div>;
-};
+// const UsersFunctional: React.FC = () => {
+//   return <div>В планах реализовать позже.</div>;
+// };
 
 const TabList: Array<AdminkaTab> = [
   { title: 'Appointments', block: AppointmentTab },
   { title: 'Schedule', block: ScheduleScreen },
   { title: 'Doctors', block: DoctorsFunctional },
   { title: 'Messages', block: MessageFunctional },
-  { title: 'Users', block: UsersFunctional },
+  { title: 'Users', block: UserBlock },
 ];
 
 const AdminkaScreen: React.FC = () => {

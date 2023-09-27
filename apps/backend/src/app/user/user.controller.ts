@@ -36,6 +36,8 @@ export class UserController {
   ) {}
 
 
+
+  // получение данных о пользователе по id
   @Get('/:id')
   @ApiOperation({ summary: 'Получить данные о пользователе' })
   @ApiParam({
@@ -67,7 +69,7 @@ export class UserController {
   async create(@Body() createUserDto: CreateUserDto) {
     const newUser = await this.userService.create(createUserDto);
     newUser.password = '';
-    return newUser
+    return newUser;
   }
 
   // логин пользователя
@@ -173,6 +175,7 @@ export class UserController {
 
 
 
+  // выход
   @Post('logout')
   @ApiOperation({ summary: 'logout' })
   @ApiResponse({
@@ -199,37 +202,41 @@ export class UserController {
   @Get('admin/search')
   @ApiOperation({ summary: 'Поиск пациента по фио и дате рождения' })
   @ApiQuery({
-    name:'firstname',
+    name: 'firstname',
     description: 'firstname',
-    type:String
+    type: String,
   })
   @ApiQuery({
-    name:'lastname',
+    name: 'lastname',
     description: 'lastname',
-    type:String
+    type: String,
   })
   @ApiQuery({
-    name:'bday',
+    name: 'bday',
     description: 'bday',
-    type:String
+    type: String,
   })
-  @ApiResponse({ status: 200, description: 'Пациента',type: UserEntity})
-  @ApiResponse({ status: 404, description: 'Not found'})
+  @ApiResponse({ status: 200, description: 'Пациента', type: UserEntity })
+  @ApiResponse({ status: 404, description: 'Not found' })
   async findPatient(
-    @Query('firstname') firstname : string,
+    @Query('firstname') firstname: string,
     @Query('lastname') lastname: string,
     @Query('bday') bday: string,
     @Res() res: Response
   ) {
     try {
-      let _patient = await this.userService.findPatientByNameAndBday(firstname,lastname,bday);
-      if(!_patient) {
+      const _patient = await this.userService.findPatientByNameAndBday(
+        firstname,
+        lastname,
+        bday
+      );
+      if (!_patient) {
         res.status(HttpStatus.NOT_FOUND).send('Пациент не найден');
       }
       _patient.password = '';
       res.status(HttpStatus.OK).json(_patient);
     } catch (error) {
-      throw new BadRequestException(`Message: ${error}`)
+      throw new BadRequestException(`Message: ${error}`);
     }
   }
 
@@ -247,6 +254,13 @@ export class UserController {
 
 
 
+  // получить всех пользователей для админа
+  @Get('/admin/users')
+  findAll() {
+    return this.userService.findAll();
+  }
+
+  // update пользователей админом
   @Patch(':id')
   @ApiOperation({ summary: 'update user' })
   @ApiResponse({
@@ -346,7 +360,7 @@ export class UserController {
     type: String
   })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.userService.remove(+id);
   }
 }

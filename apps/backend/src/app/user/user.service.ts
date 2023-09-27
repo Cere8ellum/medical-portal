@@ -149,6 +149,14 @@ export class UserService {
       if (!_user) {
         throw new BadRequestException('User with this id doesn`t exist');
       }
+      if (_user && _user.role === Role.Doctor) {
+        const _doctor = await this.doctorServise.findByUserId(id);
+        try {
+          await this.doctorServise.delete(_doctor.id);
+        } catch(err) {
+          throw new BadRequestException(err);
+        }
+      }
       await this.userRepository.delete(id);
       return true;
     } catch (error) {

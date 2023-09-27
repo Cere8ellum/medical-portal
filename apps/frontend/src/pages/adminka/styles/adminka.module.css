@@ -25,7 +25,6 @@
   background: #3d537c;
   width: 200px;
 }
-
 .nav_tag {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -37,24 +36,21 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-family: 'Inter';
+  font-family: "Inter";
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   color: white;
   padding: 10px 0 10px 10px;
 }
-
 .nav_tag img {
   width: 32px;
   margin-right: 10px;
 }
-
 .nav .pointer {
   position: relative;
 }
-
 .nav .pointer::after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0px;
   top: 15px;
@@ -91,7 +87,6 @@
   display: flex;
   gap: 20px;
 }
-
 .doctors-btn {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -102,7 +97,6 @@
           flex-direction: column;
   gap: 15px;
 }
-
 .doctors-btn button {
   border-radius: 10px;
   background: #3d537c;
@@ -131,7 +125,6 @@
           flex-direction: row;
   gap: 20px;
 }
-
 .doctors-form-update {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -166,7 +159,6 @@
           flex-direction: column;
   gap: 10px;
 }
-
 .doctors-select {
   width: 180px;
   padding: 10px;
@@ -178,5 +170,4 @@
   background: #fff;
   -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
           box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-/*# sourceMappingURL=adminka.module.css.map */
+}/*# sourceMappingURL=adminka.module.css.map */
