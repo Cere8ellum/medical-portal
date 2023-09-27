@@ -1,3 +1,4 @@
+import { authStore } from 'apps/frontend/src/stores';
 import { Link } from 'react-router-dom';
 import styles from '../../styles/content.module.css';
 
@@ -19,12 +20,16 @@ function MainPageContent() {
             </div>
             <div className={styles['content-top-button']}>
               <div className={styles['content-top-button-wrap']}>
-                <Link className={styles['autirization-btn']} to="/login/">
-                  АВТОРИЗОВАТЬСЯ
-                </Link>
-                <button className={styles['registration-btn']}>
-                  ЗАРЕГИСТРИРОВАТЬСЯ
-                </button>
+                {!authStore.isAuthorized ? (
+                  <>
+                    <Link className={styles['autirization-btn']} to="/login">
+                      АВТОРИЗОВАТЬСЯ
+                    </Link>
+                    <Link className={styles['registration-btn']} to="/signup">
+                      ЗАРЕГИСТРИРОВАТЬСЯ
+                    </Link>
+                  </>
+                ) : null}
               </div>
               <button className={styles['entry-btn']}>
                 <Link to="/appointment/">ЗАПИСАТЬСЯ НА ПРИЕМ</Link>

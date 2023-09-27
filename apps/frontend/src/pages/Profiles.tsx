@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react';
 import { authStore } from '../stores';
 import AdminkaScreen from './adminka/AdminkaScreen';
 import ProfileScreen from './profile/ProfileScreen';
@@ -19,4 +20,4 @@ const Profiles: React.FC = () => {
   return <ProfileScreen />;
 };
 
-export default Profiles;
+export default observer(Profiles);

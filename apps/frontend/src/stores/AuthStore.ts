@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { AxiosError, AxiosResponse } from 'axios';
 import api from '../infrastructure/api';
 import { Account } from './../infrastructure/repositories/AccountRepository';
@@ -10,7 +10,7 @@ import {
 import { authService } from '../services';
 
 export default class AuthStore {
-  private isAuthorized = false;
+  public isAuthorized = false;
   private token?: string | null;
   private account?: Account | null;
   public authorizedUserLoaded = false;
@@ -89,7 +89,10 @@ export default class AuthStore {
     this.token = token;
     this.isAuthorized = true;
     this.account = await accountRepository.get();
-    this.authorizedUserLoaded = true;
+
+    runInAction((): void => {
+      this.authorizedUserLoaded = true;
+    });
   };
 
   public unAuthorizeUser = (): void => {

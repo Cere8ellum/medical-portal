@@ -96,6 +96,9 @@ p {
 }
 
 .registration-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   border: none;
   border-radius: 10px;
   background-color: #8095bd;
