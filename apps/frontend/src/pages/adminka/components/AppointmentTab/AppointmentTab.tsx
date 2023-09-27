@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import {
   Box,
   Button,
-  IconButton,
-  Modal,
   Table,
   TableBody,
   TableCell,
@@ -12,19 +10,23 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import dayjs from 'dayjs';
 import { isAxiosError } from 'axios';
 import { AppointmentStatus } from 'apps/frontend/src/utils/constants/appointment';
 import api from 'apps/frontend/src/infrastructure/api';
 import { snackbarStore } from 'apps/frontend/src/stores';
 import { ConfirmationDialog, Snackbar } from 'apps/frontend/src/components';
-import CreateAppointmentForm from './CreateAppointmentForm';
-import FormWrapper from '../FormWrapper';
+import CreateAppointmentForm from '../../../appointment/components/CreateAppointmentForm';
 import PatientInfo from './PatientInfo';
-import PatientSearchForm, { User } from './PatientSearchForm';
+import PatientSearchForm from './PatientSearchForm';
 import HeaderTableCell from './HeaderTableCell';
 import EditAppointmentForm from './EditAppointmentForm';
+import AppointmentModal from './Modal';
+import {
+  appointmentTabReducer,
+  Field,
+  FormState,
+} from '../../reducers/appointmentTabReducer';
 
 interface Opinion {
   id: number;
@@ -46,14 +48,27 @@ export interface Appointment {
   opinion: Opinion;
 }
 
+const initialState: FormState = {
+  user: null,
+  appointments: [],
+  currentAppointment: null,
+  createOpen: false,
+  editOpen: false,
+  deleteOpen: false,
+};
+
 const AppointmentTab: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [createOpen, setCreateOpen] = useState<boolean>(false);
-  const [editOpen, setEditOpen] = useState<boolean>(false);
-  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [currentAppointment, setCurrentAppointment] =
-    useState<Appointment | null>(null);
+  const [
+    {
+      user,
+      appointments,
+      currentAppointment,
+      createOpen,
+      editOpen,
+      deleteOpen,
+    },
+    dispatch,
+  ] = useReducer(appointmentTabReducer, initialState);
 
   const fetchAppointments = useCallback(async () => {
     if (!user) return;
@@ -66,7 +81,11 @@ const AppointmentTab: React.FC = () => {
       (appointment) => appointment.status === AppointmentStatus.Waiting
     );
 
-    setAppointments(actualAppointments);
+    dispatch({
+      type: 'set_data',
+      field: Field.Appointments,
+      payload: actualAppointments,
+    });
   }, [user]);
 
   useEffect(() => {
@@ -75,43 +94,74 @@ const AppointmentTab: React.FC = () => {
     }
   }, [user, fetchAppointments]);
 
-  if (!user) {
-    return (
-      <>
-        <PatientSearchForm onSubmit={(user) => setUser(user)} />
-        <Snackbar />
-      </>
-    );
-  }
+  const handleOpenCreate = () => {
+    dispatch({
+      type: 'open_modal',
+      field: Field.Create,
+    });
+  };
 
   const handleCloseCreate = () => {
-    setCreateOpen(false);
+    dispatch({
+      type: 'close_modal',
+      field: Field.Create,
+    });
   };
 
-  const handleOpenEdit = (id: number) => {
-    const currentAppointment = appointments.find(
-      (appointment) => appointment.id === id
-    );
+  const handleOpenEdit = useCallback(
+    (id: number) => {
+      const currentAppointment = appointments.find(
+        (appointment) => appointment.id === id
+      );
 
-    if (currentAppointment) {
-      setCurrentAppointment(currentAppointment);
-      setEditOpen(true);
-    }
-  };
+      if (currentAppointment) {
+        dispatch({
+          type: 'set_data',
+          field: Field.CurrentAppointment,
+          payload: currentAppointment,
+        });
+        dispatch({
+          type: 'open_modal',
+          field: Field.Edit,
+        });
+      }
+    },
+    [appointments]
+  );
 
   const handleCloseEdit = () => {
-    setEditOpen(false);
+    dispatch({
+      type: 'close_modal',
+      field: Field.Edit,
+    });
   };
 
-  const handleOpenDelete = (id: number) => {
-    const currentAppointment = appointments.find(
-      (appointment) => appointment.id === id
-    );
+  const handleOpenDelete = useCallback(
+    (id: number) => {
+      const currentAppointment = appointments.find(
+        (appointment) => appointment.id === id
+      );
 
-    if (currentAppointment) {
-      setCurrentAppointment(currentAppointment);
-      setDeleteOpen(true);
-    }
+      if (currentAppointment) {
+        dispatch({
+          type: 'set_data',
+          field: Field.CurrentAppointment,
+          payload: currentAppointment,
+        });
+        dispatch({
+          type: 'open_modal',
+          field: Field.Delete,
+        });
+      }
+    },
+    [appointments]
+  );
+
+  const handleCloseDelete = () => {
+    dispatch({
+      type: 'close_modal',
+      field: Field.Delete,
+    });
   };
 
   const handleAppointmentDelete = async () => {
@@ -121,7 +171,7 @@ const AppointmentTab: React.FC = () => {
       await api.patch(`appointments/update/${currentAppointment.id}`, {
         status: 'Cancelled',
       });
-      setDeleteOpen(false);
+      handleCloseDelete();
       snackbarStore.setContent({
         severity: 'success',
         message: 'Запись успешно отменена',
@@ -145,9 +195,22 @@ const AppointmentTab: React.FC = () => {
     }
   };
 
-  const handleCloseDelete = () => {
-    setDeleteOpen(false);
-  };
+  if (!user) {
+    return (
+      <>
+        <PatientSearchForm
+          onSubmit={(user) =>
+            dispatch({
+              type: 'set_data',
+              field: Field.User,
+              payload: user,
+            })
+          }
+        />
+        <Snackbar />
+      </>
+    );
+  }
 
   return (
     <Box
@@ -158,100 +221,54 @@ const AppointmentTab: React.FC = () => {
         rowGap: '40px',
       }}
     >
-      <PatientInfo user={user} hide={() => setUser(null)} />
+      <PatientInfo
+        user={user}
+        hide={() =>
+          dispatch({
+            type: 'set_data',
+            field: Field.User,
+            payload: null,
+          })
+        }
+      />
       <Button
         type="button"
         color="primary"
         variant="contained"
         sx={{ width: '350px', height: '50px' }}
-        onClick={() => setCreateOpen(true)}
+        onClick={handleOpenCreate}
       >
         Создать новую запись на прием
       </Button>
-      <Modal
+      <AppointmentModal
         open={createOpen}
+        title="Создание новой записи"
         onClose={handleCloseCreate}
-        slotProps={{
-          backdrop: {
-            sx: {
-              backgroundColor: 'rgba(255, 255, 255, 0.80)',
-              backdropFilter: 'blur(3px)',
-            },
-          },
-        }}
       >
-        <FormWrapper>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Typography variant="h5">Создание новой записи</Typography>
-            <IconButton onClick={handleCloseCreate}>
-              <CloseIcon
-                sx={{
-                  width: '20px',
-                  height: '20px',
-                }}
-              />
-            </IconButton>
-          </Box>
-          <CreateAppointmentForm
-            userId={user.id}
-            isEdit={false}
-            onSuccess={() => {
-              handleCloseCreate();
-              fetchAppointments();
-            }}
-          />
-        </FormWrapper>
-      </Modal>
-      <Modal
+        <CreateAppointmentForm
+          userId={user.id}
+          onSuccess={() => {
+            handleCloseCreate();
+            fetchAppointments();
+          }}
+        />
+      </AppointmentModal>
+      <AppointmentModal
         open={editOpen}
+        title="Редактирование записи"
         onClose={handleCloseEdit}
-        slotProps={{
-          backdrop: {
-            sx: {
-              backgroundColor: 'rgba(255, 255, 255, 0.80)',
-              backdropFilter: 'blur(3px)',
-            },
-          },
-        }}
       >
-        <FormWrapper>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Typography variant="h5">Редактирование записи</Typography>
-            <IconButton onClick={handleCloseEdit}>
-              <CloseIcon
-                sx={{
-                  width: '20px',
-                  height: '20px',
-                }}
-              />
-            </IconButton>
-          </Box>
-          {currentAppointment ? (
-            <EditAppointmentForm
-              appointment={currentAppointment}
-              onSuccess={() => {
-                handleCloseEdit();
-                fetchAppointments();
-              }}
-            />
-          ) : null}
-        </FormWrapper>
-      </Modal>
+        <EditAppointmentForm
+          appointment={currentAppointment!}
+          onSuccess={() => {
+            handleCloseEdit();
+            fetchAppointments();
+          }}
+        />
+      </AppointmentModal>
       <ConfirmationDialog
-        message="Вы действительно хотите отменить запись?"
         open={deleteOpen}
+        message="Вы действительно хотите отменить запись?"
         onConfirm={handleAppointmentDelete}
         onClose={handleCloseDelete}
       />

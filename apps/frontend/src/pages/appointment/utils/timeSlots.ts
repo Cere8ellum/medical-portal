@@ -1,7 +1,7 @@
 import { Option, TimeInterval } from 'apps/frontend/src/types';
 import dayjs, { Dayjs } from 'dayjs';
 
-export const getTimeInterval = (date: Dayjs): TimeInterval => {
+const getTimeInterval = (date: Dayjs): TimeInterval => {
   let startTime = dayjs().startOf('minute');
   const endTime = dayjs().set('hour', 20).startOf('hour');
   const isToday = dayjs().isSame(date, 'day');
@@ -21,10 +21,10 @@ export const getTimeInterval = (date: Dayjs): TimeInterval => {
   return { startTime, endTime };
 };
 
-export const createTimeSlotOptions = ({
-  startTime,
-  endTime,
-}: TimeInterval): Option[] => {
+export const createTimeSlotOptions = (date: Dayjs): Option[] => {
+  const interval = getTimeInterval(date);
+  let { startTime } = interval;
+  const { endTime } = interval;
   const timeSlotsOptions = [];
   let index = 0;
 

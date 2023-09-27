@@ -11,17 +11,23 @@ import {
   yupToFormErrors,
 } from 'formik';
 import { isAxiosError } from 'axios';
+import { Absence, Option } from 'apps/frontend/src/types';
 import api from '../../../infrastructure/api';
 import { snackbarStore } from '../../../stores';
-import { Form, Snackbar } from '../../../components';
-import { Field, formReducer, FormState, Status } from '../reducers/formReducer';
+import { Autocomplete, Form, Snackbar } from '../../../components';
+import {
+  appointmentFormReducer,
+  Field,
+  FormState,
+} from '../reducers/appointmentFormReducer';
 import appointmentSchema from '../schemas/appointmentSchema';
-import WrappedAutoComplete from './Autocomplete';
+import { createTimeSlotOptions } from '../utils/timeSlots';
+import { FormStatus } from 'apps/frontend/src/utils/constants/form';
 
-export type Option = {
-  value: string;
-  label: string;
-};
+interface Props {
+  userId?: number;
+  onSuccess?: () => void;
+}
 
 interface User {
   firstname: string;
@@ -33,18 +39,12 @@ interface Doctor {
   user: User;
 }
 
-interface Absence {
-  id: number;
-  doctor_id: number;
-  date: Date;
-}
-
 const initialState: FormState = {
   specialities: [],
   doctors: [],
   absences: [],
   timeSlots: [],
-  status: Status.Idle,
+  status: FormStatus.Idle,
 };
 
 interface FormikValues {
@@ -61,44 +61,11 @@ const initialValues: FormikValues = {
   appointmentTime: null,
 };
 
-const createTimeSlotsOptions = (startTime: Dayjs, endTime: Dayjs): Option[] => {
-  const timeSlotsOptions = [];
-  let index = 0;
-
-  while (endTime.diff(startTime, 'minute') >= 30) {
-    timeSlotsOptions.push({
-      value: `${index++}`,
-      label: startTime.format('HH:mm'),
-    });
-
-    startTime = startTime.add(30, 'minute');
-  }
-
-  return timeSlotsOptions;
-};
-
-const getTimeSlotsOptions = (date: Dayjs): Option[] => {
-  let startTime = dayjs().startOf('minute');
-  const endTime = dayjs().set('hour', 20).startOf('hour');
-  const isToday = dayjs().isSame(date, 'day');
-
-  if ((isToday && startTime.hour() < 8) || !isToday) {
-    startTime = startTime.set('hour', 8).startOf('hour');
-
-    return createTimeSlotsOptions(startTime, endTime);
-  }
-
-  if (startTime.minute() >= 30) {
-    startTime = startTime.add(1, 'hour').set('minute', 0);
-  } else {
-    startTime = startTime.set('minute', 30);
-  }
-
-  return createTimeSlotsOptions(startTime, endTime);
-};
-
-const AppointmentForm = () => {
-  const [state, dispatch] = useReducer(formReducer, initialState);
+const CreateAppointmentForm: React.FC<Props> = ({ userId, onSuccess }) => {
+  const [state, dispatch] = useReducer(
+    appointmentFormReducer<FormState>,
+    initialState
+  );
   const formikRef = useRef<FormikProps<FormikValues>>(null);
   const dateRef = useRef<Dayjs | null>(null);
 
@@ -217,7 +184,7 @@ const AppointmentForm = () => {
         `appointments/booked/doctor/${doctorId}?date=${date}`
       );
 
-      const timeSlotsOptions = getTimeSlotsOptions(dayjs(date));
+      const timeSlotsOptions = createTimeSlotOptions(dayjs(date));
 
       const freeTimeSlotsOptions = timeSlotsOptions.filter((option) => {
         const isBooked = bookedTimeSlots.some((slot) => slot === option.label);
@@ -254,7 +221,7 @@ const AppointmentForm = () => {
 
   const handleSubmit = async (
     { doctor, appointmentDate, appointmentTime }: FormikValues,
-    { resetForm, setSubmitting, setFieldError }: FormikHelpers<FormikValues>
+    { resetForm, setSubmitting }: FormikHelpers<FormikValues>
   ) => {
     try {
       setSubmitting(true);
@@ -268,9 +235,12 @@ const AppointmentForm = () => {
       await api.post(`appointments/create`, {
         doctor_id: doctor!.value,
         date_start: date,
+        ...(userId && { patient_id: String(userId) }),
       });
 
       resetForm();
+
+      if (typeof onSuccess === 'function') onSuccess();
 
       snackbarStore.setContent({
         severity: 'success',
@@ -279,13 +249,13 @@ const AppointmentForm = () => {
       });
 
       snackbarStore.handleOpen();
-    } catch (err) {
+    } catch (error) {
       if (
-        isAxiosError(err) &&
-        err.response !== null &&
-        err.response !== undefined
+        isAxiosError(error) &&
+        error.response !== null &&
+        error.response !== undefined
       ) {
-        const { message } = err.response.data;
+        const { message } = error.response.data;
 
         if (Array.isArray(message)) {
           snackbarStore.setContent({
@@ -306,7 +276,7 @@ const AppointmentForm = () => {
           snackbarStore.handleOpen();
         }
       } else {
-        console.error(err);
+        console.error(error);
       }
     } finally {
       setSubmitting(false);
@@ -326,8 +296,8 @@ const AppointmentForm = () => {
             validateYupSchema<FormikValues>(values, validationSchema, true, {
               absences: state.absences,
             });
-          } catch (err) {
-            return yupToFormErrors(err);
+          } catch (error) {
+            return yupToFormErrors(error);
           }
 
           return {};
@@ -357,7 +327,7 @@ const AppointmentForm = () => {
             }}
             onSubmit={handleSubmit}
           >
-            <WrappedAutoComplete
+            <Autocomplete
               id="speciality-select"
               name="speciality"
               label="Специальность"
@@ -366,7 +336,8 @@ const AppointmentForm = () => {
               error={touched.speciality && Boolean(errors.speciality)}
               helperText={touched.speciality && errors.speciality}
               disabled={
-                state.status === Status.Loading || state.status === Status.Error
+                state.status === FormStatus.Loading ||
+                state.status === FormStatus.Error
               }
               onChange={(event: SyntheticEvent, speciality) => {
                 resetForm();
@@ -378,7 +349,7 @@ const AppointmentForm = () => {
               }}
               onBlur={handleBlur}
             />
-            <WrappedAutoComplete
+            <Autocomplete
               id="doctor-select"
               name="doctor"
               label="Врач"
@@ -387,8 +358,8 @@ const AppointmentForm = () => {
               error={touched.doctor && Boolean(errors.doctor)}
               helperText={touched.doctor && errors.doctor}
               disabled={
-                state.status === Status.Loading ||
-                state.status === Status.Error ||
+                state.status === FormStatus.Loading ||
+                state.status === FormStatus.Error ||
                 !speciality
               }
               onChange={(event: SyntheticEvent, option) => {
@@ -412,8 +383,8 @@ const AppointmentForm = () => {
               label="Выберите день записи"
               value={appointmentDate}
               disabled={
-                state.status === Status.Loading ||
-                state.status === Status.Error ||
+                state.status === FormStatus.Loading ||
+                state.status === FormStatus.Error ||
                 !speciality ||
                 !doctor
               }
@@ -490,7 +461,7 @@ const AppointmentForm = () => {
                 },
               }}
             />
-            <WrappedAutoComplete
+            <Autocomplete
               id="appointmentTime"
               name="appointmentTime"
               label="Время записи"
@@ -499,8 +470,8 @@ const AppointmentForm = () => {
               error={touched.appointmentTime && Boolean(errors.appointmentTime)}
               helperText={touched.appointmentTime && errors.appointmentTime}
               disabled={
-                state.status === Status.Loading ||
-                state.status === Status.Error ||
+                state.status === FormStatus.Loading ||
+                state.status === FormStatus.Error ||
                 !speciality ||
                 !doctor ||
                 !appointmentDate ||
@@ -539,4 +510,4 @@ const AppointmentForm = () => {
   );
 };
 
-export default AppointmentForm;
+export default CreateAppointmentForm;
