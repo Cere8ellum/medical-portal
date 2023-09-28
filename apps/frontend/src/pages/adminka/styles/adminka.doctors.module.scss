@@ -1,0 +1,200 @@
+.content-nav-item {
+  width: 260px;
+  height: 74px;
+  background: #8095bd;
+  border: 5px solid #8095bd;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.persdata-btn {
+  width: 245px;
+  padding: 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: #3d537c;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-top: 15px;
+  align-self: center;
+  cursor: pointer;
+
+  &:hover {
+    //border: 3px solid #c3c5c8;
+    background-color: #182947e8;
+  }
+}
+
+.btn-wrap {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.persdata-field {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  position: relative;
+}
+
+.persdata-info {
+  width: 500px;
+  height: 133px;
+  border-radius: 10px;
+  border: 3px solid #3d537c;
+  font-size: 16px;
+  padding: 7px;
+  color: #3d537c;
+  overflow-y: scroll;
+}
+
+.persdata-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3d537c;
+}
+.сategory,
+.age {
+  margin-bottom: 25px;
+}
+
+.persdata-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  & input {
+    width: 245px;
+    height: 43px;
+    border-radius: 10px;
+    border: 3px solid #3d537c;
+    padding: 7px;
+    font-size: 16px;
+    color: #3d537c;
+  }
+}
+
+/*форма для заполнений*/
+
+.persdata-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.persdata-field-select {
+  width: 245px;
+  border-radius: 10px;
+  border: 3px solid #7183a5;
+  padding: 7px;
+  font-size: 16px;
+  color: #3d537c;
+  margin: 2px;
+}
+
+.persdata-double {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  & input {
+    width: 500px;
+    height: 43px;
+    border-radius: 10px;
+    border: 3px solid #3d537c;
+    padding: 7px;
+    font-size: 16px;
+    color: #3d537c;
+    box-sizing: border-box;
+  }
+}
+
+.persdata-update {
+  display: none;
+}
+
+.persdata-photo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  & img {
+    object-fit: cover;
+    width: 80px;
+  }
+
+  &-note {
+    text-align: center;
+    & p {
+      font-size: 20px;
+    }
+
+    & img {
+      height: 50px;
+    }
+  }
+}
+
+.persdata-field-info {
+  width: 420px;
+  border-radius: 10px;
+  border: 3px solid #3d537c;
+  padding: 25px;
+}
+
+.persdata-field-click {
+  width: 16px;
+  height: 16px;
+  margin-right: 15px;
+  border: none;
+  padding: 4.5px;
+  border-radius: 100%;
+}
+
+.error {
+  color: red;
+
+  & input,
+  & textarea,
+  & select {
+    border-color: red;
+  }
+
+  &-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &-email {
+    color: red;
+    position: absolute;
+    top: 54px;
+    font-size: 11px;
+    left: 29px;
+    background-color: white;
+    width: 200px;
+    text-align: center;
+  }
+  &-password {
+    color: red;
+    position: absolute;
+    top: 54px;
+    font-size: 11px;
+    background-color: white;
+    right: 45px;
+    width: 200px;
+    text-align: center;
+  }
+}
+
+.persdata-form-note {
+  color: #3d537c;
+  font-size: 14px;
+  margin-bottom: 20px;
+}

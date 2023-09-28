@@ -1,0 +1,332 @@
+.doctors {
+  margin-top: 108px;
+  margin-bottom: 108px;
+
+  &_title {
+    color: #3d537c;
+    font-family: Inter;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 44px;
+    padding-left: 205px;
+    height: 55px;
+  }
+
+  &_search {
+    height: 68px;
+    background-color: #3d537c;
+    display: flex;
+    flex-direction: row;
+    gap: 9px;
+    justify-content: flex-start;
+    padding-left: 200px;
+    align-items: center;
+    position: relative;
+  }
+
+  &_card {
+    margin-top: 106px;
+    display: flex;
+    gap: 107px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media (max-width: 1020px) and (min-width: 730px) {
+    & {
+      margin-top: 86px;
+      margin-bottom: 86px;
+    }
+
+    &_card {
+      margin-top: 70px;
+      gap: 65px;
+    }
+
+    &_search {
+      justify-content: center;
+      padding-left: 0px;
+    }
+
+    &_title {
+      text-align: center;
+      padding: 0 0 25px 0;
+    }
+  }
+
+  @media (max-width: 730px) {
+    & {
+      margin-top: 70px;
+      margin-bottom: 58px;
+    }
+
+    &_card {
+      margin-top: 37px;
+      gap: 37px;
+    }
+
+    &_search {
+      justify-content: center;
+      padding-left: 0px;
+    }
+
+    &_title {
+      text-align: center;
+      padding: 0 0 25px 0;
+    }
+  }
+}
+
+.card {
+  width: 1020px;
+  height: 294px;
+  display: flex;
+  flex-direction: row;
+  padding: 15px;
+  gap: 25px;
+  border-radius: 10px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+
+  &_photo {
+    width: 260px;
+    height: 260px;
+  }
+
+  &_info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  @media (max-width: 1020px) and (min-width: 730px) {
+    & {
+      width: 730px;
+      height: 405px;
+      display: block;
+      position: relative;
+      padding: 50px 11px 50px 25px;
+    }
+
+    &_photo {
+      position: absolute;
+      right: 25px;
+      top: 10px;
+    }
+
+    &_info {
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 730px) {
+    & {
+      width: 310px;
+      height: 565px;
+      display: flex;
+      flex-direction: column;
+      gap: 29px;
+      padding: 20px;
+    }
+
+    &_info {
+      gap: 10px;
+    }
+  }
+}
+
+.photo {
+  width: 260px;
+  height: 260px;
+  object-fit: cover;
+  object-position: 0 -10px;
+}
+
+.filter {
+  display: flex;
+  gap: 50px;
+
+  &_title {
+    color: #fff;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    height: 30px;
+  }
+
+  &_speciality {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    &_title {
+      color: #fff;
+      font-family: Inter;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 300;
+      height: 30px;
+    }
+
+    &_open {
+      display: block;
+      color: #fff;
+      width: 17px;
+      height: 23px;
+      align-self: flex-end;
+
+      &_active {
+        display: none;
+      }
+    }
+
+    @media (max-width: 730px) {
+      &_title {
+        font-size: 16px;
+      }
+      &_open {
+        color: #fff;
+        background-size: 70%;
+        background-position-y: 12px;
+      }
+    }
+  }
+}
+
+.info {
+  &_name {
+    color: #000;
+    font-family: Inter;
+    font-size: 24px;
+  }
+
+  &_year {
+    color: #858585;
+    font-family: Inter;
+    font-size: 16px;
+  }
+
+  &_title {
+    color: #858585;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  &_about {
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  &_study {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    height: 40px;
+    overflow-y: scroll;
+  }
+
+  @media (max-width: 1020px) and (min-width: 730px) {
+    &_name {
+      font-size: 36px;
+    }
+  }
+
+  @media (max-width: 730px) {
+    &_name {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    &_about,
+    &_year {
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 300;
+    }
+
+    &_year {
+      text-align: center;
+    }
+
+    &_title {
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 300;
+    }
+  }
+}
+
+.speciality {
+  position: absolute;
+  top: 68px;
+  width: 375px;
+  flex-direction: column;
+  height: 140px;
+  padding: 20px;
+  padding-bottom: 0px;
+  border-bottom: 3px solid #3d537c;
+  background: #fff;
+  box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.25);
+  display: none;
+
+  &_active {
+    display: flex;
+  }
+  &_list {
+    z-index: 2;
+    cursor: pointer;
+    overflow-y: scroll;
+  }
+
+  &_item {
+    cursor: pointer;
+    text-decoration: none;
+    color: rgba(70, 70, 70, 0.45);
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+
+    &:hover {
+      background: #3d537c;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    &_check {
+      display: none;
+      height: 19px;
+    }
+  }
+
+  &_chevron_up {
+    width: 25px;
+    display: block;
+    align-self: end;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
+.active {
+  color: white;
+  background-color: #95c2e9;
+  font-size: 16px;
+  & img {
+    display: inline;
+    float: left;
+  }
+}

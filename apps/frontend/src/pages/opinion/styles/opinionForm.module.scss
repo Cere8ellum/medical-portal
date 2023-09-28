@@ -1,0 +1,207 @@
+.consultative-report {
+  border: 1px solid black;
+  max-width: 954px;
+  height: auto;
+  margin: auto;
+  margin-top: 100px;
+  padding: 50px;
+}
+
+.close {
+  width: 40px;
+  float: right;
+  cursor: pointer;
+}
+
+.header {
+  padding: 20px 90px 0 90px;
+
+  &-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    &-medical {
+      margin: 0 5px 0 0;
+      font-family: 'Inter';
+      font-weight: 700;
+      color: #8095bd;
+      font-size: 32px;
+    }
+
+    &-online {
+      background-color: #8095bd;
+      color: #ffffff;
+      border-radius: 9px;
+      padding: 0 10px 0 10px;
+      font-family: 'Inter';
+      font-weight: 700;
+      font-size: 32px;
+    }
+  }
+}
+
+.consult-title {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.consult-date-list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.consult-date-item {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.consult-date-input,
+.consult-time-input,
+.patient-name-input,
+.patient-birthday-input,
+.patient-survey-input,
+.patient-diagnosis-input,
+.patient-therapy-input {
+  border: 3px solid #8095bd;
+  border-radius: 10px;
+  margin: 5px 0;
+  color: #8095bd;
+}
+
+.consult-date-input,
+.consult-time-input {
+  display: block;
+  width: 185px;
+  height: 33px;
+  text-align: center;
+  padding-top: 5px;
+  color: black;
+}
+
+.content {
+  padding: 0 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.patient-list {
+  list-style-type: none;
+  width: 99%;
+}
+
+.patient-item {
+  padding: 10px 0;
+  &-birthday {
+    display: flex;
+    gap: 20px;
+  }
+}
+
+.patient-name-input {
+  display: flex;
+  width: 100%;
+  height: 33px;
+  font-size: 15px;
+  padding: 3px;
+}
+
+.patient-birthday-input {
+  width: 185px;
+  height: 33px;
+  padding-top: 5px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.patient-survey-input,
+.patient-diagnosis-input,
+.patient-therapy-input {
+  width: 100%;
+  height: 90px;
+  padding: 5px;
+}
+
+.report-btn {
+  display: flex;
+  gap: 30px;
+  align-self: flex-end;
+
+  &-print,
+  &-save {
+    width: 217px;
+    height: 58px;
+    background-color: #3d537c;
+    border-radius: 10px;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    //align-self: flex-end;
+  }
+
+  // &-print {
+  //   display: none;
+  // }
+}
+
+.error_text {
+  color: red;
+  align-self: flex-start;
+  display: none;
+}
+.error {
+  border-color: red;
+}
+@media (max-width: 970px) {
+  .consultative-report {
+    width: 80%;
+    margin-top: 65px;
+  }
+
+  .header {
+    padding: 20px 70px 0 70px;
+  }
+
+  .content {
+    padding: 0 70px;
+  }
+}
+
+@media (max-width: 750px) {
+  .consultative-report {
+    width: 90%;
+    margin-top: 30px;
+  }
+
+  .header {
+    padding: 10px 50px 0 50px;
+  }
+
+  .content {
+    padding: 0 50px;
+  }
+}
+
+@media (max-width: 560px) {
+  .consult-date-list {
+    text-align: center;
+  }
+
+  .report-btn-save {
+    align-self: center;
+  }
+}
+
+@media (max-width: 390px) {
+  .header {
+    padding: 10px 10px 0 10px;
+  }
+
+  .content {
+    padding: 0 10px;
+  }
+}

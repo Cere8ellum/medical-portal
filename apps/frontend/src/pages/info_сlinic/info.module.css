@@ -1,0 +1,562 @@
+h1 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095BD;
+  font-size: 42px;
+}
+
+h2 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095BD;
+  font-size: 40px;
+}
+
+h3 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095BD;
+  font-size: 24px;
+}
+
+h4 {
+  font-family: 'Inter';
+  font-weight: 600;
+  color: #8095BD;
+  font-size: 24px;
+}
+
+p {
+  font-family: Inter;
+  font-weight: 600;
+  color: #8095BD;
+  font-size: 20px;
+}
+
+.about_clinic {}
+
+.header {}
+
+.header-wrap {
+  width: 85%;
+  margin: 60px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-title,
+.content-title {
+  margin: 0 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header-title-medical,
+.content-title-medical {
+  margin: 0 5px 0 0;
+}
+
+.header-title-online,
+.content-title-online {
+  background-color: #8095BD;
+  color: #FFFFFF;
+  width: 160px;
+  border-radius: 9px;
+  padding: 0 0 0 10px;
+}
+
+.header-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header-nav-item {
+  margin: 0 12px;
+}
+
+.header-nav-link {
+  text-decoration: none;
+  color: #3D537C;
+  font-weight: 200;
+  font-size: 20px;
+}
+
+.header-rectangle {
+  height: 14px;
+  background-color: #3D537C;
+}
+
+.content {}
+
+.content-title {
+  width: 85%;
+  margin: 50px auto;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.content-title-med {
+  margin-right: 10px;
+  font-weight: 400;
+}
+
+.content-title-medical-online {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.content-title-medical {}
+
+.content-title-online {}
+
+.content-cards {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.content-card-list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.content-card-item {
+  width: 28%;
+  height: 260px;
+  border: 1px solid #8095BD;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content-card-text {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.content-card-img {
+  width: 90%;
+  margin-bottom: 15px;
+}
+
+.content-equipment {
+  width: 85%;
+  margin: 0 auto;
+  margin-top: 100px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-equipment-wrap {}
+
+.content-equipment-title {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.content-equipment-list {
+  width: 80%;
+  counter-reset: counter;
+}
+
+.content-equipment-item {
+  list-style: none;
+  font-weight: 600;
+  font-size: 20px;
+  color: #8095BD;
+  margin-bottom: 5px;
+}
+
+.content-equipment-item::before {
+  counter-increment: counter;
+  content: counter(counter);
+  display: inline-block;
+  font-weight: 600;
+  font-size: 20px;
+  color: #8095BD;
+  margin-right: 5px;
+}
+
+.content-equipment-img {
+  align-self: center;
+  width: 40%;
+}
+
+.content-directions {
+  background-color: #8095BD;
+}
+
+.content-directions-wrap {
+  width: 85%;
+  margin: 0 auto;
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-directions-title {
+  color: #FFFFFF;
+  align-self: center;
+  margin: 40px 0;
+  text-align: center;
+}
+
+.content-directions-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 400px;
+}
+
+.content-directions-list-wrap {
+  width: 33%;
+}
+
+.content-directions-item {
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 24px;
+  margin: 10px;
+}
+
+.content-research {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 100px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-research-img {
+  align-self: center;
+  width: 45%;
+}
+
+.content-research-container {
+  width: 50%;
+}
+
+.content-research-title {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.content-research-list {
+  counter-reset: counter;
+}
+
+.content-research-item {
+  list-style: none;
+  font-weight: 600;
+  font-size: 20px;
+  color: #8095BD;
+}
+
+.content-research-item::before {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 20px;
+  color: #8095BD;
+  margin-right: 5px;
+}
+
+.content-research-text {}
+
+.content-gallery {
+  width: 85%;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+.content-gallery-list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.content-gallery-item {
+  width: 30%;
+}
+
+.content-gallery-img {
+  margin: 10px;
+  width: 100%;
+}
+
+.content-license {
+  width: 85%;
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-license-title {
+  margin-bottom: 70px;
+}
+
+.content-license-wrap {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.content-license-img {
+  width: 24%;
+}
+
+.footer {
+  margin: 0 auto;
+  height: 155px;
+  background-color: #3D537C;
+  padding-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-wrap {
+  width: 85%;
+  padding: 25px 0 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-name-medical {
+  margin: 0 5px 0 0;
+}
+
+.footer-name-wrap {
+  display: flex;
+}
+
+.footer-name-wrap {
+  padding: 0 0 25px 0;
+
+}
+
+.footer-name-online {
+  background-color: #8095BD;
+  color: #FFFFFF;
+  width: 160px;
+  border-radius: 9px;
+  padding: 0 0 0 10px;
+}
+
+.footer-copy-wrap {
+  display: flex;
+}
+
+.footer-copy-icon,
+.footer-copy-year,
+.footer-copy-name {
+  color: #FFFFFF;
+  padding: 0 5px 0 0;
+  font-weight: 200;
+  font-size: 14px;
+}
+
+.footer-contact {
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.subscribe-btn {
+  width: 256px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  color: #3D537C;
+  margin: 15px;
+}
+
+.mail-btn {
+  width: 256px;
+  height: 30px;
+  border: 4px solid #FFFFFF;
+  border-radius: 10px;
+  background-color: #3D537C;
+  color: #FFFFFF;
+  margin: 15px;
+}
+
+@media (max-width: 1004px) {
+  .content-directions-list-wrap {
+      width: 49%;
+  }
+
+  .content-directions-list {
+      height: 650px;
+  }
+
+  .content-card-item {
+      height: 260px;
+      width: 30%;
+  }
+
+  .content-equipment,
+  .content-research,
+  .content-gallery-list,
+  .content-license {
+      margin-top: 70px;
+  }
+
+  .content-license-title {
+      margin-bottom: 50px;
+  }
+
+  .content-directions-title {
+      margin: 50px 0;
+  }
+
+  .footer-contact {
+      flex-direction: column;
+  }
+}
+
+@media (max-width: 834px) {
+  .header-nav {
+      display: none;
+  }
+
+  .content-equipment-img,
+  .content-research-img {
+      display: none;
+  }
+
+  .content-card-item {
+      height: 240px;
+      width: 33%;
+  }
+
+  .content-equipment-list {
+      margin-left: 70px;
+  }
+
+  .content-research-container {
+      width: 90%;
+  }
+
+  .content-research-list {
+      margin-left: 70px;
+  }
+
+  .content-equipment,
+  .content-research,
+  .content-gallery,
+  .content-license {
+      margin-top: 50px;
+  }
+
+  .content-license-title {
+      margin-bottom: 30px;
+  }
+
+  .content-directions-title {
+      margin: 30px 0;
+  }
+
+  .content-gallery-item {
+      width: 48%;
+  }
+
+  .content-gallery-item:nth-last-child(-n+3) {
+      display: none;
+  }
+
+  .content-license-wrap {
+      flex-wrap: wrap;
+  }
+
+  .content-license-img {
+      width: 48%;
+  }
+}
+
+@media (max-width: 658px) {
+  h2 {
+      font-size: 34px;
+  }
+
+  h3,
+  h4 {
+      font-size: 22px;
+  }
+
+  p {
+      font-size: 16px;
+  }
+
+  .content-equipment-item,
+  .content-directions-item,
+  .content-research-item,
+  .content-equipment-item::before,
+  .content-research-item::before {
+      font-size: 16px;
+  }
+
+  .content-title-med {
+      text-align: center;
+  }
+
+  .content-directions-list {
+      height: 550px;
+      flex-wrap: nowrap;
+  }
+
+  .content-card-list {
+      justify-content: center;
+  }
+
+  .content-card-item {
+      width: 50%;
+      height: 80px;
+  }
+
+  .content-directions-item {
+      margin: 0;
+  }
+
+  .content-card-img {
+      display: none;
+  }
+
+  .footer-contact {
+      display: none;
+  }
+}
+
+@media (max-width: 390px) {
+  h2 {
+      font-size: 32px;
+  }
+
+  h3,
+  h4 {
+      font-size: 20px;
+  }
+
+  .content-directions-list {
+      height: 700px;
+  }
+
+  .content-gallery-item {
+      width: 80%;
+  }
+
+  .content-gallery-item:nth-last-child(-n+6) {
+      display: none;
+  }
+}

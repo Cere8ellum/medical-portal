@@ -1,0 +1,137 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  min-height: 500px;
+  max-width: 1340px;
+  margin: 100px auto;
+  border-radius: 0 65px 65px 0;
+  border: 5px solid #3d537c;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  background: #3d537c;
+  width: 200px;
+
+  &_tag {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: 'Inter';
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    color: white;
+    padding: 10px 0 10px 10px;
+
+    & img {
+      width: 32px;
+      margin-right: 10px;
+    }
+  }
+
+  .pointer {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0px;
+      top: 15px;
+      border: 10px solid transparent;
+      border-right: 20px solid white;
+    }
+  }
+
+  .logout {
+    width: 35px;
+    height: auto;
+    display: block;
+    margin: 15px 5px;
+  }
+}
+
+.functional {
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.doctors {
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+
+  &-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    & button {
+      border-radius: 10px;
+      background: #3d537c;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      color: white;
+      padding: 20px 15px;
+      width: 240px;
+      font-size: 14px;
+
+      &:hover {
+        border: 3px solid #c3c5c8;
+        background-color: #a6a8ac;
+      }
+    }
+  }
+
+  &-form {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    &-update {
+      display: flex;
+      gap: 20px;
+      padding: 10px;
+    }
+
+    &-back {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      left: -50px;
+      cursor: pointer;
+
+      &:hover {
+        height: 35px;
+        width: 35px;
+      }
+    }
+  }
+
+  &-speciality {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &-select {
+    width: 180px;
+    padding: 10px;
+    color: #3d537c;
+    font-family: Inter;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 3px solid #3d537c;
+    background: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  }
+}

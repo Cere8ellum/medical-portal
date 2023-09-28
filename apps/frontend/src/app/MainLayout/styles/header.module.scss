@@ -1,0 +1,95 @@
+h1 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095bd;
+  font-size: 42px;
+}
+
+h2 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095bd;
+  font-size: 40px;
+}
+
+h3 {
+  font-family: 'Inter';
+  font-weight: 700;
+  color: #8095bd;
+  font-size: 24px;
+}
+
+p {
+  font-family: Inter;
+  font-weight: 300;
+  color: #3d537c;
+  font-size: 12px;
+}
+
+.header {
+  margin: 2em 0;
+}
+
+.header-wrap {
+  max-width: 1345px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 0 10px 0;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+.header-title-medical {
+  margin: 0 5px 0 0;
+}
+
+.header-title-online {
+  background-color: #8095bd;
+  color: #ffffff;
+  width: 160px;
+  border-radius: 9px;
+  padding: 0 0 0 10px;
+}
+
+.header-nav {
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+
+  &-profile {
+    display: flex;
+    align-self: flex-end;
+    padding-right: 20px;
+    align-items: center;
+  }
+}
+
+.header-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header-nav-item {
+  margin: 0 12px;
+}
+
+.header-nav-link {
+  text-decoration: none;
+  color: #0a1c3e;
+}
+
+.header-rectangle {
+  height: 14px;
+  background-color: #3d537c;
+}

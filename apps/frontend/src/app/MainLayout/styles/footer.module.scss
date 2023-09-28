@@ -1,0 +1,101 @@
+.footer {
+  background-color: #3d537c;
+  height: 155px;
+}
+
+.footer-wrap {
+  max-width: 1345px;
+  margin: 0 auto;
+  padding: 25px 0 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-name-medical {
+  margin: 0 5px 0 0;
+}
+
+.footer-name-wrap {
+  display: flex;
+}
+
+.footer-name-wrap {
+  padding: 0 0 25px 0;
+}
+
+.footer-name-online {
+  background-color: #8095bd;
+  color: #ffffff;
+  width: 160px;
+  border-radius: 9px;
+  padding: 0 0 0 10px;
+}
+
+.footer-copy-wrap {
+  display: flex;
+}
+
+.footer-copy-icon,
+.footer-copy-year,
+.footer-copy-name {
+  color: #ffffff;
+  padding: 0 5px 0 0;
+  font-weight: 200;
+  font-size: 14px;
+}
+
+.footer-contact {
+  align-self: center;
+}
+
+.subscribe-btn {
+  width: 256px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #3d537c;
+  margin: 0 15px 0 0;
+}
+
+.mail-btn {
+  width: 256px;
+  height: 30px;
+  border: 4px solid #ffffff;
+  border-radius: 10px;
+  background-color: #3d537c;
+  color: #ffffff;
+}
+
+@media (max-width: 960px) {
+  .footer {
+    height: 100%;
+  }
+  .footer-wrap {
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-left {
+    margin-bottom: 60px;
+  }
+
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .subscribe-btn {
+    order: 2;
+    margin-right: 0;
+    width: 255px;
+    height: 54px;
+    margin-bottom: 105px;
+  }
+
+  .mail-btn {
+    order: 1;
+    width: 255px;
+    height: 54px;
+    margin-bottom: 38px;
+  }
+}
